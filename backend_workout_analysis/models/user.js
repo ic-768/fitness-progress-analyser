@@ -8,10 +8,16 @@ const userSchema = new mongoose.Schema({
   },
   name: String,
   passwordHash: String,
-  dates : [
+  days : [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref:'Date'
+			date: Date, //each day will have a date and an exercises list
+			exercises: [  
+				{
+				name: String,
+				reps: Number,
+				sets: Number
+				}
+			]
     }
   ]
 })

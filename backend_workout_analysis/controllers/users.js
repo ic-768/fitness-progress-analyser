@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router() 
 const User = require ('../models/user')
-const Date = require ('../models/date')
+const Day = require ('../models/workoutDay')
 
 usersRouter.get('/', async(request, response) => {
 	/*get all users*/

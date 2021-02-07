@@ -5,9 +5,6 @@ const AddExercise = (props) =>{
 		name:"",
 		reps:0,
 		sets:1,
-		isWeighted:false,
-		weight:null,
-		id:null
 	}) 
 
 	const submitExercise=(event) =>{
@@ -15,10 +12,6 @@ const AddExercise = (props) =>{
 		exercise.name===""||exercise.reps<1|| exercise.sets<1 
 			? console.log("something missing in input")
 			: props.setTotalExercises(props.totalExercises.concat({...exercise,id:props.totalExercises.length})) 
-	}
-
-	const toggleWeighted=()=>{
-		setExercise({...exercise,isWeighted:!exercise.isWeighted}) 
 	}
 
 	return( 
@@ -33,17 +26,8 @@ const AddExercise = (props) =>{
 					setExercise({...exercise, reps:event.target.value})}}/> reps 
 
 				<input value={exercise.sets} placeholder="sets" type="number" onChange={(event)=>
-				{setExercise({...exercise, sets:event.target.value})}}/> sets
+				{setExercise({...exercise, sets:event.target.value})}}/> sets 
 
-				<input type="checkbox" onChange={toggleWeighted}/> is weighted?
-
-				{exercise.isWeighted &&  //if exercise is weighted, show extra weight input
-					<>
-						<input value={exercise.weight} placeholder="weight" type="number"onChange={(event)=>{
-							setExercise({...exercise, weight:event.target.value})
-						}}/>
-					</> 
-				} 
 				<button>submit</button> 
 			</form>	
 		</>
