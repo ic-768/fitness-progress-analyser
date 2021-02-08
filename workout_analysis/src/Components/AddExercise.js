@@ -11,14 +11,14 @@ const AddExercise = (props) =>{
 		event.preventDefault()
 		exercise.name===""||exercise.reps<1|| exercise.sets<1 
 			? console.log("something missing in input")
-			: props.setTotalExercises(props.totalExercises.concat({...exercise,id:props.totalExercises.length})) 
+			: props.setTotalExercises(props.totalExercises.concat({...exercise}))//don't change this to (exercise), will break deleting by id if item has same name
 	}
 
 	return( 
 		<>
 		Add new exercise 
 			<form onSubmit={(event)=>submitExercise(event)}> 
-
+				{/*each input changes one of exercise fields*/}
 				<input value={exercise.name} placeholder="exercise" onChange={(event)=>{
 					setExercise({...exercise, name:event.target.value}) }}/>	name 
 
@@ -31,10 +31,7 @@ const AddExercise = (props) =>{
 				<button>submit</button> 
 			</form>	
 		</>
-	)
-
-
-}
-
+	) 
+} 
 
 export default AddExercise
