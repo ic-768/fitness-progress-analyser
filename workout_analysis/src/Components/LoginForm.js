@@ -1,5 +1,5 @@
 import React,{useState} from "react" 
-const LoginForm=({submitCredentials})=>{ 
+const LoginForm=({submitCredentials, setUser})=>{ 
 
 	const [username, setUsername]=useState("")
 	const [password, setPassword]=useState("")
@@ -7,9 +7,10 @@ const LoginForm=({submitCredentials})=>{
 	return ( 
 		<>
 	Log in please
-			<form onSubmit={(event)=>{
+			<form onSubmit={async (event)=>{
 				event.preventDefault()
-				submitCredentials({username,password})
+				const user=await submitCredentials({username,password})
+				setUser(user)
 			}}> 
 				<input value={username} placeholder="username" onChange={(event)=>{
 					setUsername(event.target.value) }}/>
@@ -19,10 +20,6 @@ const LoginForm=({submitCredentials})=>{
 			</form>	
 		</>
 	)
-}
-
-
-
-
+} 
 
 export default LoginForm

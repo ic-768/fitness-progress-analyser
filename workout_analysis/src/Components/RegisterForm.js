@@ -1,6 +1,8 @@
 import React,{useState} from "react" 
-const RegisterForm=({submitCredentials})=>{ 
+import {useHistory} from "react-router-dom"
 
+const RegisterForm=({submitCredentials})=>{ 
+	const history=useHistory()
 	const [username, setUsername]=useState("")
 	const [password, setPassword]=useState("")
 
@@ -10,6 +12,7 @@ const RegisterForm=({submitCredentials})=>{
 			<form onSubmit={(event)=>{
 				event.preventDefault()
 				submitCredentials({username,password})
+				history.push("/")
 			}}> 
 				<input value={username} placeholder="username" onChange={(event)=>{
 					setUsername(event.target.value) }}/>
