@@ -18,8 +18,8 @@ loginRouter.post('/', async (request, response) => {
     })
   }
 
+	console.log(user.days)
   const userForToken = {
-    /*printing token literally gives u this + "iat"*/
     username:user.username,
     id:user._id,
   }
@@ -28,7 +28,7 @@ loginRouter.post('/', async (request, response) => {
   response
     .status(200)
   /* send token back to user*/
-    .send({ token, username: user.username, name: user.name })
+    .send({ token, username: user.username, name: user.name,days:user.days })
 
 })
 

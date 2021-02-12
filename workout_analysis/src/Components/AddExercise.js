@@ -11,7 +11,7 @@ const AddExercise = (props) =>{
 		event.preventDefault()
 		exercise.name===""||exercise.reps<1|| exercise.sets<1 
 			? console.log("something missing in input")
-			: props.setTotalExercises(props.totalExercises.concat({...exercise}))//don't change this to (exercise), will break deleting by id if item has same name
+			: props.setAppendedExercises(props.AppendedExercises.concat({...exercise}))//don't change this to (exercise), will break deleting by id if item has same name
 	}
 
 	return( 

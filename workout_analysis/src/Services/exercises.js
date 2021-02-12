@@ -6,7 +6,7 @@ const setToken = newToken=> {
 	token = `bearer ${newToken}`
 }
 
-const sendWorkout= async (workout)=> {
+const sendWorkout=async (workout)=> {
 	const config = {
 		headers:{Authorization:token}
 	}
@@ -14,5 +14,14 @@ const sendWorkout= async (workout)=> {
 	return response.data
 }
 
-export default {setToken,sendWorkout}
+const getUserWorkouts = async ()=>{
+	const config ={
+		headers:{Authorization:token}
+	}
+	const response = await axios.get(baseUrl, config)
+	console.log(response.data)
+	return response.data
+}
+
+export default {setToken,sendWorkout,getUserWorkouts}
 

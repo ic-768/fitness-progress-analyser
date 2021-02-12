@@ -4,12 +4,9 @@ const User = require ('../models/user')
 const Day = require ('../models/workoutDay')
 
 usersRouter.get('/', async(request, response) => {
-	/*get all users*/
-  const allUsers=await User
+  const user=await User
     .find({}).populate('dates')
-  /*populate blogs field
-   with the _id of whatever the model is "ref"-ing*/
-  response.json(allUsers)
+  response.json(user)
 })
 
 usersRouter.post('/', async(request, response) => {

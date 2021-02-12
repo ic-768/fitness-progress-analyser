@@ -2,36 +2,40 @@ import React,{useState,useEffect} from "react"
 import {BrowserRouter as Router,
 	Switch,
 	Route,
-	Link 
+	Link,
 } from "react-router-dom"
 
-import AddExercise from "./Components/AddExercise"
-import ExerciseList from "./Components/ExerciseList"
 import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
 import UserBlock from "./Components/UserBlock"
+import ExerciseSubmission from "./Components/ExerciseSubmission"
 
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
 import {login,logout} from "./Functions/userFunctions"
+import {getDaysWorkout} from "./Functions/workoutFunctions"
 
 function App(){ 
-	const [user, setUser] = useState(null)
-	const [totalExercises,setTotalExercises]=useState([]) //exercises appended here 
+	const [user, setUser] = useState(null) //holds token, username, and all workout days
+	const [AppendedExercises,setAppendedExercises]=useState([]) //fresh workout exercises to be sent to backend
+	const [daysExercises, setDaysExercises] = useState([]) // all of todays exercises
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const loggedUser = window.localStorage.getItem("loggedUser")
 		if (loggedUser){ 
-			const user = JSON.parse(loggedUser)
+			const user = JSON.parse(loggedUser) 
 			setUser(user)
 			exerciseService.setToken(user.token) //token will be set on each render
 		}	
-	},[])
+	},[]) 
 
-	const submitWorkout=(event)=>{
-		event.preventDefault()
-		exerciseService.sendWorkout(totalExercises)
-	}
+	useEffect(()=>{ //set workout local storage
+		if(user){
+			const userWorkouts = window.localStorage.getItem("userWorkouts") //retrieve from local storage
+			const workouts = JSON.parse(userWorkouts)
+			setDaysExercises(getDaysWorkout(workouts)) //all exercises that were submitted today
+		}}
+	,[user,AppendedExercises])
 
 	return (
 		<Router>
@@ -41,13 +45,22 @@ function App(){
 					pass:a
 				</h2>
 				{user ? //if user is logged in
-					<>
-						<UserBlock user={user} logout={()=>{logout(setUser); setTotalExercises([])}}/>  {/*show logged user*/}
-						<ExerciseList totalExercises={totalExercises} setTotalExercises={setTotalExercises}/> {/*exercise list*/}
-						<AddExercise totalExercises={totalExercises} setTotalExercises= {setTotalExercises}/> {/*exercise form*/}
-						<button onClick={submitWorkout}>Workout Finished</button> 
-					</> 
-					: //if not, login or register
+					<Switch>
+						<Route path ="/">
+							{/*logged user and disconnect button*/}
+							<UserBlock user={user} logout={()=>{logout(setUser); setAppendedExercises([])}}/>  
+							<ExerciseSubmission AppendedExercises={AppendedExercises} setAppendedExercises={setAppendedExercises} /> 
+							<h2>Today&apos;s exercises</h2>
+
+							<ul>
+								{daysExercises.map((exercise,index)=>(
+									<li key={index}>{exercise.name} </li>
+								))}
+							</ul> 
+
+						</Route>
+					</Switch>
+					: //if no user, register or login
 					<Switch>
 						<Route path="/register">
 							<RegisterForm submitCredentials={registerService.register}/>
