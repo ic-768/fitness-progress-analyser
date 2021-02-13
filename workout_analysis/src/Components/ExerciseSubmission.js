@@ -5,11 +5,11 @@ import ExerciseList from "../Components/ExerciseList"
 import exerciseService from "../Services/exercises"
 
 
-const ExerciseSubmission=({AppendedExercises,setAppendedExercises})=>{ 
+const ExerciseSubmission=({appendedExercises,setAppendedExercises})=>{ 
 	const submitWorkout=async (event)=>{
 		event.preventDefault()
 		const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
-		const sentWorkout=await exerciseService.sendWorkout(AppendedExercises) //server response to new workout submission 
+		const sentWorkout=await exerciseService.sendWorkout(appendedExercises) //server response to new workout submission 
 
 		window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local Storage
 		setAppendedExercises([]) //reset new workout list
@@ -17,8 +17,8 @@ const ExerciseSubmission=({AppendedExercises,setAppendedExercises})=>{
 
 	return(
 		<>
-			<ExerciseList AppendedExercises={AppendedExercises} setAppendedExercises={setAppendedExercises}/> {/*exercise list*/} 
-			<AddExercise AppendedExercises={AppendedExercises} setAppendedExercises= {setAppendedExercises}/> {/*exercise form*/}
+			<ExerciseList appendedExercises={appendedExercises} setAppendedExercises={setAppendedExercises}/> {/*exercise list*/} 
+			<AddExercise appendedExercises={appendedExercises} setAppendedExercises= {setAppendedExercises}/> {/*exercise form*/}
 			<button onClick={submitWorkout}>Workout Finished</button> 
 		</> 
 	)

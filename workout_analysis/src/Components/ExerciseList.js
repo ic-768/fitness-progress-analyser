@@ -1,12 +1,12 @@
 import React from "react"
 
-const ExerciseList=({AppendedExercises,setAppendedExercises})=>{ 
+const ExerciseList=({appendedExercises,setAppendedExercises})=>{ 
 
 	const removeExercise=(id)=>{ //filter exercises based on id
-		setAppendedExercises(AppendedExercises.filter((exercise)=>exercise.id!==id))
+		setAppendedExercises(appendedExercises.filter((exercise)=>exercise.id!==id))
 	}
 
-	const exercises = AppendedExercises.map((exercise,index)=>{
+	const exercises = appendedExercises.map((exercise,index)=>{
 		{exercise.id = index+1}
 		return(
 			<li key={index}> 

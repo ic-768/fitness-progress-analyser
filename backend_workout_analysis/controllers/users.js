@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router() 
 const User = require ('../models/user')
-const Day = require ('../models/workoutDay')
 
 usersRouter.get('/', async(request, response) => {
   const user=await User
@@ -20,7 +19,9 @@ usersRouter.post('/', async(request, response) => {
   const user = new User({
     username: body.username,
     passwordHash,
-		dates:[]
+		dates:[],
+		currentRegiment:{Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]},
+		regIsSet:false
   }) 
   const savedUser = await user.save()
   response.json(savedUser)

@@ -8,6 +8,7 @@ import {BrowserRouter as Router,
 import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
 import UserBlock from "./Components/UserBlock"
+import LandingPage from "./Components/LandingPage"
 import ExerciseSubmission from "./Components/ExerciseSubmission"
 
 import registerService from "./Services/register"
@@ -16,15 +17,19 @@ import {login,logout} from "./Functions/userFunctions"
 import {getDaysWorkout} from "./Functions/workoutFunctions"
 
 function App(){ 
-	const [user, setUser] = useState(null) //holds token, username, and all workout days
-	const [AppendedExercises,setAppendedExercises]=useState([]) //fresh workout exercises to be sent to backend
+	const [user, setUser] = useState(null) //contains authorization token, username, and flag to show if a target regiment has been set
+	// collection of all user workouts are sent to localStorage on log-in
+	const [appendedExercises,setAppendedExercises]=useState([]) //fresh workout exercises to be sent to backend
 	const [daysExercises, setDaysExercises] = useState([]) // all of todays exercises
+	const [currentRegiment, setCurrentRegiment] = useState({})
+
 
 	useEffect(()=>{  //Check to see if user is already logged in
-		const loggedUser = window.localStorage.getItem("loggedUser")
-		if (loggedUser){ 
-			const user = JSON.parse(loggedUser) 
+		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
+		if (user){ 
+			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
 			setUser(user)
+			setCurrentRegiment(regiment)
 			exerciseService.setToken(user.token) //token will be set on each render
 		}	
 	},[]) 
@@ -35,7 +40,7 @@ function App(){
 			const workouts = JSON.parse(userWorkouts)
 			setDaysExercises(getDaysWorkout(workouts)) //all exercises that were submitted today
 		}}
-	,[user,AppendedExercises])
+	,[user,appendedExercises])
 
 	return (
 		<Router>
@@ -46,10 +51,17 @@ function App(){
 				</h2>
 				{user ? //if user is logged in
 					<Switch>
+						{user.regIsSet
+							?
+							console.log("is set")
+							:
+							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
+							/*TODO change user.regIsSet */
+						}
 						<Route path ="/">
 							{/*logged user and disconnect button*/}
 							<UserBlock user={user} logout={()=>{logout(setUser); setAppendedExercises([])}}/>  
-							<ExerciseSubmission AppendedExercises={AppendedExercises} setAppendedExercises={setAppendedExercises} /> 
+							<ExerciseSubmission appendedExercises={appendedExercises} setAppendedExercises={setAppendedExercises} /> 
 							<h2>Today&apos;s exercises</h2>
 
 							<ul>

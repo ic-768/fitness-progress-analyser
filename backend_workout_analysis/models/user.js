@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   passwordHash: String,
   days : [
     {
-			date: Date, //each day will have a date and an exercises list
+			date: Date, //each day will have a date and a list of exercises
 			exercises: [  
 				{
 				name: String,
@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
 				}
 			]
     }
-  ]
+  ],
+	currentRegiment:{}, // exercise regiment for user to focus on. Will contain keys of days, and array values with names of exercises. E.g.Mon: ["situps","pushups", etc.]
+	regIsSet:Boolean
 })
 
 userSchema.plugin(uniqueValidator)
