@@ -1,0 +1,37 @@
+import React,{useState} from "react"
+
+const DayForm=({day,currentRegiment, setCurrentRegiment})=>{
+	const [exercise,setExercise] = useState("") //individual exercise (to control input)
+
+	if (!currentRegiment[day]) {return(null)} //make forms only for active days
+	return( 
+		<form onSubmit={(event)=>{event.preventDefault()
+			{/*Append submitted exercise to one of day arrays in currentRegiment*/}
+			setCurrentRegiment({...currentRegiment, [day]:currentRegiment[day].concat(exercise) })
+			setExercise("")
+		}}> 
+			<h2>{day}</h2> 
+			{currentRegiment[day].map((exercise,i)=>(
+				<> {/*show each submitted exercise*/}
+					<li key={i}>
+						{exercise}
+					</li>
+
+					<div>
+						{/*remove exercise*/}
+						<button type="button" onClick={()=>setCurrentRegiment( 
+							{...currentRegiment, 
+								[day]:currentRegiment[day].filter((name)=>(
+									name!=exercise)
+								)}
+
+						)}>remove</button>
+					</div>
+				</>
+			))}
+			<input value={exercise} name={day} placeholder={day} onChange={(event)=>{setExercise(event.target.value)}}/>
+			<button type="submit">add</button>
+		</form> 
+	)
+}
+export default DayForm
