@@ -1,28 +1,32 @@
-import React from "react"
-import AddExercise from "./AddExercise"
-import ExerciseList from "../Components/ExerciseList"
+import React,{useState} from "react"
 
-import exerciseService from "../Services/exercises"
+import ExerciseCounter from "../Components/ExerciseCounter"
+//import exerciseService from "../Services/exercises"
 
 
-const ExerciseSubmission=({appendedExercises,setAppendedExercises})=>{ 
-	const submitWorkout=async (event)=>{
+const ExerciseSubmission=({daysExercises})=>{ 
+	const [newWorkout, setNewWorkout]=useState({})
+
+	//TODO implement workout submission :)
+	//
+	/*const submitWorkout=async (event)=>{
 		event.preventDefault()
 		const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
-		const sentWorkout=await exerciseService.sendWorkout(appendedExercises) //server response to new workout submission 
-
+		const sentWorkout=await exerciseService.sendWorkout(newWorkout) //server response to new workout submission 
 		window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local Storage
-		setAppendedExercises([]) //reset new workout list
 	}
+	*/
 
-	return(
+	return ( 
 		<>
-			<ExerciseList appendedExercises={appendedExercises} setAppendedExercises={setAppendedExercises}/> {/*exercise list*/} 
-			<AddExercise appendedExercises={appendedExercises} setAppendedExercises= {setAppendedExercises}/> {/*exercise form*/}
-			<button onClick={submitWorkout}>Workout Finished</button> 
-		</> 
+			<ul>
+				{daysExercises.map((exerciseName,i)=>( 
+					<ExerciseCounter key={i} newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={exerciseName}/>
+				))}
+			</ul>
+			<button onClick={()=>{console.log(newWorkout)}}>submit!</button>
+		</>
 	)
-
 }
 
 

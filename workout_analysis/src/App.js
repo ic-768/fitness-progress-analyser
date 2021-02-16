@@ -11,36 +11,48 @@ import UserBlock from "./Components/UserBlock"
 import LandingPage from "./Components/LandingPage"
 import ExerciseSubmission from "./Components/ExerciseSubmission"
 
+
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
 import {login,logout} from "./Functions/userFunctions"
-import {getDaysWorkout} from "./Functions/workoutFunctions"
 
 function App(){ 
-	const [user, setUser] = useState(null) //contains authorization token, username, and flag to show if a target regiment has been set
-	// collection of all user workouts are sent to localStorage on log-in
-	const [appendedExercises,setAppendedExercises]=useState([]) //fresh workout exercises to be sent to backend
-	const [daysExercises, setDaysExercises] = useState([]) // all of todays exercises
-	const [currentRegiment, setCurrentRegiment] = useState({})
 
+	/*user contains authorization token, username, and flag to show if a target regiment has been set.
+	 User workouts history is sent to localStorage on log-in*/ 
+	const [user, setUser] = useState(null) 	
+	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
+	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
 		if (user){ 
-			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
 			setUser(user)
-			setCurrentRegiment(regiment)
 			exerciseService.setToken(user.token) //token will be set on each render
 		}	
 	},[]) 
 
-	useEffect(()=>{ //set workout local storage
+	useEffect(()=>{ //Set user's target workout (whole week)
 		if(user){
-			const userWorkouts = window.localStorage.getItem("userWorkouts") //retrieve from local storage
-			const workouts = JSON.parse(userWorkouts)
-			setDaysExercises(getDaysWorkout(workouts)) //all exercises that were submitted today
-		}}
-	,[user,appendedExercises])
+			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
+			setCurrentRegiment(regiment) 
+		}
+	}
+	,[user])
+
+	useEffect(()=>{ //Set today's workout
+		if(user){ 
+			const day=(new Date()).getDay() //Sunday starts at 0 with this method - with currentRegiment it starts at 7.
+			if (day===0){ //Case when Sunday
+				const exercisesForToday=(Object.values(currentRegiment)[7]) 
+				setDaysExercises(exercisesForToday)
+			}
+			else{ //For all other days we can just -1.
+				const exercisesForToday=(Object.values(currentRegiment)[day-1]) 
+				setDaysExercises(exercisesForToday) 
+			}}
+	}
+	,[currentRegiment])
 
 	return (
 		<Router>
@@ -51,24 +63,14 @@ function App(){
 				</h2>
 				{user ? //if user is logged in
 					<Switch>
-						{user.regIsSet
-							?
-							console.log("is set")
-							:
-							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
-							/*TODO change user.regIsSet */
+						{user.regIsSet || //if user hasn't set a regiment
+							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 						}
 						<Route path ="/">
-							{/*logged user and disconnect button*/}
-							<UserBlock user={user} logout={()=>{logout(setUser); setAppendedExercises([])}}/>  
-							<ExerciseSubmission appendedExercises={appendedExercises} setAppendedExercises={setAppendedExercises} /> 
+							<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
 							<h2>Today&apos;s exercises</h2>
 
-							<ul>
-								{daysExercises.map((exercise,index)=>(
-									<li key={index}>{exercise.name} </li>
-								))}
-							</ul> 
+							<ExerciseSubmission daysExercises={daysExercises}/>
 
 						</Route>
 					</Switch>

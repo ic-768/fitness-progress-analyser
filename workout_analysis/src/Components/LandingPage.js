@@ -4,24 +4,35 @@ import {useHistory,
 	Route,
 } from "react-router-dom"
 import DayForm from "./DayForm"
+import exerciseService from "../Services/exercises"
 
-const LandingPage=({currentRegiment,setCurrentRegiment})=>{ 
+const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{
 	const history = useHistory() 
 
-	/* need this so state remains stable on refresh etc. breaks if react hot reload or you press "back" in history. 
+	/* need this effect so state doesn't break on refresh or "back".
 	 * Fix by giving explicit checkbox On and Off commands instead of toggling?*/
 	useEffect(()=>{  
 		const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
 		setCurrentRegiment(regiment)
 	},[]) 
 	
-	const toggleRegimentDay=(dayKey)=>{ 
+	const toggleRegimentDay=(dayKey)=>{  //toggles a specific day between null/empty array
 		if (currentRegiment[dayKey]){
 			setCurrentRegiment({...currentRegiment, [dayKey]:null})
 			return
 		}
 		setCurrentRegiment({...currentRegiment, [dayKey]:[]})
 	} 
+
+	const finaliseRegiment=()=>{ //when regiment form has been filled out
+		const returnedRegiment=exerciseService.setRegiment(currentRegiment) //use server's response as data to be set. Also sets regIsSet in server
+		const loggedUser=JSON.parse(window.localStorage.getItem("loggedUser"))
+
+		setUser({...user, regIsSet:true}) //update local data
+		window.localStorage.setItem("currentRegiment",JSON.stringify(returnedRegiment))
+		window.localStorage.setItem("loggedUser",JSON.stringify({...loggedUser,regIsSet:true}))
+		history.push("/")
+	}
 	
 	return (  
 		<Switch>
@@ -30,8 +41,7 @@ const LandingPage=({currentRegiment,setCurrentRegiment})=>{
 				{Object.keys(currentRegiment).map((item,i)=>(  //for each  (non-null) array in currentRegiment, create a dayForm to fill in target exercises
 					<DayForm key={i} day={item} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
 				))} 
-				<button>My workout is ready! </button>   
-				{/*TODO set regIsSet to true,  remote and local currentRegiment*/}
+				<button onClick={()=>{finaliseRegiment()}}>All set!</button>   
 			</Route> 
 
 			<Route path="/"> {/*initial page*/}
@@ -41,9 +51,9 @@ const LandingPage=({currentRegiment,setCurrentRegiment})=>{
 
 					<form> {/*one checkbox for each day, to toggle if it will be an active day or not*/}
 						{Object.keys(currentRegiment).map((item,i)=>( 
-							<>
+							<div key={i}>
 								{item} <input key={i} defaultChecked value="" type="checkbox" onChange={()=>{toggleRegimentDay(item)}}/>
-							</>
+							</div>
 						))}
 						<button onClick={(event)=>{event.preventDefault();history.push("/setTargetWorkout")}}>Submit</button>
 					</form>

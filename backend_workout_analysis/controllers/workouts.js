@@ -1,5 +1,4 @@
 const workoutRouter = require('express').Router() 
-//const Day = require ('../models/workoutDay')
 const User = require ('../models/user')
 const jwt = require('jsonwebtoken')
 
@@ -17,6 +16,7 @@ const verifyToken = token =>{
 		: true
 	return [success,decodedToken] 
 }
+
 
 workoutRouter.post('/', async(request, response) => {
   const body = request.body 
@@ -37,5 +37,18 @@ workoutRouter.post('/', async(request, response) => {
 	response.status(201).json({date:new Date(), exercises:cleanedBody})
 })
 
+workoutRouter.patch('/regiment', async(request, response) => { //set target regiment
+  const regiment = request.body 
+	const token = getTokenFrom(request)
+	const [succeeded, decodedToken]=verifyToken(token) 
+	if(!succeeded){ 
+		return response.status(401).json({error:"token missing or invalid"})
+	} 
+	const user = await User.findById(decodedToken.id) 
+	user.currentRegiment=regiment
+	user.regIsSet=true // user won't be prompted to set a regiment again (until switched back to false)
+	await user.save()
+	response.status(201).json(regiment)
+})
 
 module.exports = workoutRouter

@@ -6,7 +6,15 @@ const setToken = newToken=> {
 	token = `bearer ${newToken}`
 }
 
-const sendWorkout=async (workout)=> {
+const setRegiment=async(regiment)=> {
+	const config = {
+		headers:{Authorization:token,
+		}}
+	const response = await axios.patch(`${baseUrl}/regiment`, regiment, config)
+	return response.data
+}
+
+const sendWorkout=async(workout)=> {
 	const config = {
 		headers:{Authorization:token}
 	}
@@ -14,7 +22,7 @@ const sendWorkout=async (workout)=> {
 	return response.data
 }
 
-const getUserWorkouts = async ()=>{
+const getUserWorkouts=async()=>{
 	const config ={
 		headers:{Authorization:token}
 	}
@@ -23,5 +31,5 @@ const getUserWorkouts = async ()=>{
 	return response.data
 }
 
-export default {setToken,sendWorkout,getUserWorkouts}
+export default {setToken,sendWorkout,getUserWorkouts,setRegiment}
 
