@@ -62,18 +62,21 @@ function App(){
 					pass:a
 				</h2>
 				{user ? //if user is logged in
-					<Switch>
+					<>
 						{user.regIsSet || //if user hasn't set a regiment
 							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 						}
-						<Route path ="/">
-							<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
-							<h2>Today&apos;s exercises</h2>
-
-							<ExerciseSubmission daysExercises={daysExercises}/>
-
-						</Route>
-					</Switch>
+						<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
+						<Switch>
+							<Route path="/dailySubmission">
+								<h2>Today&apos;s exercises</h2> 
+								<ExerciseSubmission daysExercises={daysExercises}/>
+							</Route>
+							<Route path="/">
+								<div>Headquarters</div> 
+							</Route>
+						</Switch>
+					</>
 					: //if no user, register or login
 					<Switch>
 						<Route path="/register">

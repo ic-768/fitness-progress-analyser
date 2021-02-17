@@ -16,7 +16,7 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 		<div> 
 			{exerciseName}
 			<div>
-				<input value={exercise.reps}></input>
+				<h3>{exercise.reps} reps</h3>
 
 				<button onClick={()=>{ //set e.g. newWorkout[pullups] equal to exercise dummy variable reps and or sets
 					setNewWorkout({...newWorkout,[exerciseName]:{...exercise, reps:decrement(exercise.reps)}}) 
@@ -31,7 +31,7 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 			</div>
 
 			<div>
-				<input value={exercise.sets}></input>
+				<h3>{exercise.sets} sets</h3>
 				<button onClick={()=>{ 
 					setNewWorkout({...newWorkout,[exerciseName]:{...exercise,  sets:decrement(exercise.sets)}})
 					setExercise({...exercise, sets:decrement(exercise.sets)}) 

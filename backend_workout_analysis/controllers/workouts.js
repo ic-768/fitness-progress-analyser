@@ -19,22 +19,24 @@ const verifyToken = token =>{
 
 
 workoutRouter.post('/', async(request, response) => {
+	/*Create new workout "day" for user. Append object to mongoDB "day" array, comprising ID, 
+	 * exercise "name", sets and reps */
+
   const body = request.body 
-	const cleanedBody = body.map((exercise)=>{delete exercise.id // get rid of local id field
-		return exercise
-	})
-	console.log(cleanedBody)
 	const token = getTokenFrom(request)
 	const [succeeded, decodedToken]=verifyToken(token)
 
 	if(!succeeded){ // Verification failure
 		return response.status(401).json({error:"token missing or invalid"})
 	}
-	
+
+	const formattedData=[] //create array of appropriate objects (move name from key value to "name" field, etc.)
+	Object.entries(body).forEach((entry)=>{formattedData.push({name:entry[0],sets:entry[1].sets,reps:entry[1].reps} )})
+
 	const user = await User.findById(decodedToken.id)
-	user.days=user.days.concat({date:Date(), exercises:cleanedBody}) 
+  user.days=user.days.concat({date:Date(), exercises:formattedData}) 
 	await user.save()
-	response.status(201).json({date:new Date(), exercises:cleanedBody})
+	response.status(201).json({date:new Date(), exercises:formattedData})
 })
 
 workoutRouter.patch('/regiment', async(request, response) => { //set target regiment
