@@ -10,6 +10,7 @@ import RegisterForm from "./Components/RegisterForm"
 import UserBlock from "./Components/UserBlock"
 import LandingPage from "./Components/LandingPage"
 import ExerciseSubmission from "./Components/ExerciseSubmission"
+import Headquarters from "./Components/Headquarters"
 
 
 import registerService from "./Services/register"
@@ -63,9 +64,6 @@ function App(){
 				</h2>
 				{user ? //if user is logged in
 					<>
-						{user.regIsSet || //if user hasn't set a regiment
-							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
-						}
 						<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
 						<Switch>
 							<Route path="/dailySubmission">
@@ -73,7 +71,12 @@ function App(){
 								<ExerciseSubmission daysExercises={daysExercises}/>
 							</Route>
 							<Route path="/">
-								<div>Headquarters</div> 
+								{user.regIsSet
+									? 
+									<Headquarters/>
+									:  //if user hasn't set a regiment
+									<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+								}
 							</Route>
 						</Switch>
 					</>

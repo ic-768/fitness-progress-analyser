@@ -12,14 +12,14 @@ const DayForm=({day,currentRegiment, setCurrentRegiment})=>{
 		}}> 
 			<h2>{day}</h2> 
 			{currentRegiment[day].map((exercise,i)=>(
-				<> {/*show each submitted exercise*/}
-					<li key={i}>
+				<div key={i}> {/*show each submitted exercise*/}
+					<li >
 						{exercise}
 					</li>
 
-					<div>
+					<div >
 						{/*remove exercise*/}
-						<button type="button" onClick={()=>setCurrentRegiment( 
+						<button  type="button" onClick={()=>setCurrentRegiment( 
 							{...currentRegiment, 
 								[day]:currentRegiment[day].filter((name)=>(
 									name!=exercise)
@@ -27,7 +27,7 @@ const DayForm=({day,currentRegiment, setCurrentRegiment})=>{
 
 						)}>remove</button>
 					</div>
-				</>
+				</div>
 			))}
 			<input value={exercise} name={day} placeholder={day} onChange={(event)=>{setExercise(event.target.value)}}/>
 			<button type="submit">add</button>
