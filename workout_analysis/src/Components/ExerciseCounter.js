@@ -6,10 +6,13 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 		setNewWorkout({...newWorkout, [exerciseName]:{...[exerciseName],name:exerciseName}})
 	},[])
 
-	const [exercise,setExercise] = useState({reps:0, sets:0}) // dummy to hold values, makes life a bit easier
+	const [exercise,setExercise] = useState({reps:1, sets:1}) // dummy to hold values
 
-	const decrement=(number)=>( //to ensure no negative numbers 
-		number && number-1 || 0
+	//TODO if values not toggled once => mangled data
+
+
+	const decrement=(number)=>( //1 set of 1 reps is minimum submittable 
+		number-1 || 1
 	)
 
 	return(

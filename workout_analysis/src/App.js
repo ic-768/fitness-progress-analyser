@@ -20,7 +20,7 @@ import {login,logout} from "./Functions/userFunctions"
 function App(){ 
 
 	/*user contains authorization token, username, and flag to show if a target regiment has been set.
-	 User workouts history is sent to localStorage on log-in*/ 
+	 User workouts history is sent to localStorage on log-in*/
 	const [user, setUser] = useState(null) 	
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
@@ -59,7 +59,7 @@ function App(){
 		<Router>
 			<div className="App">
 				<h2>
-					user:ic768 <br/>
+					user:bally <br/>
 					pass:a
 				</h2>
 				{user ? //if user is logged in
