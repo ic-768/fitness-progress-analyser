@@ -7,9 +7,11 @@ export const exercisesFromWorkouts=(workouts)=>{ //exercise data is nested a bit
 	return exerciseArray 
 }
 
-export const filterExercises = (exercises, name) => (
+export const filterExercises = (exercises, name) => ( 
+	//Filter exercise array of a workout object
 	exercises.filter((exercise) => (
-		exercise.name === name
+		//exercise.name === name
+		exercise.name.toLowerCase().includes(name.toLowerCase())
 	))
 )
 

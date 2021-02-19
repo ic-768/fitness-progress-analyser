@@ -11,10 +11,10 @@ const Analysis=()=>{
 		<div>
 			<button onClick={()=>{history.push("/analysis/daily")}}>Daily</button>
 			<button onClick={()=>{history.push("/analysis/weekly")}}>Weekly</button>
-			<button onClick={()=>{history.push("/analysis/monthly")}}>Monthy</button>
+			<button onClick={()=>{history.push("/analysis/monthly")}}>Monthly</button>
 			<button onClick={()=>{history.push("/analysis/all")}}>All time</button>
 			<Route path="/analysis/daily"> 
-				<button onClick={() => { console.log(getTotalReps(getDaysWorkout(workouts), "meditation")) }}>
+				<button onClick={() => { console.log(getTotalReps(getDaysWorkout(workouts), "Tennis")) }}>
 					get today&apos;s reps
 				</button>
 			</Route>
@@ -31,6 +31,7 @@ const Analysis=()=>{
 		All-time workouts
 				</button>
 			</Route>
+			<button onClick={()=>{history.push("/")}}>Home</button>
 		</div>
 	)
 }
