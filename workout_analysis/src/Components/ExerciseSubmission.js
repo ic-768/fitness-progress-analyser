@@ -11,7 +11,7 @@ const ExerciseSubmission=({daysExercises})=>{
 
 	const submitWorkout=async ()=>{
 		const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
-		if (newWorkout){
+		if (newWorkout){ //! MUST FILTER THROUGH TO MAKE SURE NO UNDEFINED EXERCISES
 			const sentWorkout=await exerciseService.sendWorkout(newWorkout) //server response to new workout submission 
 			window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local Storage
 			history.push("/")
