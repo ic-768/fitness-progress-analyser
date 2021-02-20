@@ -1,61 +1,64 @@
-import React,{useState} from "react"
+import React,{useEffect,useState} from "react"
 
 const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{ 
-	const [exercise,setExercise] = useState({reps:1, sets:1}) // dummy to hold values
-	const [activated,setActivated] = useState(false) // dummy to hold values
+	const [exercise,setExercise] = useState(null) // dummy to hold values
+	const [finished,setFinished] = useState(false) // finished workout (or skipped)
 
 	const decrement=(number)=>( //1 set of 1 reps is minimum submittable 
 		number-1 || 1
 	)
 
-	//TODO useEffect to set newWorkout automatically ( and just change exercise ? )
+	useEffect(()=>{ //Every time a change happens to exercise, update newWorkout
+		setNewWorkout({...newWorkout,[exerciseName]:exercise}) 
+	},[exercise])
+
+	useEffect(()=>{ // Same for finished
+		finished 
+			? setExercise({reps:1,sets:1})
+			: setExercise(undefined)
+		setNewWorkout({...newWorkout,[exerciseName]:exercise}) 
+	},[finished])
 
 	return(
 		<div> 
 			{exerciseName}
-			<div>
-				<button onClick={()=>{
-					activated 
-						? setNewWorkout({...newWorkout,[exerciseName]:undefined})
-						: setNewWorkout({...newWorkout, [exerciseName]:{...exercise,}})
-					setActivated(!activated)
-				}}> {/*toggle switch for exercise*/}
-					{/*TODO filter on untoggle*/}
-					{(activated) && <> added </> || <> add exercise </>}
-				</button> 
-				<h3>{exercise.reps} reps</h3>
+			<button onClick={()=>{
+				setFinished(!finished)
+			}}> {/*toggle switch for exercise*/}
+				{(finished) && <>skipped it?</> || <>finished it?</>}
+			</button> 
+			{exercise &&
+				<>
+					<div>
+						<h3>{exercise.reps} reps</h3>
 
-				<button onClick={()=>{ //set e.g. newWorkout[pullups] equal to exercise dummy variable reps and or sets
-					if(activated){
-						setNewWorkout({...newWorkout,[exerciseName]:{...exercise, reps:decrement(exercise.reps)}}) 
-						setExercise({...exercise, reps:decrement(exercise.reps)})
-					}}}>-</button>
+						<button onClick={()=>{ //set e.g. newWorkout[pullups] equal to exercise dummy variable reps and or sets
+							if(finished){
+								setExercise({...exercise, reps:decrement(exercise.reps)})
+							}}}>-</button>
 
-				<button onClick={()=>{
-					if(activated){
-						setNewWorkout({...newWorkout,[exerciseName]:{...exercise,  reps:exercise.reps+1}})
-						setExercise({...exercise, reps:exercise.reps+1})
-					}}}>+</button>
+						<button onClick={()=>{
+							if(finished){
+								setExercise({...exercise, reps:exercise.reps+1})
+							}}}>+</button>
 
-			</div>
+					</div>
 
-			<div>
-				<h3>{exercise.sets} sets</h3>
-				<button onClick={()=>{ 
-					if(activated){
-						setNewWorkout({...newWorkout,[exerciseName]:{...exercise,  sets:decrement(exercise.sets)}})
-						setExercise({...exercise, sets:decrement(exercise.sets)}) 
-					}}}>-</button>
+					<div>
+						<h3>{exercise.sets} sets</h3>
+						<button onClick={()=>{ 
+							if(finished){
+								setExercise({...exercise, sets:decrement(exercise.sets)}) 
+							}}}>-</button>
 
-				<button onClick={()=>{ 
-					if(activated){
-						setNewWorkout({...newWorkout,[exerciseName]:{...exercise,  sets:exercise.sets+1}})
-						setExercise({...exercise, sets:exercise.sets+1}) 
-					}}}>+</button>
+						<button onClick={()=>{ 
+							if(finished){
+								setExercise({...exercise, sets:exercise.sets+1}) 
+							}}}>+</button>
 
-			</div> 
+					</div> 
+				</>}
 		</div>
-	)
-
+	) 
 }
 export default ExerciseCounter
