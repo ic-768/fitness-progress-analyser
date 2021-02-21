@@ -6,7 +6,7 @@ import exerciseService from "../Services/exercises"
 
 const ExerciseSubmission=({daysExercises})=>{ 
 	const myObj={}
-	daysExercises.map((exercise)=>{ //IS AND SHOULD BE OBJ THAT CONTAINS OBJ
+	daysExercises.forEach((exercise)=>{
 		myObj[exercise]=undefined
 	})
 	const [newWorkout, setNewWorkout]=useState(myObj)

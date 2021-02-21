@@ -7,6 +7,10 @@ export const exercisesFromWorkouts=(workouts)=>{ //exercise data is nested a bit
 	return exerciseArray 
 }
 
+//same as above, but one step further
+export const exerciseNamesFromWorkouts=(workouts)=>
+	exercisesFromWorkouts(workouts).map((exercise)=>exercise.name)
+
 export const filterExercises = (exercises, name) => ( 
 	//Filter exercise array of a workout object
 	exercises.filter((exercise) => (
@@ -15,14 +19,25 @@ export const filterExercises = (exercises, name) => (
 	))
 )
 
-export const getTotalReps = (exercises, name) => {
+export const getTotalReps = (exercises, name) => { 
+	{ /**
+		* ! Because of filterExercises(), if searching for totalReps of "abs", 
+			abs curls and abs crunches will be mixed together.
+		**/
+	}
 	/*e.g. if user did 3 sets of 8, and then 2 sets of 2 => return 8*3+1*2*/
-	const filteredExercises = filterExercises(exercises, name) //filter exercises by name 
-	const repsArray = filteredExercises.map((exercise) => { //total reps on each exercise
-		return (exercise.reps*exercise.sets)
-	}) 
-	//sum all reps in array
-	return( repsArray.reduce((sum,currentValue)=>(sum+currentValue)))
+	try{
+		const filteredExercises = filterExercises(exercises, name) //filter exercises by name 
+		const repsArray = filteredExercises.map((exercise) => { //total reps on each exercise
+			return (exercise.reps*exercise.sets)
+		}) 
+		//sum all reps in array
+		return( repsArray.reduce((sum,currentValue)=>(sum+currentValue)))
+	}
+	catch{
+		console.log("Provided exercise does not seem to be in the array")
+
+	}
 }
 
 

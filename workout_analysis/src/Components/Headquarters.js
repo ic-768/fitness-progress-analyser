@@ -18,8 +18,8 @@ const HeadQuarters=()=>{
 				</Route>
 				<Route path="/">
 					<div> 
-						<p>Welcome, This is the home page, and from here you can submit
-			a new exercise, see your workout history,or head over to the analysis page and see your progress!
+						<p>Welcome! This is the home page. From here you can submit
+			a new exercise, see your workout history,or head over to the analysis page and see your progress.
 						</p>
 						<div>
 						</div>

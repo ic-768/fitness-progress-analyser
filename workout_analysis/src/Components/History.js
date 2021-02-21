@@ -14,6 +14,7 @@ const cellStyle={
 }
 
 const History=({workouts})=>{ 
+	//TODO Collapse multiple same exercises of same day into a single workout
 	const history=useHistory()
 	const [filteredWorkouts,setFilteredWorkouts]=useState(workouts) 
 	//Will be using filteredWorkouts for everything.
@@ -24,8 +25,7 @@ const History=({workouts})=>{
 				/* If no match, result will be empty array. */
 				const result= filterExercises(workout.exercises,filter)
 				if(result.length!==0){return(workout)}  //if non-empty array
-				return(null) // else null
-			}))
+			}).filter((value)=>value!=undefined))
 	}
 
 	return(
