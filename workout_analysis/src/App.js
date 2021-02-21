@@ -43,9 +43,9 @@ function App(){
 
 	useEffect(()=>{ //Set today's workout
 		if(user){ 
-			const day=(new Date()).getDay() //Sunday starts at 0 with this method - with currentRegiment it starts at 7.
+			const day=(new Date()).getDay() //Sunday starts at 0 with this method - with currentRegiment it starts at 6.
 			if (day===0){ //Case when Sunday
-				const exercisesForToday=(Object.values(currentRegiment)[7]) 
+				const exercisesForToday=(Object.values(currentRegiment)[6]) 
 				setDaysExercises(exercisesForToday)
 			}
 			else{ //For all other days we can just -1.

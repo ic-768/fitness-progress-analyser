@@ -4,13 +4,16 @@ import {useHistory} from "react-router-dom"
 import ExerciseCounter from "../Components/ExerciseCounter"
 import exerciseService from "../Services/exercises"
 
-
 const ExerciseSubmission=({daysExercises})=>{ 
-	const [newWorkout, setNewWorkout]=useState({})
+	const myObj={}
+	daysExercises.map((exercise)=>{ //IS AND SHOULD BE OBJ THAT CONTAINS OBJ
+		myObj[exercise]=undefined
+	})
+	const [newWorkout, setNewWorkout]=useState(myObj)
 	const history=useHistory()
 
-	const submitWorkout=async ()=>{
 
+	const submitWorkout=async ()=>{ 
 		const cleanedWorkout = Object.keys(newWorkout) // remove undefined entries
 			.filter((exercise) =>  
 				newWorkout[exercise] != null) 
@@ -24,8 +27,7 @@ const ExerciseSubmission=({daysExercises})=>{
 			history.push("/") 
 		} 
 		console.log("Couldn't find a single submitted exercise :/")
-	}
-
+	} 
 
 	return ( 
 		<>

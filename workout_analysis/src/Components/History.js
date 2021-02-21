@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import {useHistory} from "react-router-dom"
 import {filterExercises} from "../Functions/workoutFunctions"
 
 const tableStyle={
@@ -13,15 +14,15 @@ const cellStyle={
 }
 
 const History=({workouts})=>{ 
+	const history=useHistory()
 	const [filteredWorkouts,setFilteredWorkouts]=useState(workouts) 
-	//Will be using filteredWorkouts for the functionality here.
+	//Will be using filteredWorkouts for everything.
 
 	const filterWorkouts=(workouts,filter)=>{ 
 		setFilteredWorkouts(
 			workouts.map((workout)=>{ 
-				/* If result doesn't match, an empty array will be returned. */
-				const result=
-				filterExercises(workout.exercises,filter)
+				/* If no match, result will be empty array. */
+				const result= filterExercises(workout.exercises,filter)
 				if(result.length!==0){return(workout)}  //if non-empty array
 				return(null) // else null
 			}))
@@ -29,6 +30,7 @@ const History=({workouts})=>{
 
 	return(
 		<div>
+			<button onClick={()=>{history.push("/")}}>Home</button>
 			<input onChange={(event)=>{ //uncontrolled seems to work ok
 				event.preventDefault
 				filterWorkouts(workouts,event.target.value)
@@ -40,22 +42,22 @@ const History=({workouts})=>{
 					if(workout){return(
 						<div key={index}>
 							<h2>{new Date(workout.date).toDateString()}</h2>
-							{workout.exercises.map((exercise,index) => (
-								<table style={tableStyle} key={index}>
-									<tbody>
-										<tr>
-											<th style={cellStyle}>Exercise</th>
-											<th style={cellStyle}>Repetitions</th>
-											<th style={cellStyle}>Sets</th>
-										</tr>
-										<tr>
+							<table style={tableStyle}>
+								<tbody>
+									<tr>
+										<th style={cellStyle}>Exercise</th>
+										<th style={cellStyle}>Repetitions</th>
+										<th style={cellStyle}>Sets</th>
+									</tr>
+									{workout.exercises.map((exercise,index) => (
+										<tr key={index}>
 											<td style={cellStyle}>{exercise.name}</td>
 											<td style={cellStyle}>{exercise.sets}</td>
 											<td style={cellStyle}>{exercise.reps}</td>
 										</tr>
-									</tbody>
-								</table>
-							))}
+									))}
+								</tbody>
+							</table>
 						</div>
 					)}})}
 			</ul>

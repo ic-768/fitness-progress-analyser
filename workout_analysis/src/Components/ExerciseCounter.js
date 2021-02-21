@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from "react"
 
 const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{ 
-	const [exercise,setExercise] = useState(null) // dummy to hold values
+	const [exercise,setExercise] = useState(undefined) // dummy to hold values
 	const [finished,setFinished] = useState(false) // finished workout (or skipped)
 
 	const decrement=(number)=>( //1 set of 1 reps is minimum submittable 
