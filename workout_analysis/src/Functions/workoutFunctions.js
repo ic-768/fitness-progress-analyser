@@ -40,7 +40,6 @@ export const getTotalReps = (exercises, name) => {
 	}
 }
 
-
 export const getDaysWorkout = (days) => { //returns array of isolated exercise objects 
 	const today = new Date().toDateString()
 	const objectArray = days.filter((day) => ( //only keep workouts that happened today
@@ -79,4 +78,49 @@ export const getMonthsWorkouts = (days)=>{
 
 export const getAllWorkouts=(days)=>{
 	return exercisesFromWorkouts(days)
+}
+
+export const dailyAnalysis=(workouts,exerciseName)=>{ 
+	const results=[] //Array of objects containing date and exercise
+	workouts.filter((workout)=>{ 
+		const	result=workout.exercises.filter((exercise)=>exercise.name==exerciseName) 
+		result.length>0 && results.push({date:workout.date, exercise:result[0]}) 
+		/*In one sitting, user can only submit one exercise of a particular name
+					therefore, it will either be empty, or hold 1 item (hence, [0] is fine)*/ 
+	}) 
+	let dateOfExercise /*temporary containers for reduce function*/
+	let reps
+	let sets
+	let totalReps
+	let uniqueArray=[] //to store unique dates of a specific exercise
+
+	try{
+		results.reduce((currentItem,nextItem,index,array)=>{
+			reps=currentItem.exercise.reps
+			sets=currentItem.exercise.sets
+			totalReps=reps*sets
+
+			const newReps=nextItem.exercise.reps
+			const newSets=nextItem.exercise.sets
+			const newRepsTimesSets=newReps*newSets
+
+			dateOfExercise=new Date(currentItem.date).toDateString()
+			let newDateOfExercise=new Date(nextItem.date).toDateString() 
+			/*if workout happened on a different day, or reached the end of the array,
+					push the results so far, and return nextItem to reiterate the procedure ( if more workouts) */
+			if (newDateOfExercise!=dateOfExercise || index==array.length-1){
+				uniqueArray.push({...currentItem, exercise:{name:exerciseName, totalReps:
+							newRepsTimesSets+currentItem.exercise.totalReps }})
+				return(nextItem) 
+			}
+
+			if(newDateOfExercise==dateOfExercise){ // if same date, update totalReps, and set nextItem for processing
+				return {...currentItem, exercise:{...nextItem.exercise,totalReps:totalReps+=newRepsTimesSets}}
+			}
+		})
+		return(uniqueArray)
+	}
+	catch{
+		console.log("something went wrong")
+	}
 }

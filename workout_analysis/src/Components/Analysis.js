@@ -1,5 +1,5 @@
 import React,{useState} from "react" 
-import {exerciseNamesFromWorkouts, getDaysWorkout,getWeeksWorkouts,getAllWorkouts,getMonthsWorkouts} from "../Functions/workoutFunctions"
+import {dailyAnalysis,exerciseNamesFromWorkouts, getDaysWorkout,getWeeksWorkouts,getAllWorkouts,getMonthsWorkouts} from "../Functions/workoutFunctions"
 import {Route,Switch,useHistory} from "react-router-dom"
 import AnalysisSelector from "./AnalysisSelector"
 import WorkoutAnalysis from "./WorkoutAnalysis"
@@ -19,6 +19,7 @@ const Analysis=()=>{
 	const history = useHistory()
 	return(
 		<div>
+			<button onClick={()=>{history.push("/")}}>Home</button>
 			<input onChange={(event)=>{ //filter suggestions
 				setSuggestions(exerciseNameCache.filter((name)=>(
 					name.toLowerCase().includes(event.target.value.toLowerCase())
@@ -33,11 +34,10 @@ const Analysis=()=>{
 			<Switch> 
 				<Route path="/analysis/daily"> 
 					<AnalysisSelector workouts={workouts} exerciseName={suggestions[0]}timeFunction={getDaysWorkout}/>
-					<WorkoutAnalysis workouts={workouts} exerciseName={suggestions[0]}></WorkoutAnalysis>
+					<WorkoutAnalysis workouts={workouts} exerciseName={suggestions[0]} analysisFunction={dailyAnalysis}/>
 				</Route>
 				<Route path="/analysis/weekly"> 
 					<AnalysisSelector workouts={workouts} exerciseName={suggestions[0]}timeFunction={getWeeksWorkouts}/> 
-					<WorkoutAnalysis workouts={workouts} exerciseName={suggestions[0]}></WorkoutAnalysis>
 				</Route>
 				<Route path="/analysis/monthly">
 					<AnalysisSelector workouts={workouts} exerciseName={suggestions[0]}timeFunction={getMonthsWorkouts}/> 
@@ -58,7 +58,6 @@ const Analysis=()=>{
 					until only one result remains :)</h2>}
 				</Route>
 			</Switch>
-			<button onClick={()=>{history.push("/")}}>Home</button>
 		</div>
 	)
 }

@@ -1,13 +1,14 @@
 import React from "react"
-import {getTotalReps,getDaysWorkout,getWeeksWorkouts,getMonthsWorkouts,getAllWorkouts} from "../Functions/workoutFunctions"
+import {getDaysWorkout,getWeeksWorkouts,getMonthsWorkouts,getAllWorkouts} from "../Functions/workoutFunctions"
 import {useHistory} from "react-router-dom"
 
-const AnalysisSelector=({workouts,exerciseName,timeFunction})=>{
+const AnalysisSelector=({timeFunction})=>{
 	// Buttons to select time-frame of analysis
 	const history=useHistory()
 	return(
 		<>
-			{timeFunction == getDaysWorkout
+			{timeFunction == getDaysWorkout 
+			// Run these on a filtered workout total
 			&& ( <h2>Daily</h2> )}
 			{timeFunction == getWeeksWorkouts
 			&& ( <h2>Weekly</h2> )}
@@ -15,11 +16,6 @@ const AnalysisSelector=({workouts,exerciseName,timeFunction})=>{
 			&& ( <h2>Monthly</h2> )}
 			{timeFunction == getAllWorkouts
 			&& ( <h2>All-time</h2> )}
-
-			<button onClick={() => { console.log(getTotalReps(timeFunction(
-				workouts), exerciseName)) }}>
-					get All-time reps
-			</button>
 
 			{timeFunction != getDaysWorkout
 			&& (<button onClick={()=>{history.push("/analysis/daily")}}>Daily</button>)}
