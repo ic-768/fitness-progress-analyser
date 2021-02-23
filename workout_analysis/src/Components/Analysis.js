@@ -1,5 +1,5 @@
 import React,{useState} from "react" 
-import {dailyAnalysis,exerciseNamesFromWorkouts, getDaysWorkout,getWeeksWorkouts,getAllWorkouts,getMonthsWorkouts} from "../Functions/workoutFunctions"
+import {dailyAnalysis,monthlyAnalysis,exerciseNamesFromWorkouts, getDaysWorkout,getWeeksWorkouts,getAllWorkouts,getMonthsWorkouts} from "../Functions/workoutFunctions"
 import {Route,Switch,useHistory} from "react-router-dom"
 import AnalysisSelector from "./AnalysisSelector"
 import WorkoutAnalysis from "./WorkoutAnalysis"
@@ -34,13 +34,18 @@ const Analysis=()=>{
 			<Switch> 
 				<Route path="/analysis/daily"> 
 					<AnalysisSelector workouts={workouts} exerciseName={suggestions[0]}timeFunction={getDaysWorkout}/>
-					<WorkoutAnalysis workouts={workouts} exerciseName={suggestions[0]} analysisFunction={dailyAnalysis}/>
+					{suggestions.length==1 && (
+						<WorkoutAnalysis workouts={workouts} exerciseName={suggestions[0]} analysisFunction={dailyAnalysis}/>
+					)}
 				</Route>
 				<Route path="/analysis/weekly"> 
 					<AnalysisSelector workouts={workouts} exerciseName={suggestions[0]}timeFunction={getWeeksWorkouts}/> 
 				</Route>
 				<Route path="/analysis/monthly">
 					<AnalysisSelector workouts={workouts} exerciseName={suggestions[0]}timeFunction={getMonthsWorkouts}/> 
+					{suggestions.length==1 && (
+						<WorkoutAnalysis workouts={workouts} exerciseName={suggestions[0]} analysisFunction={monthlyAnalysis}/>
+					)}
 				</Route>
 				<Route path="/analysis/all">
 					<AnalysisSelector workouts={workouts} exerciseName={suggestions[0]}timeFunction={getAllWorkouts}/> 
