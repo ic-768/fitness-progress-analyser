@@ -1,33 +1,25 @@
 import React from "react"
-import {getDaysWorkout,getWeeksWorkouts,getMonthsWorkouts,getAllWorkouts} from "../Functions/workoutFunctions"
 import {useHistory} from "react-router-dom"
 
-const AnalysisSelector=({timeFunction})=>{
+const AnalysisSelector=({selection})=>{
 	// Buttons to select time-frame of analysis
 	const history=useHistory()
 	return(
 		<>
-			{timeFunction == getDaysWorkout 
-			// Run these on a filtered workout total
-			&& ( <h2>Daily</h2> )}
-			{timeFunction == getWeeksWorkouts
-			&& ( <h2>Weekly</h2> )}
-			{timeFunction == getMonthsWorkouts
-			&& ( <h2>Monthly</h2> )}
-			{timeFunction == getAllWorkouts
-			&& ( <h2>All-time</h2> )}
+			{selection == "day" && ( <h2>Daily</h2> )}
 
-			{timeFunction != getDaysWorkout
-			&& (<button onClick={()=>{history.push("/analysis/daily")}}>Daily</button>)}
+			{selection == "month" && ( <h2>Monthly</h2> )}
 
-			{timeFunction != getWeeksWorkouts
-			&& (<button onClick={()=>{history.push("/analysis/weekly")}}>Weekly</button>)} 
+			{selection == "all" && ( <h2>All-time</h2> )}
 
-			{timeFunction != getMonthsWorkouts
-			&& (<button onClick={()=>{history.push("/analysis/monthly")}}>Monthly</button>)}
+			{selection != "day" && (<button onClick={()=>
+			{history.push("/analysis/daily")}}>Daily</button>)}
 
-			{timeFunction != getAllWorkouts
-			&& (<button onClick={()=>{history.push("/analysis/all")}}>All</button>)}
+			{selection != "month" && (<button onClick={()=>
+			{history.push("/analysis/monthly")}}>Monthly</button>)}
+
+			{selection != "all" && (<button onClick={()=>
+			{history.push("/analysis/all")}}>All</button>)}
 		</>
 	)
 }

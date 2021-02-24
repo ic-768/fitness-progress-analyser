@@ -1,33 +1,47 @@
 import React from "react"
-import {monthlyAnalysis, dailyAnalysis} from "../Functions/workoutFunctions"
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts"
+const WorkoutAnalysis=({analysis})=>{
+	// We can use interval to decide format of date to pass to plot object
 
-const WorkoutAnalysis=({workouts,exerciseName,analysisFunction})=>{
-	const days=analysisFunction(workouts,exerciseName)
-	let date
-	if(days){
-		return(
+	if(analysis){ 
+		return (
+			<AreaChart
+				width={600}
+				height={400}
+				data={analysis}
+				margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+			>
+				<CartesianGrid strokeDasharray="3 3" />
+				<XAxis dataKey="date" />
+				<YAxis />
+				<Tooltip />
+				<Area
+					type='monotone'
+					dataKey='exercise.totalReps'
+					stroke='#8884d8'
+					fill='#8884d8'
+				/>
+			</AreaChart>
+		)
+
+		/*return(
 			<div>
-				<ul>
-					{days.map((day,index)=>{ {/*There's definitely a better way than checking on each iteration, but works do for now..*/}
-						if(analysisFunction==monthlyAnalysis){
-							date=new Date(day.date).toLocaleString("default", { month: "long" })
-						} 
-						else if (analysisFunction==dailyAnalysis){
-							date=new Date(day.date).toDateString() } 
-						else{
-							console.log("get year") 
-						} 
-						return(/*this will become a plot chart, so no use in making it pretty now*/
-							<> 
-								<li key={`${index}${day}`}>{date}</li>
-								<li key={`${index}${day.exerciseName}`}>{day.exercise.totalReps} reps</li>
-							</> 
-						)
-					})}
-				</ul>
+				<div>
+					{
+
+					
+						analysis.map((day,index)=>{ 
+							return(
+								<ul key={`${index}`}> 
+									<li>{day.date}</li>
+									<li>{day.exercise.totalReps} reps</li>
+								</ul> 
+							)
+						})}
+				</div>
 			</div>
 		)
-	}
+					*/}
 	return(null)
 }
 

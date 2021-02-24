@@ -14,7 +14,6 @@ export const exerciseNamesFromWorkouts=(workouts)=>
 export const filterExercises = (exercises, name) => ( 
 	//Filter exercise array of a workout object
 	exercises.filter((exercise) => (
-		//exercise.name === name
 		exercise.name.toLowerCase().includes(name.toLowerCase())
 	))
 )
@@ -50,7 +49,8 @@ export const getDaysWorkout = (days) => { //returns array of isolated exercise o
 	return exerciseArray
 }
 
-export const getWeeksWorkouts = (days)=>{ //?Could just split right after DD/MM/YYYY 
+//! Not used, keeping just in case
+export const getWeeksWorkouts = (days)=>{ 
 	const weekMillis = 604800000 //milliseconds in a week
 	const today=new Date().getTime()
 
@@ -80,33 +80,33 @@ export const getAllWorkouts=(days)=>{
 	return exercisesFromWorkouts(days)
 }
 
-export const dailyAnalysis=(workouts,exerciseName)=>{ 
+export const datedAnalysis=(workouts,exerciseName,interval)=>{ //interval=daily -> examine each day, inverval=monthly -> examine month
+	/*Function to retrieve array of aggregate data for a specific exercise, per given time period.
+	End result will be an array of (uniquely-dated) exercise objects, with a new totalReps field 
+	*/
 	const results=[] //Array of objects containing date and exercise
 	workouts.filter((workout)=>{ 
 		const	result=workout.exercises.filter((exercise)=>exercise.name==exerciseName) 
 		result.length>0 && results.push({date:workout.date, exercise:result[0]}) 
-		/*In one sitting, user can only submit one exercise of a particular name
-					therefore, it will either be empty, or hold 1 item (hence, [0] is fine)*/ 
+		/*User can only submit one exercise of a particular name at a time.
+					Therefore, result will at most hold 1 item (hence, [0] works fine)*/ 
 	}) 
-	if(results.length==0){return(null)}
+	if(results.length==0){return(null)} //if empty, abort
+	if (results.length==1){ // If only one workout, return object+reps*sets
+		return([{...results[0],exercise:{...results[0].exercise, //return sets*reps
+			totalReps:results[0].exercise.sets*results[0].exercise.reps}}])}
 
 	/*temporary containers for reduce function*/
 	let reps
 	let sets
 	let totalReps
-	let uniqueArray=[] //to store unique dates of a specific exercise
+	let uniqueArray=[] //to store unique dates/months of a specific exercise
 
-	try{
-		if (results.length==1){ // If only one workout
-			return([{...results[0],exercise:{...results[0].exercise, //return sets*reps
-				totalReps:results[0].exercise.sets*results[0].exercise.reps}}])}
-
+	try{ 
 		results.reduce((currentItem,nextItem,index,array)=>{
-			/*on each iteration, we will examine if currentItem and nextItem share the same date
-			or not. If they do, we will sum their total reps of the day, and store it as 
-			currentItem.exercise.totalReps as a running tally. 
-			
-			If they don't, we will push the currentItem, and continue the procedure with nextItem
+			/*on each iteration, we will examine if currentItem and nextItem share the same date/month.
+			 If they do, sum their total reps, and store it as a running tally in currentItem.exercise.totalReps. 
+			 If they don't, we will push the currentItem, and continue the procedure with nextItem
 			.*/
 
 			reps=currentItem.exercise.reps
@@ -117,12 +117,22 @@ export const dailyAnalysis=(workouts,exerciseName)=>{
 			const newSets=nextItem.exercise.sets
 			const newTotalReps=newReps*newSets
 
-			let dateOfExercise=new Date(currentItem.date).toDateString()
-			let newDateOfExercise=new Date(nextItem.date).toDateString() 
+			let timeProperty
+			let newTimeProperty
+
+			if (interval==="daily"){
+				timeProperty=new Date(currentItem.date).toDateString() //time property refers to day of year
+				newTimeProperty=new Date(nextItem.date).toDateString() 
+			}
+			else if (interval==="monthly"){ 
+				timeProperty = new Date(currentItem.date).toLocaleString("default", { month: "long" }) //time property refers to month
+				newTimeProperty = new Date(nextItem.date).toLocaleString("default", { month: "long" }) 
+			}
+			else{console.log("interval not set or invalid")}
 
 			/*Case at final comparison*/
 			if ( index==array.length-1){ 
-				if(newDateOfExercise!=dateOfExercise){ //if different date, push individually
+				if(newTimeProperty!=timeProperty){ //if different date, push individually
 					uniqueArray.push({...currentItem, exercise:{...currentItem.exercise,totalReps:currentItem.totalReps||totalReps}})
 					uniqueArray.push({...nextItem, exercise:{...nextItem.exercise,totalReps:newTotalReps}})
 					return(uniqueArray)
@@ -136,8 +146,8 @@ export const dailyAnalysis=(workouts,exerciseName)=>{
 			} 
 			/*For all other cases*/
 
-			else if (newDateOfExercise!=dateOfExercise){
-			/*workouts happened on different days, store currentItem, and return nextItem 
+			else if (newTimeProperty!=timeProperty){
+			/*workouts happened on different dates, store currentItem, and return nextItem 
 			to reiterate */ 
 				uniqueArray.push({...currentItem, exercise:{name:exerciseName, totalReps:
 							currentItem.exercise.totalReps || totalReps }})
@@ -148,14 +158,18 @@ export const dailyAnalysis=(workouts,exerciseName)=>{
 			else{ // if same date, update totalReps, and set nextItem for processing
 				return {...currentItem, exercise:{...nextItem.exercise,totalReps:totalReps+=newTotalReps}}
 			}
-		})
+		}
+		)
 		return(uniqueArray)
 	}
+	
 	catch{
 		console.log("something went wrong")
 	}
 }
-export const monthlyAnalysis=(workouts,exerciseName)=>{ 
+
+export const allTimeAnalysis=(workouts,exerciseName)=>{ 
+	/*A simplified version of datedAnalysis*/
 	const results=[] 
 	workouts.filter((workout)=>{ 
 		const	result=workout.exercises.filter((exercise)=>exercise.name==exerciseName) 
@@ -166,7 +180,7 @@ export const monthlyAnalysis=(workouts,exerciseName)=>{
 	let reps
 	let sets
 	let totalReps
-	let uniqueArray=[] 
+	let result
 
 	try{
 		if (results.length==1){ // 
@@ -182,41 +196,19 @@ export const monthlyAnalysis=(workouts,exerciseName)=>{
 			const newSets=nextItem.exercise.sets
 			const newTotalReps=newReps*newSets
 
-			let monthOfExercise = new Date(currentItem.date).toLocaleString("default", { month: "long" })
-			let newMonthOfExercise = new Date(nextItem.date).toLocaleString("default", { month: "long" })
-
 			/*Case at final comparison*/
 			if ( index==array.length-1){ 
-				if(newMonthOfExercise!=monthOfExercise){ //if different month, push individually
-					uniqueArray.push({...currentItem, exercise:{...currentItem.exercise,totalReps:currentItem.totalReps||totalReps}})
-					uniqueArray.push({...nextItem, exercise:{...nextItem.exercise,totalReps:newTotalReps}})
-					return(uniqueArray)
-				} 
 				//otherwise, aggregate reps
-				uniqueArray.push({...currentItem,exercise:{...currentItem.exercise,
+				result=({...currentItem,exercise:{...currentItem.exercise,
 					totalReps:currentItem.exercise.totalReps+newTotalReps ||
 					totalReps+newTotalReps
 				}}) 
-				return(uniqueArray) 
+				return result
 			} 
-
-			/*For all other cases*/
-
-			else if (newMonthOfExercise!=monthOfExercise){
-			/*workouts happened in different months, store currentItem, and return nextItem 
-			to reiterate */ 
-				uniqueArray.push({...currentItem, exercise:{name:exerciseName, totalReps:
-							currentItem.exercise.totalReps || totalReps }})
-				/*If first comparison, there will be no currentItem.exercise.totalReps*/
-				return(nextItem) 
-			}
-
-			else{ // if same date, update totalReps, and set nextItem for processing
-				return {...currentItem, exercise:{...nextItem.exercise,totalReps:totalReps+=newTotalReps}}
-			}
+			return {...currentItem, exercise:{...nextItem.exercise,totalReps:totalReps+=newTotalReps}}
 		})
-		return(uniqueArray)
-	}
+		return([result])}
+	
 	catch{
 		console.log("something went wrong")
 	}
