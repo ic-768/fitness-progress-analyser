@@ -24,8 +24,8 @@ const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{
 		setCurrentRegiment({...currentRegiment, [dayKey]:[]})
 	} 
 
-	const finaliseRegiment=()=>{ //when regiment form has been filled out
-		const returnedRegiment=exerciseService.setRegiment(currentRegiment) //use server's response as data to be set. Also sets regIsSet in server
+	const finaliseRegiment=async()=>{ //when regiment form has been filled out
+		const returnedRegiment=await exerciseService.setRegiment(currentRegiment) //use server's response as data to be set. Also sets regIsSet in server
 		const loggedUser=JSON.parse(window.localStorage.getItem("loggedUser"))
 
 		setUser({...user, regIsSet:true}) //update local data
@@ -55,7 +55,7 @@ const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{
 								{item} <input key={i} defaultChecked value="" type="checkbox" onChange={()=>{toggleRegimentDay(item)}}/>
 							</div>
 						))}
-						<button onClick={(event)=>{event.preventDefault();history.push("/setTargetWorkout")}}>Submit</button>
+						<button onClick={(event)=>{event.preventDefault();history.push("/setTargetWorkout")}}>Submit</button> 
 					</form>
 
 				</>

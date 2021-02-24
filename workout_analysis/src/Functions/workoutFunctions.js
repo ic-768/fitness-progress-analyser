@@ -149,7 +149,7 @@ export const datedAnalysis=(workouts,exerciseName,interval)=>{ //interval=daily 
 				else{
 					//otherwise, aggregate reps
 					uniqueArray.push({formattedDate:timeProperty,
-						totalReps:currentItem.exercise.totalReps+newTotalReps ||
+						totalReps:currentItem.totalReps+newTotalReps ||
 					totalReps+newTotalReps
 					}) 
 				}
@@ -160,14 +160,15 @@ export const datedAnalysis=(workouts,exerciseName,interval)=>{ //interval=daily 
 			else if (newTimeProperty!=timeProperty){
 			/*workouts happened on different dates, store currentItem, and return nextItem 
 			to reiterate */ 
-				uniqueArray.push({...currentItem,formattedDate:timeProperty, exercise:{name:exerciseName, totalReps:
-							currentItem.exercise.totalReps || totalReps }})
+				uniqueArray.push({formattedDate:timeProperty,totalReps:
+							currentItem.exercise.totalReps || totalReps 
+				})
 				/*If first comparison, there will be no currentItem.exercise.totalReps*/
 				return(nextItem) 
 			}
 
 			else{ // if same date, update totalReps, and set nextItem for processing
-				return {...currentItem, formattedDate:timeProperty,exercise:{...nextItem.exercise,totalReps:totalReps+=newTotalReps}}
+				return {...currentItem,totalReps:totalReps+=newTotalReps, formattedDate:timeProperty,exercise:{...nextItem.exercise,}}
 			}
 		}
 		)
@@ -211,12 +212,12 @@ export const allTimeAnalysis=(workouts,exerciseName)=>{
 			if ( index==array.length-1){ 
 				//otherwise, aggregate reps
 				result=({formattedDate:"All time",
-					totalReps:currentItem.exercise.totalReps+newTotalReps ||
+					totalReps:currentItem.totalReps+newTotalReps ||
 					totalReps+newTotalReps
 				}) 
 				return result
 			} 
-			return {...currentItem, exercise:{...nextItem.exercise,totalReps:totalReps+=newTotalReps}}
+			return {...currentItem,totalReps:totalReps+=newTotalReps, exercise:{...nextItem.exercise}}
 		})
 		return([result])}
 	

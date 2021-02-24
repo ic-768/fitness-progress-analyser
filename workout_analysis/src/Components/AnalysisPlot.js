@@ -2,6 +2,7 @@ import React from "react"
 import { CartesianGrid,AreaChart, Area, XAxis, YAxis,  Tooltip, } from "recharts"
 
 const WorkoutAnalysis=({analysis})=>{
+	console.log(analysis)
 
 	const areaChart=(
 		<AreaChart
@@ -25,7 +26,6 @@ const WorkoutAnalysis=({analysis})=>{
 
 
 	if(analysis){ 
-		console.log(analysis)
 		return (
 			areaChart
 		)

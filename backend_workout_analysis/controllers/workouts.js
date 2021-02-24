@@ -41,6 +41,7 @@ workoutRouter.post('/', async(request, response) => {
 
 workoutRouter.patch('/regiment', async(request, response) => { //set target regiment
   const regiment = request.body 
+	console.log(regiment)
 	const token = getTokenFrom(request)
 	const [succeeded, decodedToken]=verifyToken(token) 
 	if(!succeeded){ 
