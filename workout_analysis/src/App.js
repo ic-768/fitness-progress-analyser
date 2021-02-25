@@ -11,10 +11,10 @@ import UserBlock from "./Components/UserBlock"
 import LandingPage from "./Components/LandingPage"
 import Headquarters from "./Components/Headquarters"
 
-
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
 import {login,logout}from "./Functions/userFunctions"
+
 
 function App(){ 
 	const workouts=JSON.parse(window.localStorage.getItem("userWorkouts"))
@@ -55,24 +55,23 @@ function App(){
 	}
 	,[currentRegiment])
 
-	return (
+	return ( 
 		<Router>
 			<div className="App">
-				<h2>
-					user:ic768 <br/>
-					pass:a
-				</h2>
 				{user ? //if user is logged in
 					<>
-						<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
 						{user.regIsSet
 							?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
-							<Headquarters workouts={workouts} daysExercises={daysExercises}/>
+							<>
+								<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
+								<Headquarters workouts={workouts} daysExercises={daysExercises}/>
+							</>
 							:  //if user hasn't set a regiment, do that.
 							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 						}
 					</>
 					: //if no user, register or login
+				//TODO different header than if user is logged in
 					<Switch>
 						<Route path="/register">
 							<RegisterForm submitCredentials={registerService.register}/>

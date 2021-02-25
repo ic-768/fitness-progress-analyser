@@ -20,7 +20,6 @@ const Analysis=({workouts})=>{
 
 	return(
 		<div>
-			<button onClick={()=>{history.push("/")}}>Home</button>
 			<input onChange={(event)=>{ //filter suggestions
 				setSuggestions(exerciseNameCache.filter((name)=>(
 					name.toLowerCase().includes(event.target.value.toLowerCase())
