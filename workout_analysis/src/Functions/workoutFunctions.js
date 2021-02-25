@@ -8,9 +8,12 @@ export const exercisesFromWorkouts=(workouts)=>{ //exercise data is nested a bit
 }
 
 //same as above, but one step further
-export const exerciseNamesFromWorkouts=(workouts)=>
-	exercisesFromWorkouts(workouts).map((exercise)=>exercise.name)
+export const exerciseNamesFromWorkouts=(workouts)=>{
+	return(
+		exercisesFromWorkouts(workouts).map((exercise)=>exercise.name)
+	)
 
+}
 export const filterExercises = (exercises, name) => ( 
 	//Filter exercise array of a workout object
 	exercises.filter((exercise) => (

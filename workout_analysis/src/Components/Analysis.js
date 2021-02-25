@@ -5,8 +5,8 @@ import AnalysisSelector from "./AnalysisSelector"
 import AnalysisPlot from "./AnalysisPlot"
 
 
-const Analysis=()=>{
-	const workouts=JSON.parse(window.localStorage.getItem("userWorkouts")) 
+const Analysis=({workouts})=>{
+
 	const exerciseNameCache=exerciseNamesFromWorkouts(workouts)
 		.filter((name,index)=>( //keep only 1 instance of each name
 			exerciseNamesFromWorkouts(workouts).indexOf(name)===index)
@@ -15,8 +15,7 @@ const Analysis=()=>{
 			element, thus being discarded */
 		)
 	const [suggestions,setSuggestions]=useState([])
-	const [selection,setSelection]=useState()
-
+	const [selection,setSelection]=useState() 
 	const history = useHistory()
 
 	return(
@@ -26,11 +25,9 @@ const Analysis=()=>{
 				setSuggestions(exerciseNameCache.filter((name)=>(
 					name.toLowerCase().includes(event.target.value.toLowerCase())
 				))) }} placeholder="exercise"> 
-			</input>
+			</input> 
 
-
-
-			{suggestions.length<5
+			{suggestions.length<5 //if suggestions narrowed down, allow setting the selection for analysis
 				? (<ul>{suggestions.map((suggestion,index)=> 
 					(<>
 						<li key={index}>{suggestion}</li> 
@@ -43,26 +40,25 @@ const Analysis=()=>{
 				<Route path="/analysis/daily"> 
 					<AnalysisSelector selection={"day"}/>
 					{selection && (
-						<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"daily")} interval={"daily"}/>
+						<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"daily")} />
 					)}
 				</Route>
 				<Route path="/analysis/monthly">
 					<AnalysisSelector selection={"month"}/> 
 					{selection && (
-						<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"monthly")} interval={"monthly"}/>
+						<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"monthly")} />
 					)}
 				</Route>
 				<Route path="/analysis/all">
 					<AnalysisSelector selection={"all"}/> 
 					{selection && (
-						<AnalysisPlot analysis={allTimeAnalysis(workouts,selection||suggestions[0])} interval={"all"}/>
+						<AnalysisPlot analysis={allTimeAnalysis(workouts,selection||suggestions[0])}/>
 					)}
 				</Route>
 				<Route path ="/analysis/">
 					{selection
 						? (<>
 							<button onClick={()=>{history.push("/analysis/daily")}}>Daily</button>
-							<button onClick={()=>{history.push("/analysis/weekly")}}>Weekly</button>
 							<button onClick={()=>{history.push("/analysis/monthly")}}>Monthly</button>
 							<button onClick={()=>{history.push("/analysis/all")}}>All time</button>
 						</>

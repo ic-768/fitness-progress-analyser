@@ -2,14 +2,17 @@ import React from "react"
 import {Switch,Route,useHistory} from "react-router-dom"
 import Analysis from "./Analysis"
 import History from "./History"
+import ExerciseSubmission from "./ExerciseSubmission"
 
-const HeadQuarters=()=>{
+const HeadQuarters=({workouts, daysExercises})=>{
 	const history = useHistory()
-	const workouts=JSON.parse(window.localStorage.getItem("userWorkouts"))
 	
 	return (
 		<>
 			<Switch>
+				<Route path="/dailySubmission">
+					<ExerciseSubmission daysExercises={daysExercises}/>
+				</Route>
 				<Route path="/history"> 
 					<History workouts={workouts}/> 
 				</Route>

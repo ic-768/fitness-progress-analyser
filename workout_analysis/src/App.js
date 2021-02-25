@@ -9,15 +9,15 @@ import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
 import UserBlock from "./Components/UserBlock"
 import LandingPage from "./Components/LandingPage"
-import ExerciseSubmission from "./Components/ExerciseSubmission"
 import Headquarters from "./Components/Headquarters"
 
 
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
-import {login,logout} from "./Functions/userFunctions"
+import {login,logout}from "./Functions/userFunctions"
 
 function App(){ 
+	const workouts=JSON.parse(window.localStorage.getItem("userWorkouts"))
 
 	/*user contains authorization token, username, and flag to show if a target regiment has been set.
 	 User workouts history is sent to localStorage on log-in*/
@@ -33,7 +33,7 @@ function App(){
 		}	
 	},[]) 
 
-	useEffect(()=>{ //Set user's target workout (whole week)
+	useEffect(()=>{ //Set user's target workout (for a whole week)
 		if(user){
 			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
 			setCurrentRegiment(regiment) 
@@ -41,9 +41,9 @@ function App(){
 	}
 	,[user])
 
-	useEffect(()=>{ //Set today's workout
+	useEffect(()=>{ //Set exercises of today's workout
 		if(user){ 
-			const day=(new Date()).getDay() //Sunday starts at 0 with this method - with currentRegiment it starts at 6.
+			const day=(new Date()).getDay() //Sunday starts at 0 with Date method - with currentRegiment array at 6.
 			if (day===0){ //Case when Sunday
 				const exercisesForToday=(Object.values(currentRegiment)[6]) 
 				setDaysExercises(exercisesForToday)
@@ -59,26 +59,18 @@ function App(){
 		<Router>
 			<div className="App">
 				<h2>
-					user:bally <br/>
+					user:ic768 <br/>
 					pass:a
 				</h2>
 				{user ? //if user is logged in
 					<>
 						<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
-						<Switch>
-							<Route path="/dailySubmission">
-								<h2>Today&apos;s exercises</h2> 
-								<ExerciseSubmission daysExercises={daysExercises}/>
-							</Route>
-							<Route path="/">
-								{user.regIsSet
-									? 
-									<Headquarters/>
-									:  //if user hasn't set a regiment
-									<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
-								}
-							</Route>
-						</Switch>
+						{user.regIsSet
+							?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
+							<Headquarters workouts={workouts} daysExercises={daysExercises}/>
+							:  //if user hasn't set a regiment, do that.
+							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+						}
 					</>
 					: //if no user, register or login
 					<Switch>

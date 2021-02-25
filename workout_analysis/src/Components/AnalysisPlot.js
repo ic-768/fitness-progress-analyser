@@ -1,8 +1,7 @@
 import React from "react"
 import { CartesianGrid,AreaChart, Area, XAxis, YAxis,  Tooltip, } from "recharts"
 
-const WorkoutAnalysis=({analysis})=>{
-	console.log(analysis)
+const AnalysisPlot=({analysis})=>{
 
 	const areaChart=(
 		<AreaChart
@@ -34,4 +33,4 @@ const WorkoutAnalysis=({analysis})=>{
 	return(null)
 }
 
-export default WorkoutAnalysis
+export default AnalysisPlot
