@@ -17,13 +17,13 @@ import {login,logout}from "./Functions/userFunctions"
 
 
 function App(){ 
-	const workouts=JSON.parse(window.localStorage.getItem("userWorkouts"))
 
 	/*user contains authorization token, username, and flag to show if a target regiment has been set.
 	 User workouts history is sent to localStorage on log-in*/
 	const [user, setUser] = useState(null) 	
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
+	const [workouts, setWorkouts] = useState(JSON.parse(window.localStorage.getItem("userWorkouts"))) // whole week target exercises
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
@@ -64,7 +64,7 @@ function App(){
 							?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
 							<>
 								<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
-								<Headquarters workouts={workouts} daysExercises={daysExercises}/>
+								<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
 							</>
 							:  //if user hasn't set a regiment, do that.
 							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>

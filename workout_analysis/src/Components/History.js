@@ -34,13 +34,13 @@ const History=({workouts})=>{
 							<h2>{new Date(workout.date).toDateString()}</h2>
 							<Table striped bordered hover >
 								<tbody>
-									<tr> {/*classnames ensure column width*/}
-										<th className="col-1" >Exercise</th>
+									<tr> 
+										<th className="col-1">Exercise</th>
 										<th className="col-1">Repetitions</th>
-										<th classnName="col-1">Sets</th>
+										<th className="col-1">Sets</th>
 									</tr>
 									{workout.exercises.map((exercise,index) => (
-										<tr  key={index}>
+										<tr key={index}>
 											<td className="col-1">{exercise.name}</td>
 											<td className="col-1">{exercise.sets}</td>
 											<td className="col-1">{exercise.reps}</td>

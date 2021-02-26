@@ -1,17 +1,18 @@
 import React from "react" 
 import {Switch,Route,useHistory} from "react-router-dom"
+import Button  from "react-bootstrap/Button"
 import Analysis from "./Analysis"
 import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
 
-const HeadQuarters=({workouts, daysExercises})=>{
+const HeadQuarters=({setWorkouts,workouts, daysExercises})=>{
 	const history = useHistory()
 	
 	return (
 		<>
 			<Switch>
 				<Route path="/dailySubmission">
-					<ExerciseSubmission daysExercises={daysExercises}/>
+					<ExerciseSubmission setWorkouts={setWorkouts} daysExercises={daysExercises}/>
 				</Route>
 				<Route path="/history"> 
 					<History workouts={workouts}/> 
@@ -27,16 +28,16 @@ const HeadQuarters=({workouts, daysExercises})=>{
 						<div>
 						</div>
 						<div>
-							<button onClick={()=>{history.push("/dailySubmission")}}>
+							<Button variant="dark" onClick={()=>{history.push("/dailySubmission")}}>
 				Submit today&apos;s workout
-							</button>
+							</Button>
 						</div>
-						<button onClick={()=>{history.push("/analysis")}}>
+						<Button variant="dark" onClick={()=>{history.push("/analysis")}}>
 				See your performance!
-						</button>
-						<button onClick={()=>{history.push("/history")}}>
+						</Button>
+						<Button variant="dark" onClick={()=>{history.push("/history")}}>
 				See your workout history!
-						</button>
+						</Button>
 						<div>
 							<div>
 							</div>
