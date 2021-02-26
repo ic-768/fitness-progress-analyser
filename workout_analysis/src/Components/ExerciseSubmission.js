@@ -36,9 +36,10 @@ const ExerciseSubmission=({setWorkouts,daysExercises})=>{
 
 
 	const submitWorkout=async ()=>{
-		const validEntries = Object.keys(newWorkout) // Non-null entries
+		const validEntries = Object.keys(newWorkout) // Non-null entries, and non-empty arrays
 			.filter((exercise) =>  
-				newWorkout[exercise] != null) 
+				newWorkout[exercise] != null && 
+				newWorkout[exercise].length!=0) 
 
 		if (Object.entries(validEntries).length>0) {
 			const sentWorkout=await exerciseService.sendWorkout(newWorkout) //server response to new workout submission 

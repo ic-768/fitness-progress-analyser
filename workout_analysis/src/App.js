@@ -7,7 +7,7 @@ import {BrowserRouter as Router,
 
 import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
-import UserBlock from "./Components/UserBlock"
+import Banner from "./Components/Banner"
 import LandingPage from "./Components/LandingPage"
 import Headquarters from "./Components/Headquarters"
 import Container from "react-bootstrap/Container"
@@ -66,13 +66,18 @@ function App(){
 						{user.regIsSet
 							?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
 							<>
-								<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
+								<Banner user={user} logout={()=>{logout(setUser) }}/>  
 								<Container>
 									<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
 								</Container>
 							</>
 							:  //if user hasn't set a regiment, do that.
-							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+							<>
+								<Banner />  
+								<Container>
+									<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+								</Container>
+							</>
 						}
 					</>
 					: //if no user, register or login
