@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form"
 import FormControl from "react-bootstrap/FormControl"
 
 const History=({workouts})=>{ 
-	//TODO Collapse multiple same exercises of same day into a single workout
 	const [filteredWorkouts,setFilteredWorkouts]=useState(workouts) 
 	//Will be using filteredWorkouts for everything.
 

@@ -3,10 +3,10 @@ import {useHistory,
 	Switch,
 	Route,
 } from "react-router-dom"
-import DayForm from "./DayForm"
+import RegimentForm from "./RegimentForm"
 import exerciseService from "../Services/exercises"
 
-const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{
+const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{ //TODO make pretty 
 	const history = useHistory() 
 
 	/* need this effect so state doesn't break on refresh or "back".
@@ -36,10 +36,11 @@ const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{
 	
 	return (  
 		<Switch>
+			{/*TODO make a singular view, onClick -> allow adding exercises*/}
 
 			<Route path="/setTargetWorkout"> {/*second page*/}
-				{Object.keys(currentRegiment).map((item,i)=>(  //for each  (non-null) array in currentRegiment, create a dayForm to fill in target exercises
-					<DayForm key={i} day={item} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
+				{Object.keys(currentRegiment).map((item,i)=>(  //for each  (non-null) array in currentRegiment, create a RegimentForm to fill in target exercises
+					<RegimentForm key={i} day={item} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
 				))} 
 				<button onClick={()=>{finaliseRegiment()}}>All set!</button>   
 			</Route> 

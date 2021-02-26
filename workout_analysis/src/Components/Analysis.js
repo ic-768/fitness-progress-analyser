@@ -11,6 +11,8 @@ import AnalysisPlot from "./AnalysisPlot"
 
 const Analysis=({workouts})=>{
 
+	if(!workouts){return(<div>Workouts haven not been loaded</div>)}
+
 	/***************STYLING******************/
 	const toolTipButtonStyle={
 		borderRadius:"90%",
@@ -25,8 +27,9 @@ const Analysis=({workouts})=>{
 			Start typing an exercise name! :)
 		</Tooltip>
 	)
-	/*****************************************/
 	
+	/***************STYLING******************/
+
 	const exerciseNameCache=exerciseNamesFromWorkouts(workouts)
 		.filter((name,index)=>( //keep only 1 instance of each name
 			exerciseNamesFromWorkouts(workouts).indexOf(name)===index)

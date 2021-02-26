@@ -3,12 +3,11 @@ import Button from "react-bootstrap/Button"
 import Accordion from "react-bootstrap/Accordion"
 import Card from "react-bootstrap/Card"
 import {useAccordionToggle} from "react-bootstrap/AccordionToggle"
-import { MdDone } from "react-icons/md"
-import { MdClear } from "react-icons/md"
+import {MdDone} from "react-icons/md"
+import {MdClear} from "react-icons/md"
 
-/**************STYLE*****************
- * 
- **************STYLE****************/
+const CounterButtonStyle={margin:"10px", height:"60px", width:"60px", borderRadius:"50%" }
+const CounterContainerStyle={alignItems:"center", margin:"5px",backgroundColor:"white", borderRadius:"30px", display:"flex",flexDirection:"column"}
 
 function CustomToggle({ children, eventKey,finished, setFinished }) { 
 	const decoratedOnClick = useAccordionToggle(
@@ -48,45 +47,49 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 		<div> 
 			<Accordion>
 				<Card>
-					<Card.Header>
+					<Card.Header style={{width:"100%"}}>
 						<h3>{exerciseName} </h3>
 						<CustomToggle finished={finished} setFinished={setFinished} eventKey="0"> 
 							{finished 
 								?<MdClear/>
 								:<MdDone/>} 
-						</CustomToggle> {/*CHECKMARK AS TOGGLE*/}
+						</CustomToggle> 
 					</Card.Header>
 					<Accordion.Collapse  eventKey="0">
-						<Card.Body>
+						<Card.Body style={{borderRadius:"20px",backgroundColor:"gray", display:"flex"}}>
 							{exercise &&
 				<>
-					<div>
-						<h3>{exercise.reps} reps</h3>
+					<div style={CounterContainerStyle}> 
 
-						<Button onClick={()=>{ //set e.g. newWorkout[pullups] equal to exercise dummy variable reps and or sets
-							if(finished){
-								setExercise({...exercise, reps:decrement(exercise.reps)})
-							}}}>-</Button>
-
-						<Button onClick={()=>{
+						<Button style={CounterButtonStyle} onClick={()=>{
 							if(finished){
 								setExercise({...exercise, reps:exercise.reps+1})
-							}}}>+</Button>
+							}}}><h1>+</h1></Button>
+						<h3>{exercise.reps} </h3>
+
+						<Button style={CounterButtonStyle} onClick={()=>{
+							if(finished){
+								setExercise({...exercise, reps:decrement(exercise.reps)})
+							}}}><h1>-</h1></Button>
+						<h3>reps</h3>
 
 					</div>
+					<div style={{color:"white"}}>
+					</div>
 
-					<div>
-						<h3>{exercise.sets} sets</h3>
-						<Button onClick={()=>{ 
-							if(finished){
-								setExercise({...exercise, sets:decrement(exercise.sets)}) 
-							}}}>-</Button>
+					<div className="d-flex" style={CounterContainerStyle}> 
 
-						<Button onClick={()=>{ 
+						<Button style={CounterButtonStyle} onClick={()=>{
 							if(finished){
 								setExercise({...exercise, sets:exercise.sets+1}) 
-							}}}>+</Button>
+							}}}><h1>+</h1></Button>
+						<h3>{exercise.sets}</h3>
+						<Button style={CounterButtonStyle} onClick={()=>{
+							if(finished){
+								setExercise({...exercise, sets:decrement(exercise.sets)}) 
+							}}}><h1>-</h1></Button>
 
+						<h3>sets</h3>
 					</div> 
 				</>}
 						</Card.Body>

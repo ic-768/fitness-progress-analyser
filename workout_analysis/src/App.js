@@ -10,6 +10,7 @@ import RegisterForm from "./Components/RegisterForm"
 import UserBlock from "./Components/UserBlock"
 import LandingPage from "./Components/LandingPage"
 import Headquarters from "./Components/Headquarters"
+import Container from "react-bootstrap/Container"
 
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
@@ -23,11 +24,12 @@ function App(){
 	const [user, setUser] = useState(null) 	
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
-	const [workouts, setWorkouts] = useState(JSON.parse(window.localStorage.getItem("userWorkouts"))) // whole week target exercises
+	const [workouts, setWorkouts] = useState() // whole week target exercises
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
 		if (user){ 
+			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 			setUser(user)
 			exerciseService.setToken(user.token) //token will be set on each render
 		}	
@@ -35,6 +37,7 @@ function App(){
 
 	useEffect(()=>{ //Set user's target workout (for a whole week)
 		if(user){
+			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
 			setCurrentRegiment(regiment) 
 		}
@@ -64,14 +67,16 @@ function App(){
 							?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
 							<>
 								<UserBlock user={user} logout={()=>{logout(setUser) }}/>  
-								<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
+								<Container>
+									<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
+								</Container>
 							</>
 							:  //if user hasn't set a regiment, do that.
 							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 						}
 					</>
 					: //if no user, register or login
-				//TODO different header than if user is logged in
+					//TODO different header than if user is logged in
 					<Switch>
 						<Route path="/register">
 							<RegisterForm submitCredentials={registerService.register}/>
