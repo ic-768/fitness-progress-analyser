@@ -3,8 +3,16 @@ import ToggleButton from "react-bootstrap/ToggleButton"
 import Button from "react-bootstrap/Button"
 import {useHistory} from "react-router-dom"
 
-const DayForm=({toggleRegimentDay,currentRegiment})=>{
+const DayForm=({currentRegiment,setCurrentRegiment})=>{
 	const history=useHistory()
+
+	const toggleRegimentDay=(dayKey)=>{  //toggles a specific day between null/empty array
+		if (currentRegiment[dayKey]){
+			setCurrentRegiment({...currentRegiment, [dayKey]:null})
+			return
+		}
+		setCurrentRegiment({...currentRegiment, [dayKey]:[]})
+	} 
 	return(
 		<form style={{display:"flex",flexDirection:"column", alignItems:"center"}}> {/*one checkbox for each day, to toggle if it will be an active day or not*/}
 			<h2>Please select only the days that you plan on working out on:</h2>

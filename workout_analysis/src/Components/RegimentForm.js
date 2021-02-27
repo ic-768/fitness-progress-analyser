@@ -1,59 +1,67 @@
-import React,{useState} from "react"
+import React,{useState,useEffect} from "react"
+import Button from "react-bootstrap/Button" 
+import exerciseService from "../Services/exercises"
+import {useHistory} from "react-router-dom"
+import DayGrid from "./DayGrid"
 
-const RegimentForm=({day,currentRegiment, setCurrentRegiment})=>{
-	const [exercise,setExercise] = useState("") //individual exercise (to control input)
+const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{ 
+	const [submissionVisibility,setVisibility]=useState("hidden") 
+	const history = useHistory() 
 
-	if (!currentRegiment[day]) {return(null)} //make forms only for active days
-	return( 
-		<form style={{backgroundColor:"#DDDDDD", display:"flex",flexDirection:"column", border:"1px solid black",
-			justifyContent:"center",}} onSubmit={(event)=>{event.preventDefault()
-			{/*Append submitted exercise to one of day arrays in currentRegiment*/}
-			if(exercise.trim()){ //make sure no empty strings
-				if(currentRegiment[day].includes(
-					(exercise.charAt(0).toUpperCase()+ // compare formatted entry
-					exercise.slice(1)).trim())){
-					console.log("you're already doing that today")}
-			
+	const regimentHasEmptyDay=()=>{  //returns true if any entry is empty
+		for (const key in currentRegiment){
+			if(currentRegiment[key]&&currentRegiment[key].length===0){
+				return true
+			}
+		}
+		return false
+	}
 
-				else{
-					setCurrentRegiment({...currentRegiment, [day]:currentRegiment[day].concat(
-						(exercise.charAt(0).toUpperCase()+exercise.slice(1)).trim()) }) //Capitalise first letter, and trim whitespace off ends
-					setExercise("")
-				}}
-		}}> 
-			<div style={{backgroundColor:"#AAAAAA", display:"flex", flexDirection:"column"}}> {/*input div*/}
-				<h2 style={{margin:"20px"}}>{day}</h2> 
-				<input value={exercise} name={day} placeholder={day} onChange={(event)=>{
-					if(event.target.value!==" "){
-						setExercise(event.target.value)
-					}}}/>
-				<button type="submit">add</button>
-			</div> 
+	const finaliseRegiment=async()=>{ //when regiment form has been filled out
+		if (!regimentHasEmptyDay()){ // Don't allow submission unless all active days are filled 
+			const returnedRegiment=await exerciseService.setRegiment(currentRegiment) //use server's response as data to be set. Also sets regIsSet in server
+			const loggedUser=JSON.parse(window.localStorage.getItem("loggedUser"))
 
-			<div style={{display:"flex",flexWrap:"wrap",flexDirection:"column",
-				alignContent:"center",justifyContent:"space-between"}}>{/*output div*/}
-				<h5>Submissions:</h5>
-				{currentRegiment[day].map((exercise,i)=>( 
-					<div key={i} style={{display:"flex" }}> {/*show each submitted exercise*/}
-						<div >
-							{exercise}
-						</div> 
-						<div >
-							{/*remove exercise*/}
-							<button  type="button" onClick={()=>
-								setCurrentRegiment( 
-									{...currentRegiment, 
-										[day]:currentRegiment[day].filter((name)=>(
-											name!=exercise)
-										)}
+			setUser({...user, regIsSet:true}) //update local data
+			window.localStorage.setItem("currentRegiment",JSON.stringify(returnedRegiment))
+			window.localStorage.setItem("loggedUser",JSON.stringify({...loggedUser,regIsSet:true}))
+			history.push("/")
+		}
+	}
 
-								)}>remove</button>
-						</div>
-					</div>
-				))}
+	useEffect(()=>{
+		regimentHasEmptyDay() 
+			? setVisibility("hidden")
+			: setVisibility("visible")
+
+	},[currentRegiment]) //Make submission button appear only once everything is filled
+
+	return(
+		<div>
+			<Button style={{visibility:submissionVisibility,
+				marginBottom:"80px",width:"80px",height:"80px",
+				borderRadius:"20px",paddingRight:"0px",paddingLeft:"0px"}}
+			onClick={()=>{finaliseRegiment()}}>
+				<h4>DONE</h4>
+			</Button>   
+
+			<Button style={{backgroundColor:"green",
+				marginBottom:"80px",width:"80px",height:"80px",
+				borderRadius:"20px",paddingRight:"0px", paddingLeft:"0px"}}
+			onClick={()=>{history.push("/")}}>
+				<h4>BACK</h4>
+			</Button>   
+
+			<div style={{display:"flex", flexWrap:"wrap",justifyContent:"center", alignItems:"flex-start"}}> 
+				{/*for each  (non-null) array in currentRegiment, create a DayGrid to fill in target exercises*/}
+				{Object.keys(currentRegiment).map((item,i)=>(  
+					<DayGrid key={i} day={item} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
+				))} 
+			</div >
+			<div style={{display:"flex",alignItems:"center", flexDirection:"column"}}>
 
 			</div>
-		</form> 
+		</div>
 	)
 }
 export default RegimentForm
