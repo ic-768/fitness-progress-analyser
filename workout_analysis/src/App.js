@@ -59,7 +59,7 @@ function App(){
 
 	return ( 
 		<Router>
-			<div className="App" style={{height:"100vh"}}>
+			<div className="App" style={{display:"flex",flexDirection:"column",height:"100vh", backgroundImage:"url(/Media/lockedBackground.jpeg)"}}>
 				{user ? //if user is logged in
 					<>
 						{user.regIsSet
@@ -73,15 +73,14 @@ function App(){
 							:  //if user hasn't set a regiment, do that.
 							<>
 								<Banner />  
-								<Container>
+								<Container style={{flexGrow:"1",height:"auto",display:"flex",flexDirection:"column", justifyContent:"center"}}>
 									<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 								</Container>
 							</>
 						}
 					</>
 					: //if no user, register or login
-					//TODO center shit
-					<div style={{backgroundImage:"url(https://wallpapertag.com/wallpaper/full/4/7/4/124349-gym-background-2048x1430-for-android-tablet.jpg)",
+					<div style={{backgroundImage:("url(/Media/kicking.jpg"), //in public folder
 						height:"100%",display:"flex", justifyContent:"center", alignItems:"flex-start"}}>
 						<Switch>
 							<Route path="/register">

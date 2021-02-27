@@ -1,7 +1,3 @@
-*{color:white;
-}
-input{color:black}
-button{background-color:black}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -15,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+h1, h2,h3,h4,h5{color:white}
+input{color:black}
+button{color:white;
+	background-color:black}

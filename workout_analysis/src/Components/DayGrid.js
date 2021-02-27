@@ -6,7 +6,7 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 	if(!currentRegiment[day]){return(null)} //If inactive day
 	return( 
 
-		<form style={{backgroundColor:"#DDDDDD", display:"flex",flexDirection:"column", border:"1px solid black",
+		<form style={{margin:"5px",backgroundColor:"#DDDDDD", display:"flex",flexDirection:"column", border:"1px solid black",
 			justifyContent:"center",}} onSubmit={(event)=>{event.preventDefault()
 			{/*Append submitted exercise to one of day arrays in currentRegiment*/}
 			if(exercise.trim()){ //no empty strings
@@ -33,25 +33,6 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 
 			<div style={{display:"flex",flexWrap:"wrap",flexDirection:"column",
 				alignContent:"center",justifyContent:"space-between"}}>
-				<h5>Submissions:</h5>
-				{currentRegiment[day].map((exercise,i)=>( 
-					<div key={i} style={{display:"flex" }}> {/*show each submitted exercise*/}
-						<div >
-							{exercise}
-						</div> 
-						<div >
-							{/*remove exercise*/}
-							<button  type="button" onClick={()=>
-								setCurrentRegiment( 
-									{...currentRegiment, 
-										[day]:currentRegiment[day].filter((name)=>(
-											name!=exercise)
-										)}
-
-								)}>remove</button>
-						</div>
-					</div>
-				))}
 
 			</div>
 		</form> 

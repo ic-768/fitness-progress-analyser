@@ -23,7 +23,9 @@ const LoginForm=({submitCredentials, setUser})=>{
 						<input style={inputStyle}  value={password} placeholder="password" onChange={(event)=>{
 							setPassword(event.target.value) }}/> 
 					</div>
-					<button>submit</button> 
+					<div>
+						<button style={{width:"80px",height:"40px"}}><h4 >submit</h4></button> 
+					</div>
 				</div>
 				<h2 style={{marginTop:"auto"}}>New? <Link style={{color:"turquoise"}} to="/register"> Register </Link></h2>
 			</form>	

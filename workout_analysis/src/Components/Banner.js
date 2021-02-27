@@ -29,9 +29,9 @@ const Banner=({user,logout})=>{
 			</>
 		)
 		:(
-			<Navbar style={{display:"flex", justifyContent:"center"}}>
+			<Navbar style={{display:"flex", justifyContent:"center",backgroundColor:"#eeeeee", color:"black"}}>
 				<Navbar.Brand><img style={logoStyle} src="https://svgsilh.com/svg_v2/1539614.svg"/></Navbar.Brand>
-				<Navbar.Text><h2>Welcome to Fitness Express! Next stop <MdDirections/> Gainsville!</h2></Navbar.Text>
+				<Navbar.Text><h2 style={{color:"black"}} >Welcome to Fitness Express! Next stop <MdDirections size="2em" color="black" /> Gainsville!</h2></Navbar.Text>
 			</Navbar>
 		)
 }
