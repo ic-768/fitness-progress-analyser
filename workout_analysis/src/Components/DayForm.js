@@ -19,7 +19,7 @@ const DayForm=({toggleRegimentDay,currentRegiment})=>{
 					)
 				})}
 			</div>
-			<Button onClick={(event)=>{event.preventDefault();history.push("/setTargetWorkout")}}>Submit</Button> 
+			<Button onClick={(event)=>{event.preventDefault();history.push("/setTargetWorkout")}}>Next</Button> 
 		</form>
 
 	)

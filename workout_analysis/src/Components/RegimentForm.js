@@ -2,7 +2,6 @@ import React,{useState} from "react"
 
 const RegimentForm=({day,currentRegiment, setCurrentRegiment})=>{
 	const [exercise,setExercise] = useState("") //individual exercise (to control input)
-	console.log(exercise)
 
 	if (!currentRegiment[day]) {return(null)} //make forms only for active days
 	return( 
@@ -10,9 +9,6 @@ const RegimentForm=({day,currentRegiment, setCurrentRegiment})=>{
 			justifyContent:"center",}} onSubmit={(event)=>{event.preventDefault()
 			{/*Append submitted exercise to one of day arrays in currentRegiment*/}
 			if(exercise.trim()){ //make sure no empty strings
-				console.log(exercise,"is exerciske")
-				console.log(exercise.trim(),"is trim")
-				console.log(currentRegiment[day],exercise)
 				if(currentRegiment[day].includes(
 					(exercise.charAt(0).toUpperCase()+ // compare formatted entry
 					exercise.slice(1)).trim())){
@@ -20,7 +16,6 @@ const RegimentForm=({day,currentRegiment, setCurrentRegiment})=>{
 			
 
 				else{
-					console.log( exercise.charAt(0).toUpperCase()+exercise.slice(1).trim(),"is final") //Capitalise first letter, and trim whitespace off ends
 					setCurrentRegiment({...currentRegiment, [day]:currentRegiment[day].concat(
 						(exercise.charAt(0).toUpperCase()+exercise.slice(1)).trim()) }) //Capitalise first letter, and trim whitespace off ends
 					setExercise("")
