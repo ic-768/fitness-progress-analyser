@@ -20,7 +20,7 @@ const History=({workouts})=>{
 	return(
 		<div>
 			<Form inline>
-				<FormControl type="text" placeholder="Search exercises" className="mr-sm-2" onChange={(event)=>{ //uncontrolled seems to work ok
+				<FormControl type="text" placeholder="Search exercises" className="mr-sm-2" onChange={(event)=>{ 
 					event.preventDefault
 					filterWorkouts(workouts,event.target.value)
 				}} />
@@ -28,27 +28,34 @@ const History=({workouts})=>{
 
 			<ul>
 				{filteredWorkouts.map((workout,index)=>{ 
-					if(workout){return(
-						<div key={index}>
-							<h2>{new Date(workout.date).toDateString()}</h2>
-							<Table striped bordered hover >
-								<tbody>
-									<tr> 
-										<th className="col-1">Exercise</th>
-										<th className="col-1">Repetitions</th>
-										<th className="col-1">Sets</th>
-									</tr>
-									{workout.exercises.map((exercise,index) => (
-										<tr key={index}>
-											<td className="col-1">{exercise.name}</td>
-											<td className="col-1">{exercise.sets}</td>
-											<td className="col-1">{exercise.reps}</td>
+					if(workout){
+						const workoutDate=new Date(workout.date)
+						const workoutMins= workoutDate.getMinutes() < 10
+							? "0"+workoutDate.getMinutes() // to make double digit
+							: workoutDate.getMinutes()
+						return( 
+							<div key={index}>
+								<h2>{workoutDate.toDateString() +", " 
+								+ workoutDate.getHours()+ ":" 
+								+ workoutMins}</h2>
+								<Table striped bordered hover >
+									<tbody>
+										<tr> 
+											<th className="col-1">Exercise</th>
+											<th className="col-1">Repetitions</th>
+											<th className="col-1">Sets</th>
 										</tr>
-									))}
-								</tbody>
-							</Table>
-						</div>
-					)}})}
+										{workout.exercises.map((exercise,index) => (
+											<tr key={index}>
+												<td className="col-1">{exercise.name}</td>
+												<td className="col-1">{exercise.sets}</td>
+												<td className="col-1">{exercise.reps}</td>
+											</tr>
+										))}
+									</tbody>
+								</Table>
+							</div>
+						)}})}
 			</ul>
 		</div>
 

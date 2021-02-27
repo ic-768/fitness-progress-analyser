@@ -2,7 +2,6 @@ import React,{useState,useEffect} from "react"
 import {BrowserRouter as Router,
 	Switch,
 	Route,
-	Link,
 } from "react-router-dom"
 
 import LoginForm from "./Components/LoginForm"
@@ -60,7 +59,7 @@ function App(){
 
 	return ( 
 		<Router>
-			<div className="App">
+			<div className="App" style={{height:"100vh"}}>
 				{user ? //if user is logged in
 					<>
 						{user.regIsSet
@@ -81,17 +80,18 @@ function App(){
 						}
 					</>
 					: //if no user, register or login
-					//TODO different header than if user is logged in
-					<Switch>
-						<Route path="/register">
-							<RegisterForm submitCredentials={registerService.register}/>
-							<Link to="/">back to login</Link>
-						</Route>
-						<Route path="/">
-							<LoginForm submitCredentials={login} setUser={setUser}/> 
-							<h2>New? Register<Link to="/register"> here </Link> :)</h2>
-						</Route>
-					</Switch> 
+					//TODO center shit
+					<div style={{backgroundImage:"url(https://wallpapertag.com/wallpaper/full/4/7/4/124349-gym-background-2048x1430-for-android-tablet.jpg)",
+						height:"100%",display:"flex", justifyContent:"center", alignItems:"flex-start"}}>
+						<Switch>
+							<Route path="/register">
+								<RegisterForm submitCredentials={registerService.register}/>
+							</Route>
+							<Route path="/">
+								<LoginForm submitCredentials={login} setUser={setUser}/> 
+							</Route>
+						</Switch> 
+					</div>
 				}
 			</div>
 		</Router>

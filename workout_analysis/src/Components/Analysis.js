@@ -55,8 +55,8 @@ const Analysis=({workouts})=>{
 
 			{suggestions.length<5 //if suggestions narrowed down, allow setting the selection for analysis
 				? (<ul>{suggestions.map((suggestion,index)=> 
-					(<>
-						<li key={index}>{suggestion}</li> 
+					(<div key={index}>
+						<li>{suggestion}</li> 
 						<Dropdown key ={`${index}Button`}>
 							<Dropdown.Toggle>
 							Analyse 
@@ -67,7 +67,7 @@ const Analysis=({workouts})=>{
 								<Dropdown.Item onClick={()=>{setSelection(suggestions[index]);history.push("/analysis/all")}}> All-Time</Dropdown.Item>
 							</Dropdown.Menu>
 						</Dropdown>
-					</>)
+					</div>)
 				)} </ul>)  
 				: (<h2>Too many suggestions to show!</h2>)}
 
