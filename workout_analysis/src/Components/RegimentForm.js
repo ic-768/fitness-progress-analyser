@@ -34,22 +34,25 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 	useEffect(()=>{
 		regimentHasEmptyDay() 
 			? setVisibility("hidden")
-			: setVisibility("visible")
-
+			: setVisibility("visible") 
 	},[currentRegiment]) //Make submission button appear only once everything is filled
 
 	return(
 		<div style={{display:"flex", flexDirection:"column", alignItems:"center",marginTop:"20px",height:"100%",}}>
 
-			<h1>Time to fill out your weekly regiment!  <MdFitnessCenter/></h1>
-			<h3>(Don&apos;t worry, you can reset it at any time)</h3>
+			<div style={{marginBottom:"40px",padding:"0 25px 0 25px",borderRadius:"40px",backgroundColor:"white"}}>
+				<h1 >Time to fill out your weekly regiment!  <MdFitnessCenter/></h1>
+				<h3 >(Don&apos;t worry, you can reset it at any time)</h3>
+			</div>
 			<div style={{display:"flex", flexWrap:"wrap",justifyContent:"center", alignItems:"flex-start"}}> 
 				{/*for each  (non-null) day-array in currentRegiment, create a DayGrid to fill in target exercises*/}
 				{Object.keys(currentRegiment).map((item,i)=>(  
 					<DayGrid key={i} day={item} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
 				))} 
 
-				<div style={{alignItems:"center",position:"fixed",bottom:"0",flexWrap:"wrap",display:"flex",justifyContent:"center",justifyItems:"center", backgroundColor:"rgb(0,0,0,0.9)", borderRadius:"20px"}}>
+				<div style={{marginBottom:"8px",alignItems:"center",position:"fixed",bottom:"0",
+					flexWrap:"wrap",display:"flex",justifyContent:"center",justifyItems:"center", 
+					backgroundColor:"rgb(0,0,0,0.9)", borderRadius:"20px"}}>
 					{/*Same, but for submissions of a day*/}
 					{Object.keys(currentRegiment).map((day)=>{
 						if(!currentRegiment[day]){return(null)}
@@ -57,7 +60,7 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 							<DaySubmissions key={day} day={day} setCurrentRegiment={setCurrentRegiment}currentRegiment={currentRegiment}/> 
 						)})}
 				</div>
-				<Button style={{visibility:submissionVisibility,
+				<Button style={{backgroundColor:"green",visibility:submissionVisibility,
 					marginBottom:"80px",width:"80px",height:"80px",
 					borderRadius:"20px",paddingRight:"0px",paddingLeft:"0px"}}
 				onClick={()=>{finaliseRegiment()}}>

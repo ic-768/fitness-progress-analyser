@@ -47,8 +47,8 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 		<div> 
 			<Accordion>
 				<Card>
-					<Card.Header style={{width:"100%"}}>
-						<h3>{exerciseName} </h3>
+					<Card.Header style={{border:"none",width:"100%"}}>
+						<h3 style={{color:"black"}}>{exerciseName} </h3>
 						<CustomToggle finished={finished} setFinished={setFinished} eventKey="0"> 
 							{finished 
 								?<MdClear/>
@@ -56,7 +56,7 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 						</CustomToggle> 
 					</Card.Header>
 					<Accordion.Collapse  eventKey="0">
-						<Card.Body style={{borderRadius:"20px",backgroundColor:"gray", display:"flex"}}>
+						<Card.Body style={{borderRadius:"20px",backgroundColor:"rgb(0,0,0,0.8)", display:"flex"}}>
 							{exercise &&
 				<>
 					<div style={CounterContainerStyle}> 

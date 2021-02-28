@@ -6,7 +6,7 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 	if(!currentRegiment[day]){return(null)} //If inactive day
 	return( 
 
-		<form style={{margin:"5px",backgroundColor:"#DDDDDD", display:"flex",flexDirection:"column", border:"1px solid black",
+		<form style={{borderRadius:"20px",margin:"5px",display:"flex",flexDirection:"column", border:"1px solid black",
 			justifyContent:"center",}} onSubmit={(event)=>{event.preventDefault()
 			{/*Append submitted exercise to one of day arrays in currentRegiment*/}
 			if(exercise.trim()){ //no empty strings
@@ -22,8 +22,8 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 				}}
 		}}> 
 
-			<div style={{backgroundColor:"#AAAAAA", display:"flex", flexDirection:"column"}}> {/*exercise input*/}
-				<h2 style={{margin:"20px"}}>{day}</h2> 
+			<div style={{borderRadius:"20px",backgroundColor:"#DDDDDD", display:"flex", flexDirection:"column"}}> {/*exercise input*/}
+				<h2 style={{margin:"20px", color:"black"}}>{day}</h2> 
 				<input value={exercise} name={day} placeholder={day} onChange={(event)=>{
 					if(event.target.value!==" "){
 						setExercise(event.target.value)

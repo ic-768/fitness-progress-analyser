@@ -11,20 +11,16 @@ const ExerciseSubmission=({setWorkouts,daysExercises})=>{
 	//View if no exercises to be done today
 	//TODO allow user to voluntarily do a declared exercise based on cached exercise names
 	if (!daysExercises){
-		/*
-		const exerciseNameCache=exerciseNamesFromWorkouts(workouts)
+		/* const exerciseNameCache=exerciseNamesFromWorkouts(workouts)
 			.filter((name,index)=>( //keep only 1 instance of each name
-				exerciseNamesFromWorkouts(workouts).indexOf(name)===index)
-			)
-			*/
-
+				exerciseNamesFromWorkouts(workouts).indexOf(name)===index)) */ 
 		return(
-			<>
+			<div>
 				<h1>
 			No exercises for today! Get some rest you beast :) 
 				</h1>
 				<button onClick={()=>{history.push("/")}}>Home</button>
-			</> 
+			</div> 
 		)}
 
 	//Actual submission view
@@ -58,7 +54,7 @@ const ExerciseSubmission=({setWorkouts,daysExercises})=>{
 			flexDirection:"column",
 			alignItems:"center"
 		}}>
-			<h2>Today&apos;s exercises</h2> 
+			<h2 style={{marginTop:"30px",marginBottom:"80px"}}>Today&apos;s exercises</h2> 
 			<ul style={{display:"flex", flexWrap:"wrap"}}>
 				{daysExercises.map((exerciseName,i)=>( 
 					<ExerciseCounter key={i} newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={exerciseName}/>

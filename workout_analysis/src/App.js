@@ -59,24 +59,19 @@ function App(){
 
 	return ( 
 		<Router>
-			<div className="App" style={{display:"flex",flexDirection:"column",height:"100vh", backgroundImage:"url(/Media/lockedBackground.jpeg)"}}>
+			<div className="App" style={{display:"flex",flexDirection:"column",height:"100vh", backgroundImage:"url(/Media/kicking.jpg)"}}>
 				{user ? //if user is logged in
 					<>
 						{user.regIsSet
 							?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
 							<>
 								<Banner user={user} logout={()=>{logout(setUser) }}/>  
-								<Container>
+								<Container style={{overflow:"auto",backgroundColor:"rgb(255,255,255,0.94",flexGrow:"1",display:"flex",flexDirection:"column", alignItems:"center" }}>
 									<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
 								</Container>
 							</>
 							:  //if user hasn't set a regiment, do that.
-							<>
-								<Banner />  
-								<Container style={{flexGrow:"1",height:"auto",display:"flex",flexDirection:"column", justifyContent:"center"}}>
-									<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
-								</Container>
-							</>
+							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 						}
 					</>
 					: //if no user, register or login

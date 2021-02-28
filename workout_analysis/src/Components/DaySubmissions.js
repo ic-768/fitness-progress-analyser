@@ -3,10 +3,10 @@ const DaySubmissions=({currentRegiment,setCurrentRegiment, day})=>{
 
 	return(
 		<div key={day} style={{borderRadius:"20px",border:"1px solid green",padding:"10px",margin:"10px", }}>
-			<h2>{day}</h2>
+			<h2 style={{color:"white"}}>{day}</h2>
 			{currentRegiment[day].map((exercise,i)=>( 
 				<div key={i} style={{display:"flex" }}> {/*show each submitted exercise*/}
-					<h5 style={{marginRight:"8px"}}>
+					<h5 style={{color:"white",marginRight:"8px"}}>
 						{exercise}
 					</h5> 
 					{/*remove exercise*/}

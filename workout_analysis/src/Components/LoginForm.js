@@ -24,7 +24,7 @@ const LoginForm=({submitCredentials, setUser})=>{
 							setPassword(event.target.value) }}/> 
 					</div>
 					<div>
-						<button style={{width:"80px",height:"40px"}}><h4 >submit</h4></button> 
+						<button style={{width:"80px",height:"40px",padding:"5px"}}><h4 >submit</h4></button> 
 					</div>
 				</div>
 				<h2 style={{marginTop:"auto"}}>New? <Link style={{color:"turquoise"}} to="/register"> Register </Link></h2>

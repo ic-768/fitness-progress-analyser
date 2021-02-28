@@ -4,6 +4,8 @@ import Button  from "react-bootstrap/Button"
 import Analysis from "./Analysis"
 import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
+import { BiBoltCircle, BiArchiveOut } from "react-icons/bi"
+import { GiBoltEye } from "react-icons/gi"
 
 const HeadQuarters=({setWorkouts,workouts, daysExercises})=>{
 	const history = useHistory()
@@ -21,27 +23,31 @@ const HeadQuarters=({setWorkouts,workouts, daysExercises})=>{
 					<Analysis workouts={workouts}/> 
 				</Route>
 				<Route path="/">
-					<div> 
-						<p>Welcome! This is the home page. From here you can submit
-			a new exercise, see your workout history,or head over to the analysis page and see your progress.
-						</p>
-						<div>
-						</div>
-						<div>
-							<Button variant="dark" onClick={()=>{history.push("/dailySubmission")}}>
-				Submit today&apos;s workout
-							</Button>
-						</div>
-						<Button variant="dark" onClick={()=>{history.push("/analysis")}}>
-				See your performance!
-						</Button>
-						<Button variant="dark" onClick={()=>{history.push("/history")}}>
-				See your workout history!
-						</Button>
-						<div>
-							<div>
+					<h1 style={{padding:"20px",borderRadius:"20px",backgroundColor:"black",color:"white",marginTop:"40px",marginBottom:"40px",}}>Welcome!</h1>
+					<div style={{flexGrow:"1", display:"flex", flexDirection:"column",
+						justifyContent:"center",alignItems:"center",
+					}}> 
+						<div style={{display:"flex", justifyContent:"space-between",backgroundColor:"cornflowerblue", borderRadius:"38px"}}>
+							<div style={{width:"190px",margin:"40px",alignItems:"center",display:"flex", flexDirection:"column"}}>
+								<h3 style={{marginTop:"50px",}}>Performance</h3>
+								<Button style={{width:"180px", height:"180px", borderRadius:"50%"}} variant="dark" onClick={()=>{history.push("/analysis")}}>
+									<BiBoltCircle size="150px"/>
+								</Button>
 							</div>
-		HeadQuarters
+							<div style={{width:"190px",margin:"40px",alignItems:"center",display:"flex", flexDirection:"column"}}>
+								<h3 style={{whiteSpace:"nowrap",}}>Submit Workout</h3>
+								<Button style={{width:"180px", height:"180px", borderRadius:"50%"}} variant="dark" onClick={()=>{history.push("/dailySubmission")}}>
+									<BiArchiveOut size="150px"/>
+								</Button>
+							</div>
+							<div style={{width:"190px",margin:"40px",alignItems:"center",display:"flex", flexDirection:"column"}}>
+								<h3 style={{marginTop:"50px",color:"black"}}>History</h3>
+								<Button style={{width:"180px", height:"180px", borderRadius:"50%"}} variant="dark" onClick={()=>{history.push("/history")}}>
+									<GiBoltEye size="150px"/>
+								</Button>
+							</div>
+						</div>
+						<div>
 						</div>
 					</div>
 				</Route>
