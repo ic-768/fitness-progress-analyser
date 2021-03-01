@@ -41,6 +41,34 @@ const Analysis=({workouts})=>{
 
 	return(
 		<div style={{display:"flex", flexDirection:"column", justifyContent:"center",alignContent:"center",alignItems:"center"}}>
+			<Switch> 
+				<Route path="/analysis/daily"> 
+					{selection && (
+						<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
+							<h2 style={{marginBottom:"10px",color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>Daily</h2>
+							<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"daily")} />
+						</div>
+					)}
+				</Route>
+				<Route path="/analysis/monthly">
+					{selection && (
+						<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
+							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>Monthly</h2>
+							<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"monthly")} />
+						</div>
+					)}
+				</Route>
+				<Route path="/analysis/all">
+					{selection && (
+						<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
+							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>All-time</h2>
+							<AnalysisPlot analysis={allTimeAnalysis(workouts,selection||suggestions[0])}/>
+						</div>
+					)}
+				</Route>
+				<Route path ="/analysis/"> {/*Nicer view if no analysis*/}
+				</Route>
+			</Switch>
 			<div>
 				<input style={{marginTop:"20px"}} onChange={(event)=>{ //filter suggestions
 					setSuggestions(exerciseNameCache.filter((name)=>(
@@ -73,34 +101,6 @@ const Analysis=({workouts})=>{
 					)} </ul>)  
 				: (<h2 style={{margin:"40px 0 40px 0",color:"black"}}>Too many suggestions to show!</h2>)}
 
-			<Switch> 
-				<Route path="/analysis/daily"> 
-					{selection && (
-						<div style={{marginTop:"40px",display:"flex", flexDirection:"column", alignItems:"center"}}>
-							<h2 style={{marginBottom:"80px",color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>Daily</h2>
-							<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"daily")} />
-						</div>
-					)}
-				</Route>
-				<Route path="/analysis/monthly">
-					{selection && (
-						<div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>Monthly</h2>
-							<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"monthly")} />
-						</div>
-					)}
-				</Route>
-				<Route path="/analysis/all">
-					{selection && (
-						<div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>All-time</h2>
-							<AnalysisPlot analysis={allTimeAnalysis(workouts,selection||suggestions[0])}/>
-						</div>
-					)}
-				</Route>
-				<Route path ="/analysis/"> {/*Nicer view if no analysis*/}
-				</Route>
-			</Switch>
 		</div>
 	)
 }

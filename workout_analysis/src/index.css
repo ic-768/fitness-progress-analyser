@@ -18,23 +18,25 @@ button{color:white;
 
 /* Animations prefixed with .a */
 .a-routeFadeIn {
-	animation: a-routeFadeIn 0.5s ease-in-out 0.2s;
+	animation: a-routeFadeIn 0.5s ease-in-out 0.35s;
 	animation-fill-mode: both;
 }
 
 @keyframes a-routeFadeIn {
 	0% {
 		opacity: 0;
-		height: 0;
-		overflow: hidden;
-	}
-	0.01% {
-		height: auto;
 		overflow: visible;
 	}
+	
 	100% {
 		opacity: 1;
 	}
+}
+.a-routeFadeIn.fade-exit {
+	animation: none;
+	animation-fill-mode: none;
+	opacity: 1;
+	transition: opacity 0.2s ease-in-out;
 }
 
 .a-routeFadeIn.fade-exit {

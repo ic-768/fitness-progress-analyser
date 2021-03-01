@@ -25,7 +25,7 @@ const DaySubmissions=({currentRegiment,setCurrentRegiment, day})=>{
 												name!=exercise)
 											)}
 
-									)}><h5 style={{color:"white"}}>submit</h5>
+									)}><h5 style={{color:"white"}}>remove</h5>
 								</button>
 							</div>
 						</div>

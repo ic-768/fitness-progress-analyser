@@ -1,8 +1,10 @@
 import React,{useState,useEffect} from "react"
-import {BrowserRouter as Router,
+import {
 	Switch,
 	Route,
+	useLocation
 } from "react-router-dom"
+import {CSSTransition, TransitionGroup} from "react-transition-group"
 
 import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
@@ -17,6 +19,7 @@ import {login,logout}from "./Functions/userFunctions"
 
 
 function App(){ 
+	const location=useLocation()
 
 	/*user contains authorization token, username, and flag to show if a target regiment has been set.
 	 User workouts history is sent to localStorage on log-in*/
@@ -58,37 +61,47 @@ function App(){
 	,[currentRegiment])
 
 	return ( 
-		<Router>
-			<div className="App" style={{display:"flex",flexDirection:"column",height:"100vh", backgroundImage:"url(/Media/kicking.jpg)"}}>
-				{user ? //if user is logged in
-					<>
-						{user.regIsSet
-							?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
-							<>
-								<Banner user={user} logout={()=>{logout(setUser) }}/>  
-								<Container style={{overflow:"auto",backgroundColor:"rgb(255,255,255,0.94",flexGrow:"1",display:"flex",flexDirection:"column", alignItems:"center" }}>
-									<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
-								</Container>
-							</>
-							:  //if user hasn't set a regiment, do that.
-							<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
-						}
-					</>
-					: //if no user, register or login
-					<div style={{backgroundImage:("url(/Media/kicking.jpg"), //in public folder
-						height:"100%",display:"flex", justifyContent:"center", alignItems:"flex-start"}}>
-						<Switch>
-							<Route path="/register">
-								<RegisterForm submitCredentials={registerService.register}/>
-							</Route>
-							<Route path="/">
-								<LoginForm submitCredentials={login} setUser={setUser}/> 
-							</Route>
-						</Switch> 
-					</div>
-				}
-			</div>
-		</Router>
+		<div className="App" style={{display:"flex",flexDirection:"column",height:"100vh", backgroundImage:"url(/Media/kicking.jpg)"}}>
+			{user ? //if user is logged in
+				<>
+					{user.regIsSet
+						?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
+						<>
+							<Banner user={user} logout={()=>{logout(setUser) }}/>  
+							<Container style={{overflow:"auto",backgroundColor:"rgb(255,255,255,0.94",flexGrow:"1",display:"flex",flexDirection:"column", alignItems:"center" }}>
+								<TransitionGroup style={{flexGrow:"1",display:"flex", }}>
+									<CSSTransition
+										key={location}
+										timeout={{ enter: 500, exit: 200 }}>
+										<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
+									</CSSTransition>
+								</TransitionGroup>
+							</Container>
+						</>
+						:  //if user hasn't set a regiment, do that.
+						<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+					}
+				</>
+				: //if no user, register or login
+				<div style={{backgroundImage:("url(/Media/kicking.jpg"), //in public folder
+					height:"100%",display:"flex", justifyContent:"center", alignItems:"flex-start"}}>
+					<TransitionGroup style={{flexGrow:"1",display:"flex", flexDirection:"column"}}>
+						<CSSTransition
+							key={location}
+							timeout={{ enter: 500, exit: 200 }}>
+							<Switch>
+								<Route path="/register">
+									<RegisterForm submitCredentials={registerService.register}/>
+								</Route>
+								<Route path="/">
+									<LoginForm submitCredentials={login} setUser={setUser}/> 
+								</Route>
+							</Switch> 
+						</CSSTransition>
+					</TransitionGroup>
+				</div>
+			}
+		</div>
 	) 
 } 
 
