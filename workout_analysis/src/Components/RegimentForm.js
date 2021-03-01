@@ -38,7 +38,7 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 	},[currentRegiment]) //Make submission button appear only once everything is filled
 
 	return(
-		<div style={{display:"flex", flexDirection:"column", alignItems:"center",marginTop:"20px",height:"100%",}}>
+		<div className="HomeRoute a-routeFadeIn" style={{display:"flex", flexDirection:"column", alignItems:"center",marginTop:"20px",height:"100%",}}>
 
 			<div style={{marginBottom:"40px",padding:"0 25px 0 25px",borderRadius:"40px",backgroundColor:"white"}}>
 				<h1 >Time to fill out your weekly regiment!  <MdFitnessCenter/></h1>
@@ -60,6 +60,8 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 							<DaySubmissions key={day} day={day} setCurrentRegiment={setCurrentRegiment}currentRegiment={currentRegiment}/> 
 						)})}
 				</div>
+			</div >
+			<div>
 				<Button style={{backgroundColor:"green",visibility:submissionVisibility,
 					marginBottom:"80px",width:"80px",height:"80px",
 					borderRadius:"20px",paddingRight:"0px",paddingLeft:"0px"}}
@@ -74,7 +76,7 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 					<h4>Back</h4>
 				</Button>   
 			</div>
-		</div >
+		</div>
 	)
 }
 export default RegimentForm

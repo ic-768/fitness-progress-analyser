@@ -16,7 +16,7 @@ const LoginForm=({submitCredentials, setUser})=>{
 				<div style={{marginTop:"10vh",display:"flex", flexDirection:"column",
 					backgroundColor: "rgba(100, 100, 100, 0.5)", borderRadius:"5px",padding:"20px",
 					justifyContent:"center", alignItems:"center"}}>
-					<h1>Log in</h1>
+					<h1 style={{color:"white"}}>Log in</h1>
 					<div>
 						<input style={inputStyle} value={username} placeholder="username" onChange={(event)=>{
 							setUsername(event.target.value) }}/>
@@ -24,10 +24,10 @@ const LoginForm=({submitCredentials, setUser})=>{
 							setPassword(event.target.value) }}/> 
 					</div>
 					<div>
-						<button style={{width:"80px",height:"40px",padding:"5px"}}><h4 >submit</h4></button> 
+						<button style={{width:"80px",height:"40px",padding:"5px"}}>submit</button> 
 					</div>
 				</div>
-				<h2 style={{marginTop:"auto"}}>New? <Link style={{color:"turquoise"}} to="/register"> Register </Link></h2>
+				<h2 style={{marginTop:"auto",color:"white"}}>New? <Link style={{color:"turquoise"}} to="/register"> Register </Link></h2>
 			</form>	
 		</>
 	)
