@@ -7,14 +7,14 @@ import ExerciseSubmission from "./ExerciseSubmission"
 import { BiBoltCircle, BiArchiveOut } from "react-icons/bi"
 import { GiBoltEye } from "react-icons/gi"
 
-const HeadQuarters=({setWorkouts,workouts, daysExercises})=>{
+const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDaysExercises})=>{
 	const history = useHistory()
 	
 	return (
 		<div style={{display:"flex",flexDirection:"column",flexGrow:"1", }}className="HomeRoute a-routeFadeIn">
 			<Switch>
 				<Route path="/dailySubmission">
-					<ExerciseSubmission setWorkouts={setWorkouts} daysExercises={daysExercises}/>
+					<ExerciseSubmission currentRegiment={currentRegiment}setWorkouts={setWorkouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
 				</Route>
 				<Route path="/history"> 
 					<History workouts={workouts}/> 

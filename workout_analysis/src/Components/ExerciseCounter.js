@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button"
 import Accordion from "react-bootstrap/Accordion"
 import Card from "react-bootstrap/Card"
 import {useAccordionToggle} from "react-bootstrap/AccordionToggle"
-import {MdDone} from "react-icons/md"
-import {MdClear} from "react-icons/md"
+import {GoEyeClosed} from "react-icons/go"
+import {AiFillEye} from "react-icons/ai"
 
 const CounterButtonStyle={margin:"10px", height:"60px", width:"60px", borderRadius:"50%" }
 const CounterContainerStyle={alignItems:"center", margin:"5px",backgroundColor:"white", borderRadius:"30px", display:"flex",flexDirection:"column"}
@@ -23,25 +23,38 @@ function CustomToggle({ children, eventKey,finished, setFinished }) {
 		</Button>
 	)
 }
-
-const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{ 
-	const [exercise,setExercise] = useState(undefined) // dummy to hold values
+const ExerciseCounter=({newWorkout, setNewWorkout,indexInArray,exerciseName})=>{ 
+	const [exercise,setExercise] = useState({name:exerciseName, reps:1, sets:1}) // dummy to hold values
 	const [finished,setFinished] = useState(false) // finished workout (or skipped)
 
-	const decrement=(number)=>( //1 set of 1 reps is minimum submittable 
-		number-1 || 1
-	)
+	console.log(newWorkout)
 
-	useEffect(()=>{ //Every time a change happens to exercise, update newWorkout
-		setNewWorkout({...newWorkout,[exerciseName]:exercise}) 
+	useEffect(()=>{
+		if (newWorkout[indexInArray]==exercise){return}
+		else{
+			const oldWorkout=[...newWorkout]
+			oldWorkout[indexInArray]=exercise
+			setNewWorkout(oldWorkout) 
+		}
+	},[newWorkout])
+
+	useEffect(()=>{
+		if(exercise){ 
+			if(newWorkout.length>0){ // update exercise in outside array
+				const oldArray=[...newWorkout]
+				oldArray[indexInArray]=exercise
+				setNewWorkout(oldArray)
+			} 
+			else{ //If first exercise
+				setNewWorkout([exercise]) 
+			} 
+		} 
 	},[exercise])
 
-	useEffect(()=>{ // Same for finished
-		finished 
-			? setExercise({reps:1,sets:1})
-			: setExercise(undefined)
-		setNewWorkout({...newWorkout,[exerciseName]:exercise}) 
-	},[finished])
+
+	const decrement=(number)=>( //1 set of 1 reps is minimum submittable 
+		number-1 || 1)
+
 
 	return(
 		<div> 
@@ -51,8 +64,8 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 						<h3 style={{color:"black"}}>{exerciseName} </h3>
 						<CustomToggle finished={finished} setFinished={setFinished} eventKey="0"> 
 							{finished 
-								?<MdClear/>
-								:<MdDone/>} 
+								?<GoEyeClosed/>
+								:<AiFillEye/>} 
 						</CustomToggle> 
 					</Card.Header>
 					<Accordion.Collapse  eventKey="0">
@@ -60,7 +73,6 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 							{exercise &&
 				<>
 					<div style={CounterContainerStyle}> 
-
 						<Button style={CounterButtonStyle} onClick={()=>{
 							if(finished){
 								setExercise({...exercise, reps:exercise.reps+1})
@@ -80,14 +92,20 @@ const ExerciseCounter=({newWorkout, setNewWorkout,exerciseName})=>{
 					<div className="d-flex" style={CounterContainerStyle}> 
 
 						<Button style={CounterButtonStyle} onClick={()=>{
-							if(finished){
+							if(finished){ 
 								setExercise({...exercise, sets:exercise.sets+1}) 
-							}}}><h1>+</h1></Button>
+							}}}
+							
+						><h1>+</h1></Button>
+
 						<h3>{exercise.sets}</h3>
 						<Button style={CounterButtonStyle} onClick={()=>{
+
 							if(finished){
 								setExercise({...exercise, sets:decrement(exercise.sets)}) 
-							}}}><h1>-</h1></Button>
+							}}}
+							
+						><h1>-</h1></Button>
 
 						<h3>sets</h3>
 					</div> 

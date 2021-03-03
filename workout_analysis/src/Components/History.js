@@ -12,7 +12,7 @@ const History=({workouts})=>{
 		setFilteredWorkouts(
 			workouts.map((workout)=>{ 
 				/* If no match, result will be empty array. */
-				const result= filterExercises(workout.exercises,filter)
+				const result=filterExercises(workout.exercises,filter)
 				if(result.length!==0){return(workout)}  //if non-empty array
 			}).filter((value)=>value!=undefined))
 	}

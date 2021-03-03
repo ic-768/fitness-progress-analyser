@@ -16,6 +16,7 @@ import Container from "react-bootstrap/Container"
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
 import {login,logout}from "./Functions/userFunctions"
+import { setTodaysExercises } from "./Functions/workoutFunctions"
 
 
 function App(){ 
@@ -48,15 +49,8 @@ function App(){
 
 	useEffect(()=>{ //Set exercises of today's workout
 		if(user){ 
-			const day=(new Date()).getDay() //Sunday starts at 0 with Date method - with currentRegiment array at 6.
-			if (day===0){ //Case when Sunday
-				const exercisesForToday=(Object.values(currentRegiment)[6]) 
-				setDaysExercises(exercisesForToday)
-			}
-			else{ //For all other days we can just -1.
-				const exercisesForToday=(Object.values(currentRegiment)[day-1]) 
-				setDaysExercises(exercisesForToday) 
-			}}
+			setTodaysExercises(currentRegiment, setDaysExercises)
+		}
 	}
 	,[currentRegiment])
 
@@ -73,7 +67,7 @@ function App(){
 									<CSSTransition
 										key={location}
 										timeout={{ enter: 500, exit: 200 }}>
-										<Headquarters setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises}/>
+										<Headquarters currentRegiment={currentRegiment}setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
 									</CSSTransition>
 								</TransitionGroup>
 							</Container>

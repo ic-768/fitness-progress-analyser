@@ -2,18 +2,16 @@ import React,{useState} from "react"
 import {useHistory} from "react-router-dom"
 
 import ExerciseCounter from "../Components/ExerciseCounter"
-import exerciseService from "../Services/exercises" 
-//import { exerciseNamesFromWorkouts} from "../Functions/workoutFunctions"
+//import exerciseService from "../Services/exercises" 
+import {setTodaysExercises} from "../Functions/workoutFunctions"
 
-const ExerciseSubmission=({setWorkouts,daysExercises})=>{ 
+const ExerciseSubmission=({currentRegiment,
+	//setWorkouts,
+	daysExercises,setDaysExercises})=>{ 
+	const uniqueNames=[... new Set(daysExercises)]
 	const history=useHistory()
 
-	//View if no exercises to be done today
-	//TODO allow user to voluntarily do a declared exercise based on cached exercise names
 	if (!daysExercises){
-		/* const exerciseNameCache=exerciseNamesFromWorkouts(workouts)
-			.filter((name,index)=>( //keep only 1 instance of each name
-				exerciseNamesFromWorkouts(workouts).indexOf(name)===index)) */ 
 		return(
 			<div>
 				<h1>
@@ -23,21 +21,19 @@ const ExerciseSubmission=({setWorkouts,daysExercises})=>{
 			</div> 
 		)}
 
-	//Actual submission view
-	const myObj={}
-	daysExercises.forEach((exercise)=>{
-		myObj[exercise]=undefined
-	})
-	const [newWorkout, setNewWorkout]=useState(myObj)
-
+	const [newWorkout, setNewWorkout]=useState([])
+	const [removedExercises, setRemovedExercises]=useState([])
 
 	const submitWorkout=async ()=>{
-		const validEntries = Object.keys(newWorkout) // Non-null entries, and non-empty arrays
+		console.log("newWorkout is",newWorkout)
+
+		/*const validEntries = newWorkout // Non-null entries, and non-empty arrays
 			.filter((exercise) =>  
 				newWorkout[exercise] != null && 
 				newWorkout[exercise].length!=0) 
 
-		if (Object.entries(validEntries).length>0) {
+		if (validEntries.length>0) {
+			
 			const sentWorkout=await exerciseService.sendWorkout(newWorkout) //server response to new workout submission 
 			const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
 			window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local Storage
@@ -47,19 +43,44 @@ const ExerciseSubmission=({setWorkouts,daysExercises})=>{
 		else{
 			console.log("Couldn't find a single submitted exercise :/")
 		}
+			*/
 	} 
-
+	
+	//TODO Ensure backend can deal with this, REFACTOR
 	return ( 
 		<div style={{display:"flex", 
 			flexDirection:"column",
 			alignItems:"center"
 		}}>
+			{removedExercises.map((exercise)=>(
+				<div onClick={()=>{setRemovedExercises(removedExercises.filter((name)=>(name!=exercise)));setDaysExercises(daysExercises.concat(exercise))}}key={exercise}>{ exercise }</div>
+			))
+			}
+
 			<h2 style={{marginTop:"30px",marginBottom:"80px"}}>Today&apos;s exercises</h2> 
 			<ul style={{display:"flex", flexWrap:"wrap"}}>
-				{daysExercises.map((exerciseName,i)=>( 
-					<ExerciseCounter key={i} newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={exerciseName}/>
-				))}
+
+				{/*Create area for each exercise*/
+					uniqueNames.map((uniqueName) => ( 
+						<div key={uniqueName}>
+							<button onClick={()=>{setDaysExercises(daysExercises.concat(uniqueName))}}> Add set </button> 
+							<button onClick={()=>{setNewWorkout(newWorkout.filter((name)=>(name==uniqueName)));setRemovedExercises(removedExercises.concat(uniqueName));setDaysExercises(daysExercises.filter((name)=>(uniqueName!==name)))}}> Remove </button> 
+							{	daysExercises.map((exerciseName,i)=>{ 
+								if (exerciseName==uniqueName){ //append all ExerciseCounters to their respective divs
+									return( 
+										<div key={`${i} ${exerciseName}`}> 
+											<ExerciseCounter newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={exerciseName} indexInArray={i}/>
+											{/*Submit another instance of same exercise (for different reps)*/} 
+										</div>
+									)
+								}
+						
+							})}
+						</div> 
+					))
+				}
 			</ul>
+			<button onClick={()=>{setRemovedExercises([]);setTodaysExercises(currentRegiment,setDaysExercises);setNewWorkout([]) }}> reset </button> {/*Remove extra*/}
 			<button onClick={()=>submitWorkout(newWorkout)}>submit!</button>
 			<button onClick={()=>{history.push("/")}}>Home</button>
 		</div>

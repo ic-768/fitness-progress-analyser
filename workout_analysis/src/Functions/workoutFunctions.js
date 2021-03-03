@@ -1,3 +1,15 @@
+export const setTodaysExercises = (currentRegiment, setDaysExercises) => { 
+	const day=(new Date()).getDay() //Sunday starts at 0 with Date method - with currentRegiment array at 6.
+	if (day===0){ //Case when Sunday
+		const exercisesForToday=(Object.values(currentRegiment)[6]) 
+		setDaysExercises(exercisesForToday)
+	}
+	else{ //For all other days we can just -1.
+		const exercisesForToday=(Object.values(currentRegiment)[day-1]) 
+		setDaysExercises(exercisesForToday) 
+	} 
+}
+
 export const exercisesFromWorkouts=(workouts)=>{ //exercise data is nested a bit deep
 	const exerciseArray = [] 
 	workouts.map((dayObject)=>(dayObject.exercises))
