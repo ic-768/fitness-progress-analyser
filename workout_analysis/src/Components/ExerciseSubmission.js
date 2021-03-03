@@ -2,11 +2,11 @@ import React,{useState} from "react"
 import {useHistory} from "react-router-dom"
 
 import ExerciseCounter from "../Components/ExerciseCounter"
-//import exerciseService from "../Services/exercises" 
+import exerciseService from "../Services/exercises" 
 import {setTodaysExercises} from "../Functions/workoutFunctions"
 
 const ExerciseSubmission=({currentRegiment,
-	//setWorkouts,
+	setWorkouts,
 	daysExercises,setDaysExercises})=>{ 
 	const uniqueNames=[... new Set(daysExercises)]
 	const history=useHistory()
@@ -27,23 +27,26 @@ const ExerciseSubmission=({currentRegiment,
 	const submitWorkout=async ()=>{
 		console.log("newWorkout is",newWorkout)
 
-		/*const validEntries = newWorkout // Non-null entries, and non-empty arrays
-			.filter((exercise) =>  
-				newWorkout[exercise] != null && 
-				newWorkout[exercise].length!=0) 
+		if(newWorkout.length>0){
+			const validEntries = newWorkout // Non-empty
+				.filter((_,i) =>  
+					newWorkout[i] && true)
 
-		if (validEntries.length>0) {
-			
-			const sentWorkout=await exerciseService.sendWorkout(newWorkout) //server response to new workout submission 
-			const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
-			window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local Storage
-			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))//update state
-			history.push("/") 
-		} 
+			if (validEntries.length>0) { 
+				const sentWorkout=await exerciseService.sendWorkout(newWorkout) //server response to new workout submission 
+				const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
+				window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local Storage
+				setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))//update state
+				history.push("/") 
+			} 
+			else{
+				console.log("No valid entries")
+			}
+		}
 		else{
 			console.log("Couldn't find a single submitted exercise :/")
 		}
-			*/
+			
 	} 
 	
 	//TODO Ensure backend can deal with this, REFACTOR

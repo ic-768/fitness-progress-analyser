@@ -9,38 +9,37 @@ import {AiFillEye} from "react-icons/ai"
 const CounterButtonStyle={margin:"10px", height:"60px", width:"60px", borderRadius:"50%" }
 const CounterContainerStyle={alignItems:"center", margin:"5px",backgroundColor:"white", borderRadius:"30px", display:"flex",flexDirection:"column"}
 
-function CustomToggle({ children, eventKey,finished, setFinished }) { 
+function CustomToggle({ children, eventKey,open, setOpen }) { 
 	const decoratedOnClick = useAccordionToggle(
 		eventKey,
-		() => setFinished(!finished)
+		() => setOpen(!open)
 	) 
 	return (
 		<Button
-			style={{ color:"white",backgroundColor: finished ? "red" : "green" }}
+			style={{ color:"white",backgroundColor: open ? "red" : "green" }}
 			onClick={decoratedOnClick}
 		>
 			{children}
-		</Button>
-	)
-}
+		</Button>)}
+
 const ExerciseCounter=({newWorkout, setNewWorkout,indexInArray,exerciseName})=>{ 
-	const [exercise,setExercise] = useState({name:exerciseName, reps:1, sets:1}) // dummy to hold values
-	const [finished,setFinished] = useState(false) // finished workout (or skipped)
+	const [exercise,setExercise] = useState({name:exerciseName, reps:1, sets:1})
+	const [open,setOpen] = useState(false) // if counter is expanded 
 
 	console.log(newWorkout)
 
-	useEffect(()=>{
-		if (newWorkout[indexInArray]==exercise){return}
+	useEffect(()=>{ // To handle outside changes to newWorkout (can trigger itself, but if statement returns it)
+		if (newWorkout[indexInArray]==exercise){return} //is up to date
 		else{
-			const oldWorkout=[...newWorkout]
+			const oldWorkout=[...newWorkout] // mutably update oldWorkout
 			oldWorkout[indexInArray]=exercise
-			setNewWorkout(oldWorkout) 
+			setNewWorkout(oldWorkout) //to immutably update state
 		}
 	},[newWorkout])
 
-	useEffect(()=>{
+	useEffect(()=>{ // update newWorkout
 		if(exercise){ 
-			if(newWorkout.length>0){ // update exercise in outside array
+			if(newWorkout.length>0){
 				const oldArray=[...newWorkout]
 				oldArray[indexInArray]=exercise
 				setNewWorkout(oldArray)
@@ -49,12 +48,10 @@ const ExerciseCounter=({newWorkout, setNewWorkout,indexInArray,exerciseName})=>{
 				setNewWorkout([exercise]) 
 			} 
 		} 
-	},[exercise])
-
+	},[exercise]) 
 
 	const decrement=(number)=>( //1 set of 1 reps is minimum submittable 
-		number-1 || 1)
-
+		number-1 || 1) 
 
 	return(
 		<div> 
@@ -62,8 +59,8 @@ const ExerciseCounter=({newWorkout, setNewWorkout,indexInArray,exerciseName})=>{
 				<Card>
 					<Card.Header style={{border:"none",width:"100%"}}>
 						<h3 style={{color:"black"}}>{exerciseName} </h3>
-						<CustomToggle finished={finished} setFinished={setFinished} eventKey="0"> 
-							{finished 
+						<CustomToggle open={open} setOpen={setOpen} eventKey="0"> 
+							{open 
 								?<GoEyeClosed/>
 								:<AiFillEye/>} 
 						</CustomToggle> 
@@ -74,40 +71,32 @@ const ExerciseCounter=({newWorkout, setNewWorkout,indexInArray,exerciseName})=>{
 				<>
 					<div style={CounterContainerStyle}> 
 						<Button style={CounterButtonStyle} onClick={()=>{
-							if(finished){
+							if(open){
 								setExercise({...exercise, reps:exercise.reps+1})
-							}}}><h1>+</h1></Button>
+							}}}><h1>+</h1>
+						</Button>
 						<h3>{exercise.reps} </h3>
 
 						<Button style={CounterButtonStyle} onClick={()=>{
-							if(finished){
+							if(open){
 								setExercise({...exercise, reps:decrement(exercise.reps)})
-							}}}><h1>-</h1></Button>
-						<h3>reps</h3>
-
-					</div>
-					<div style={{color:"white"}}>
+							}}}><h1>-</h1>
+						</Button>
+						<h3>reps</h3> 
 					</div>
 
 					<div className="d-flex" style={CounterContainerStyle}> 
-
 						<Button style={CounterButtonStyle} onClick={()=>{
-							if(finished){ 
-								setExercise({...exercise, sets:exercise.sets+1}) 
-							}}}
-							
-						><h1>+</h1></Button>
-
+							if(open){ 
+								setExercise({...exercise, sets:exercise.sets+1}) }}} ><h1>+</h1>
+						</Button> 
 						<h3>{exercise.sets}</h3>
-						<Button style={CounterButtonStyle} onClick={()=>{
-
-							if(finished){
+						<Button style={CounterButtonStyle} onClick={()=>{ 
+							if(open){
 								setExercise({...exercise, sets:decrement(exercise.sets)}) 
-							}}}
-							
-						><h1>-</h1></Button>
-
-						<h3>sets</h3>
+							}}} ><h1>-</h1>
+						</Button> 
+						<h3>sets</h3> 
 					</div> 
 				</>}
 						</Card.Body>

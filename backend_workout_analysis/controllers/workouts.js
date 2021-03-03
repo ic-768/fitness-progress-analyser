@@ -29,14 +29,12 @@ workoutRouter.post('/', async(request, response) => {
 	if(!succeeded){ // Verification failure
 		return response.status(401).json({error:"token missing or invalid"})
 	}
-
-	const formattedData=[] //create array of appropriate objects (move name from key value to "name" field, etc.)
-	Object.entries(body).forEach((entry)=>{formattedData.push({name:entry[0],sets:entry[1].sets,reps:entry[1].reps} )})
+	console.log(body)
 
 	const user = await User.findById(decodedToken.id)
-  user.days=user.days.concat({date:Date(), exercises:formattedData}) 
+  user.days=user.days.concat({date:new Date(), exercises:body}) 
 	await user.save()
-	response.status(201).json({date:new Date(), exercises:formattedData})
+	response.status(201).json({date:new Date(), exercises:body})
 })
 
 workoutRouter.patch('/regiment', async(request, response) => { //set target regiment

@@ -24,8 +24,8 @@ const HistoryWorkout = ({workout}) => {
 						{workout.exercises.map((exercise,index) => (
 							<tr key={index}>
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.name}</h3></td>
-								<td className="col-1"><h3 style={{color:"white"}}>{exercise.sets}</h3></td>
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.reps}</h3></td>
+								<td className="col-1"><h3 style={{color:"white"}}>{exercise.sets}</h3></td>
 							</tr>
 						))}
 					</tbody>
