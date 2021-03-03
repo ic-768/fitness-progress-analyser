@@ -63,13 +63,7 @@ function App(){
 						<>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
 							<Container style={{overflow:"auto",backgroundColor:"rgb(255,255,255,0.94",flexGrow:"1",display:"flex",flexDirection:"column", alignItems:"center" }}>
-								<TransitionGroup style={{flexGrow:"1",display:"flex", }}>
-									<CSSTransition
-										key={location}
-										timeout={{ enter: 500, exit: 200 }}>
-										<Headquarters currentRegiment={currentRegiment}setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
-									</CSSTransition>
-								</TransitionGroup>
+								<Headquarters currentRegiment={currentRegiment}setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
 							</Container>
 						</>
 						:  //if user hasn't set a regiment, do that.

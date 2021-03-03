@@ -1,6 +1,5 @@
-import React,{useState} from "react" 
-import {datedAnalysis,allTimeAnalysis,exerciseNamesFromWorkouts} from "../Functions/workoutFunctions"
-import {Route,Switch,useHistory} from "react-router-dom"
+import React,{useState, useEffect} from "react" 
+import {allTimeAnalysis,exerciseNamesFromWorkouts, datedAnalysis} from "../Functions/workoutFunctions"
 import Button from "react-bootstrap/Button"
 import Tooltip from "react-bootstrap/Tooltip"
 import Dropdown from "react-bootstrap/Dropdown"
@@ -8,10 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 import AnalysisPlot from "./AnalysisPlot"
 
-
 const Analysis=({workouts})=>{
-
-	if(!workouts){return(<div>Workouts haven not been loaded</div>)}
 
 	/***************STYLING******************/
 	const toolTipButtonStyle={
@@ -35,40 +31,31 @@ const Analysis=({workouts})=>{
 			if repetition of element in array, it will not equal the index of the first
 			element, thus being discarded */
 		)
-	const [suggestions,setSuggestions]=useState([])
-	const [selection,setSelection]=useState() 
-	const history = useHistory()
+	const [suggestions,setSuggestions]=useState([]) 
+	const [selection,setSelection]=useState(null)  //Selection to be analysed
+	const [analysisType,setAnalysisType]=useState(null)  //Daily/Monthly/All-Time
+	const [analysisResults,setAnalysisResults]=useState(null)  //Data from analysis
 
+	useEffect(()=>{
+		if(analysisType==="Daily"){
+			setAnalysisResults(datedAnalysis(workouts,selection||suggestions[0],"daily"))
+		}
+		else if(analysisType==="Monthly"){
+			setAnalysisResults(datedAnalysis(workouts,selection||suggestions[0],"monthly"))
+		} 
+		else{setAnalysisResults(allTimeAnalysis(workouts,selection||suggestions[0])) }
+
+	},[selection, analysisType])
+	
 	return(
 		<div style={{display:"flex", flexDirection:"column", justifyContent:"center",alignContent:"center",alignItems:"center"}}>
-			<Switch> 
-				<Route path="/analysis/daily"> 
-					{selection && (
+			{ analysisResults && 
+					(
 						<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
-							<h2 style={{marginBottom:"10px",color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>Daily</h2>
-							<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"daily")} />
+							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>{analysisType}</h2>
+							<AnalysisPlot analysis={analysisResults}/>
 						</div>
 					)}
-				</Route>
-				<Route path="/analysis/monthly">
-					{selection && (
-						<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
-							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>Monthly</h2>
-							<AnalysisPlot analysis={datedAnalysis(workouts,selection||suggestions[0],"monthly")} />
-						</div>
-					)}
-				</Route>
-				<Route path="/analysis/all">
-					{selection && (
-						<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
-							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>All-time</h2>
-							<AnalysisPlot analysis={allTimeAnalysis(workouts,selection||suggestions[0])}/>
-						</div>
-					)}
-				</Route>
-				<Route path ="/analysis/"> {/*Nicer view if no analysis*/}
-				</Route>
-			</Switch>
 			<div>
 				<input style={{marginTop:"20px"}} onChange={(event)=>{ //filter suggestions
 					setSuggestions(exerciseNameCache.filter((name)=>(
@@ -92,9 +79,9 @@ const Analysis=({workouts})=>{
 							Analyse 
 								</Dropdown.Toggle>
 								<Dropdown.Menu>
-									<Dropdown.Item onClick={()=>{setSelection(suggestions[index]);history.push("/analysis/daily")}}> Daily</Dropdown.Item>
-									<Dropdown.Item onClick={()=>{setSelection(suggestions[index]);history.push("/analysis/monthly")}}> Monthly</Dropdown.Item>
-									<Dropdown.Item onClick={()=>{setSelection(suggestions[index]);history.push("/analysis/all")}}> All-Time</Dropdown.Item>
+									<Dropdown.Item onClick={()=>{setAnalysisType("Daily");setSelection(suggestions[index])}}> Daily</Dropdown.Item>
+									<Dropdown.Item onClick={()=>{setAnalysisType("Monthly");setSelection(suggestions[index])}}> Monthly</Dropdown.Item>
+									<Dropdown.Item onClick={()=>{setAnalysisType("All-Time");setSelection(suggestions[index])}}> All-Time</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>
 						</div>)

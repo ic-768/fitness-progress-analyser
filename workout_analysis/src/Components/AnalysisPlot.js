@@ -2,6 +2,7 @@ import React from "react"
 import { CartesianGrid,AreaChart, Area, XAxis, YAxis,  Tooltip, } from "recharts"
 
 const AnalysisPlot=({analysis})=>{
+	console.log(analysis)
 
 	const areaChart=(
 		<AreaChart
@@ -11,7 +12,7 @@ const AnalysisPlot=({analysis})=>{
 			margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
 		>
 			<CartesianGrid strokeDasharray="10 10" />
-			<XAxis dataKey="formattedDate" />
+			<XAxis dataKey="timeProperty" />
 			<YAxis />
 			<Tooltip />
 			<Area

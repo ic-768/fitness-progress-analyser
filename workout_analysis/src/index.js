@@ -4,7 +4,7 @@ import "./index.css"
 import App from "./App"
 import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap/dist/js/bootstrap.js"
-import {BrowserRouter as Router}  from "react-router-dom"
+import {BrowserRouter as Router} from  "react-router-dom"
 
 
 ReactDOM.render(
