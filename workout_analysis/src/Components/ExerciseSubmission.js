@@ -1,7 +1,7 @@
 import React,{useState} from "react"
 import {useHistory} from "react-router-dom"
 
-import ExerciseCounter from "../Components/ExerciseCounter"
+import ExerciseBox from "../Components/ExerciseBox"
 import exerciseService from "../Services/exercises" 
 import {setTodaysExercises} from "../Functions/workoutFunctions"
 
@@ -69,10 +69,10 @@ const ExerciseSubmission=({currentRegiment,
 							<button onClick={()=>{setDaysExercises(daysExercises.concat(uniqueName))}}> Add set </button> 
 							<button onClick={()=>{setNewWorkout(newWorkout.filter((name)=>(name==uniqueName)));setRemovedExercises(removedExercises.concat(uniqueName));setDaysExercises(daysExercises.filter((name)=>(uniqueName!==name)))}}> Remove </button> 
 							{	daysExercises.map((exerciseName,i)=>{ 
-								if (exerciseName==uniqueName){ //append all ExerciseCounters to their respective divs
+								if (exerciseName==uniqueName){ //append all Exercise Boxes to their respective divs
 									return( 
 										<div key={`${i} ${exerciseName}`}> 
-											<ExerciseCounter newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={exerciseName} indexInArray={i}/>
+											<ExerciseBox newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={exerciseName} indexInArray={i}/>
 											{/*Submit another instance of same exercise (for different reps)*/} 
 										</div>
 									)

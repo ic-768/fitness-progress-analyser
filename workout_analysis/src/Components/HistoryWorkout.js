@@ -20,12 +20,14 @@ const HistoryWorkout = ({workout}) => {
 							<th className="col-1"><h2 style={{color:"cornflowerblue"}}>Exercise</h2></th>
 							<th className="col-1"><h2 style={{color:"cornflowerblue"}}>Repetitions</h2></th>
 							<th className="col-1"><h2 style={{color:"cornflowerblue"}}>Sets</h2></th>
+							<th className="col-1"><h2 style={{color:"cornflowerblue"}}>Weight</h2></th>
 						</tr>
 						{workout.exercises.map((exercise,index) => (
 							<tr key={index}>
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.name}</h3></td>
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.reps}</h3></td>
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.sets}</h3></td>
+								<td className="col-1"><h3 style={{color:"white"}}>{exercise.weight}</h3></td>
 							</tr>
 						))}
 					</tbody>
