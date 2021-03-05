@@ -11,7 +11,7 @@ const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDays
 	const history = useHistory()
 	
 	return (
-		<div style={{display:"flex",flexDirection:"column",flexGrow:"1", }}className="HomeRoute a-routeFadeIn">
+		<div style={{display:"flex",flexDirection:"column",flexGrow:"1"}}className="HomeRoute a-routeFadeIn">
 			<Switch>
 				<Route path="/dailySubmission">
 					<ExerciseSubmission currentRegiment={currentRegiment}setWorkouts={setWorkouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>

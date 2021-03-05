@@ -18,7 +18,7 @@ const History=({workouts})=>{
 	}
 
 	return(
-		<div style={{padding:"20px 90px 0 90px",flexGrow:"1",display:"flex", 
+		<div style={{padding:"20px 90px 0 90px",display:"flex", 
 			flexDirection:"column", alignContent:"center",justifyContent:"center",
 			alignItems:"center",justifyItems:"center",}}>
 			<Form  onSubmit={(event)=>{event.preventDefault()}}>
@@ -28,9 +28,11 @@ const History=({workouts})=>{
 			</Form>
 
 			{ filteredWorkouts.length>0 && 
-			<ul style={{backgroundColor:"white",borderRadius:"20px",margin:"10px",padding:"20px",border:"2px solid black",display:"flex", flexDirection:"column", }}>
+			<ul style={{ listStyleType:"none",backgroundColor:"white",borderRadius:"20px",margin:"10px",padding:"20px",border:"2px solid black",display:"flex", flexDirection:"column", }}>
 				{filteredWorkouts.map((workout,index)=>( 
-					<HistoryWorkout workout={workout} key={index}/> 
+					<li key={index} >
+						<HistoryWorkout workout={workout} /> 
+					</li>
 				))}
 			</ul>}
 		</div>

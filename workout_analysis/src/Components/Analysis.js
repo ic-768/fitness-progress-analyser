@@ -49,13 +49,13 @@ const Analysis=({workouts})=>{
 	
 	return(
 		<div style={{display:"flex", flexDirection:"column", justifyContent:"center",alignContent:"center",alignItems:"center"}}>
-			{ analysisResults && 
-					(
-						<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
-							<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>{analysisType}</h2>
-							<AnalysisPlot analysis={analysisResults}/>
-						</div>
-					)}
+			{ analysisResults && selection && 
+			(
+				<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
+					<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>{analysisType}</h2>
+					<AnalysisPlot analysis={analysisResults}/>
+				</div>
+			)}
 			<div>
 				<input style={{marginTop:"20px"}} onChange={(event)=>{ //filter suggestions
 					setSuggestions(exerciseNameCache.filter((name)=>(

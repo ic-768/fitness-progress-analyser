@@ -18,6 +18,7 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, us
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static("build"))
 app.use('/api/users', userRouter) /*get all users and create new user*/
 app.use('/api/login', loginRouter) 
 app.use('/api/workout', workoutRouter) 

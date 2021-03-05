@@ -93,16 +93,15 @@ export const getAllWorkouts=(days)=>{
 	return exercisesFromWorkouts(days)
 }
 
-export const datedAnalysis=(workouts,exerciseName,interval)=>{ //interval=daily -> examine each day, inverval=monthly -> examine month
-	/*Function to retrieve array of aggregate data for a specific exercise, per given time period.
-	End result will be an array of uniquely-dated objects, with a totalReps field,
-	and a formatted date for use in the chart. */
+export const datedAnalysis=(workouts,exerciseName,interval)=>{ //interval = daily / monthly
+	/*Aggregate data for a specific exercise over a time period.
+	Returns array of objects with unique "timeProperty" and "totalReps" fields*/
+
 	if(interval!=="daily" && interval !== "monthly"){
 		console.log("Interval is invalid")
-		return
-	}
+		return }
 
-	const getTime = interval === "daily"
+	const getTime = interval === "daily" //To compare time of workouts
 		? (exercise) => (new Date (exercise.date).toDateString())
 		: (exercise) => (new Date (exercise.date).toLocaleDateString("default",{month:"long"})) 
 
@@ -115,29 +114,29 @@ export const datedAnalysis=(workouts,exerciseName,interval)=>{ //interval=daily 
 
 	if(filteredWorkouts.length==0){return(null)} //if empty, abort
 
-	let timeProperty // will be using this for getting formatted dates
-	let totalReps
-	const uniqueTimes=[]
+	let timeProperty // for getting formatted dates with getTime()
+	let totalReps // reps accumulator
+	const uniqueTimes=[] //array of unique dates / months
 
-	if (filteredWorkouts.length==1){ // If only one workout, return object+reps*sets, and a formatted date
+	if (filteredWorkouts.length==1){ // If only one workout, return reps*sets and date
 		totalReps=filteredWorkouts[0].sets*filteredWorkouts[0].reps
-		timeProperty = getTime(filteredWorkouts[0].date).toLocaleString("default", { month: "long" }) 
+		timeProperty = getTime(filteredWorkouts[0]) 
 		return({timeProperty, totalReps})}
 
 	filteredWorkouts.forEach((workout,i)=>{
 		if(i===0){ // if first repetition
-			timeProperty = getTime(workout) 
+			timeProperty = getTime(workout)  //initialise time and reps
 			totalReps=workout.exercise.reps*workout.exercise.sets
 		} 
 		else{
-			if (timeProperty === getTime(workout)){ // Same date -> aggregate reps
-				if (i===filteredWorkouts.length-1){// At last repetition ->update last entry
+			if (timeProperty === getTime(workout)){ // Same date 
+				if (i!==filteredWorkouts.length-1){ // Not end of array, aggregate reps
+					totalReps+=workout.exercise.reps*workout.exercise.sets
+				}
+				else{ // End of array, push final entry
 					totalReps+=workout.exercise.reps*workout.exercise.sets
 					uniqueTimes.push({timeProperty,totalReps}) }  
-
-				else{ // keep aggregating reps
-					totalReps+=workout.exercise.reps*workout.exercise.sets
-				}}
+			}
 
 			else{ // different date
 				uniqueTimes.push({timeProperty, totalReps}) //push reps so far
@@ -155,13 +154,13 @@ export const allTimeAnalysis=(workouts,exerciseName)=>{
 	const filteredWorkouts=[]	
 	let totalReps=0
 
-	workouts.filter((workout)=>{ 
-		const	results=workout.exercises.filter((exercise)=>exercise.name==exerciseName) 
-		results.forEach((item)=>{filteredWorkouts.push({date:workout.date,exercise:item})
+	workouts.map((workout)=>{   //For every workout
+		const	results=workout.exercises.filter((exercise)=>exercise.name==exerciseName)   // filter exercises
+		results.forEach((exercise)=>{filteredWorkouts.push({date:workout.date,exercise}) // and push data
 		}) 
 	}) 
 
-	filteredWorkouts.forEach((workout)=>{ 
+	filteredWorkouts.forEach((workout)=>{  // Accumulate reps
 		totalReps+=workout.exercise.reps*workout.exercise.sets 
 	})
 
