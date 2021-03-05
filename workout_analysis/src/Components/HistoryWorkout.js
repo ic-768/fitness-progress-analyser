@@ -27,7 +27,7 @@ const HistoryWorkout = ({workout}) => {
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.name}</h3></td>
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.reps}</h3></td>
 								<td className="col-1"><h3 style={{color:"white"}}>{exercise.sets}</h3></td>
-								<td className="col-1"><h3 style={{color:"white"}}>{exercise.weight}</h3></td>
+								<td className="col-1"><h3 style={{color:"white"}}>{exercise.weight || 0}</h3></td>
 							</tr>
 						))}
 					</tbody>

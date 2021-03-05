@@ -1,8 +1,7 @@
 import React from "react"
 import { CartesianGrid,AreaChart, Area, XAxis, YAxis,  Tooltip, } from "recharts"
 
-const AnalysisPlot=({analysis})=>{
-	console.log(analysis)
+const AnalysisPlot=({analysis, dataKey})=>{
 
 	const areaChart=(
 		<AreaChart
@@ -17,7 +16,7 @@ const AnalysisPlot=({analysis})=>{
 			<Tooltip />
 			<Area
 				type='monotone'
-				dataKey='totalReps'
+				dataKey={dataKey}
 				stroke='#8884d8'
 				fill='#8884d8'
 			/>

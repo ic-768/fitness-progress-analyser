@@ -18,7 +18,9 @@ const sendWorkout=async(workout)=> {
 	const config = {
 		headers:{Authorization:token}
 	}
+	console.log("response to ", workout)
 	const response = await axios.post(baseUrl, workout, config)
+	console.log(response.data)
 	return response.data
 }
 

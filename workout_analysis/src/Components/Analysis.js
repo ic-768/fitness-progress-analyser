@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from "react" 
-import {allTimeAnalysis,exerciseNamesFromWorkouts, datedAnalysis} from "../Functions/workoutFunctions"
+import {datedAnalysis,allTimeAnalysis,exerciseNamesFromWorkouts} from "../Functions/workoutFunctions"
 import Button from "react-bootstrap/Button"
 import Tooltip from "react-bootstrap/Tooltip"
 import Dropdown from "react-bootstrap/Dropdown"
@@ -34,26 +34,36 @@ const Analysis=({workouts})=>{
 	const [suggestions,setSuggestions]=useState([]) 
 	const [selection,setSelection]=useState(null)  //Selection to be analysed
 	const [analysisType,setAnalysisType]=useState(null)  //Daily/Monthly/All-Time
-	const [analysisResults,setAnalysisResults]=useState(null)  //Data from analysis
+
+	const [repsAnalysis,setRepsAnalysis]=useState(null)  //Data from analysis
+	const [weightAnalysis,setWeightAnalysis]=useState(null)  //Data from analysis
 
 	useEffect(()=>{
 		if(analysisType==="Daily"){
-			setAnalysisResults(datedAnalysis(workouts,selection||suggestions[0],"daily"))
+			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","weight"))
+			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","reps"))
 		}
 		else if(analysisType==="Monthly"){
-			setAnalysisResults(datedAnalysis(workouts,selection||suggestions[0],"monthly"))
+			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","weight"))
+			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","reps"))
 		} 
-		else{setAnalysisResults(allTimeAnalysis(workouts,selection||suggestions[0])) }
+		else{
+			setWeightAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"weight"))
+			setRepsAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"reps"))
+		}
 
 	},[selection, analysisType])
 	
 	return(
 		<div style={{display:"flex", flexDirection:"column", justifyContent:"center",alignContent:"center",alignItems:"center"}}>
-			{ analysisResults && selection && 
+			{ repsAnalysis && selection && 
 			(
 				<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
 					<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>{analysisType}</h2>
-					<AnalysisPlot analysis={analysisResults}/>
+					<AnalysisPlot analysis={repsAnalysis} dataKey="total"/>
+					{ console.log(weightAnalysis)}{
+						weightAnalysis && ( <AnalysisPlot analysis={weightAnalysis} dataKey="total" />)
+					}
 				</div>
 			)}
 			<div>

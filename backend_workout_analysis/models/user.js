@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
 				{
 				name: String,
 				reps: Number,
-				sets: Number
+				sets: Number,
+				weight: Number
 				}
 			]
     }
