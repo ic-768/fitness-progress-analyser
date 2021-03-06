@@ -54,17 +54,28 @@ const Analysis=({workouts})=>{
 
 	},[selection, analysisType])
 	
+	if (workouts.length===0) return (
+		<>
+			<h2>It looks like you&apos;ve never submitted a workout! </h2>
+			<h3>After submitting one, you&apos;ll be able to start tracking your progress here.</h3>
+		</>
+	)
 	return(
-		<div style={{display:"flex", flexDirection:"column", justifyContent:"center",alignContent:"center",alignItems:"center"}}>
+		<div style={{height:"100%",display:"flex", flexDirection:"column", alignItems:"center"}}>
 			{ repsAnalysis && selection && 
 			(
-				<div style={{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
+				<>
 					<h2 style={{color:"white",borderRadius:"50px",padding:"20px",backgroundColor:"black"}}>{analysisType}</h2>
+					<h2>Total repetitions</h2>
 					<AnalysisPlot analysis={repsAnalysis} dataKey="total"/>
-					{ console.log(weightAnalysis)}{
-						weightAnalysis && ( <AnalysisPlot analysis={weightAnalysis} dataKey="total" />)
+					{
+						weightAnalysis && ( 
+							<>
+								<h2>Total weight lifted</h2>
+								<AnalysisPlot analysis={weightAnalysis} dataKey="total" />
+							</>) 
 					}
-				</div>
+				</>
 			)}
 			<div>
 				<input style={{marginTop:"20px"}} onChange={(event)=>{ //filter suggestions

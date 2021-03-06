@@ -6,7 +6,6 @@ import ExerciseCounter from "./ExerciseCounter"
 import {useAccordionToggle} from "react-bootstrap/AccordionToggle"
 import {GoEyeClosed} from "react-icons/go"
 import {AiFillEye} from "react-icons/ai"
-import {GiWeightLiftingUp} from "react-icons/gi"
 
 function CustomToggle({ children, eventKey,open, setOpen }) { 
 	const decoratedOnClick = useAccordionToggle(
@@ -23,7 +22,7 @@ function CustomToggle({ children, eventKey,open, setOpen }) {
 
 const ExerciseBox=({newWorkout, setNewWorkout,indexInArray,exerciseName})=>{ 
 	const [exercise,setExercise] = useState({name:exerciseName, reps:1, sets:1,weight:null})
-	const weightColor = exercise.weight? "green" : "red"
+	const weightColor = exercise.weight? "black" : "red"
 	const [open,setOpen] = useState(false) // if counter is expanded 
 
 	console.log(newWorkout)
@@ -62,7 +61,7 @@ const ExerciseBox=({newWorkout, setNewWorkout,indexInArray,exerciseName})=>{
 								:<AiFillEye/>} 
 						</CustomToggle> 
 						<Button style={{color:weightColor}} onClick={()=>{setExercise({...exercise, weight:
-							exercise.weight ? null : 1}); console.log(exercise)}}><GiWeightLiftingUp/></Button>
+							exercise.weight ? null : 1}); console.log(exercise)}}>KG</Button>
 					</Card.Header>
 					<Accordion.Collapse  eventKey="0">
 						<Card.Body style={{borderRadius:"20px",backgroundColor:"rgb(0,0,0,0.8)", display:"flex"}}>

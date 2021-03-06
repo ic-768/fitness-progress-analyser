@@ -17,10 +17,17 @@ const History=({workouts})=>{
 			}).filter((value)=>value!=undefined))
 	}
 
+	if (workouts.length ===0) return (
+		<>
+			<h2>It looks like you&apos;ve never submitted a workout! </h2>
+			<h3>After submitting one, you can start viewing your fitness history.</h3>
+		</>
+
+	)
 	return(
-		<div style={{padding:"20px 90px 0 90px",display:"flex", 
-			flexDirection:"column", alignContent:"center",justifyContent:"center",
-			alignItems:"center",justifyItems:"center",}}>
+		<div style={{paddingTop:"20px ",display:"flex", flexGrow:"1",
+			flexDirection:"column", 
+		}}>
 			<Form  onSubmit={(event)=>{event.preventDefault()}}>
 				<FormControl type="text" placeholder="Search exercises" className="mr-sm-2" onChange={(event)=>{ 
 					filterWorkouts(workouts,event.target.value)
@@ -28,7 +35,7 @@ const History=({workouts})=>{
 			</Form>
 
 			{ filteredWorkouts.length>0 && 
-			<ul style={{ listStyleType:"none",backgroundColor:"white",borderRadius:"20px",margin:"10px",padding:"20px",border:"2px solid black",display:"flex", flexDirection:"column", }}>
+			<ul style={{ height:"inherit",listStyleType:"none",backgroundColor:"white",borderRadius:"20px",margin:"10px",padding:"20px",border:"2px solid black",display:"flex", flexDirection:"column", }}>
 				{filteredWorkouts.map((workout,index)=>( 
 					<li key={index} >
 						<HistoryWorkout workout={workout} /> 

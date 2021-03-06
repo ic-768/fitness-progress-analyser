@@ -62,7 +62,7 @@ function App(){
 						?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
 						<>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<Container style={{marginTop:"120px",overflow:"auto",backgroundColor:"rgb(255,255,255,0.94",flexGrow:"1",display:"flex",flexDirection:"column", alignItems:"center" }}>
+							<Container style={{height:"100%",marginTop:"120px",overflow:"auto",backgroundColor:"rgb(255,255,255,0.94",flexGrow:"1",display:"flex",flexDirection:"column", alignItems:"center" }}>
 								<Headquarters currentRegiment={currentRegiment}setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
 							</Container>
 						</>

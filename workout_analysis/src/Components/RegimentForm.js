@@ -40,7 +40,7 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 	return(
 		<div className="HomeRoute a-routeFadeIn" style={{display:"flex", flexDirection:"column", alignItems:"center",marginTop:"20px",height:"100%",}}>
 
-			<div style={{marginBottom:"40px",padding:"0 25px 0 25px",borderRadius:"40px",backgroundColor:"white"}}>
+			<div style={{marginBottom:"40px",padding:"0 40px 0 40px",borderRadius:"20px",backgroundColor:"white"}}>
 				<h1 >Time to fill out your weekly regiment!  <MdFitnessCenter/></h1>
 				<h3 >(Don&apos;t worry, you can reset it at any time)</h3>
 			</div>

@@ -15,7 +15,7 @@ const ExerciseSubmission=({currentRegiment,
 		return(
 			<div>
 				<h1>
-			No exercises for today! Get some rest you beast :) 
+			No exercises for today! Get some rest :) 
 				</h1>
 				<button onClick={()=>{history.push("/")}}>Home</button>
 			</div> 
