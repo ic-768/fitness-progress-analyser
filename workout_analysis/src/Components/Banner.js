@@ -2,7 +2,6 @@ import React,{useState} from "react"
 import {useHistory} from "react-router-dom"
 import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav" 
-import {MdDirections} from "react-icons/md"
 
 const Banner=({user,logout})=>{ 
 	const history = useHistory()
@@ -29,7 +28,7 @@ const Banner=({user,logout})=>{
 		:(
 			<Navbar style={{display:"flex", justifyContent:"center",backgroundColor:"#eeeeee", color:"black"}}>
 				<Navbar.Brand><img style={logoStyle} src="https://svgsilh.com/svg_v2/1539614.svg"/></Navbar.Brand>
-				<Navbar.Text><h2 style={{color:"black"}} >Welcome to Fitness Express! Next stop <MdDirections size="2em" color="black" /> Gainsville!</h2></Navbar.Text>
+				<Navbar.Text><h2 style={{display:"inline"}} >Welcome to </h2><h2 style={{color:"#ff8933",display:"inline"}}>Fitness Express</h2></Navbar.Text>
 			</Navbar>
 		)
 }

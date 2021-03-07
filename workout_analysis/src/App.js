@@ -55,7 +55,8 @@ function App(){
 	,[currentRegiment])
 
 	return ( 
-		<div className="App" style={{display:"flex",flexDirection:"column",height:"100vh", backgroundImage:"url(/Media/kicking.jpg)"}}>
+		<div className="App" style={{height:"100vh", backgroundImage:"url(Media/weightLiftingGirl.png)",
+			backgroundSize:"cover"}}>
 			{user ? //if user is logged in
 				<>
 					{user.regIsSet
@@ -71,23 +72,20 @@ function App(){
 					}
 				</>
 				: //if no user, register or login
-				<div style={{backgroundImage:("url(/Media/kicking.jpg"), //in public folder
-					height:"100%",display:"flex", justifyContent:"center", alignItems:"flex-start"}}>
-					<TransitionGroup style={{flexGrow:"1",display:"flex", flexDirection:"column"}}>
-						<CSSTransition
-							key={location}
-							timeout={{ enter: 500, exit: 200 }}>
-							<Switch>
-								<Route path="/register">
-									<RegisterForm submitCredentials={registerService.register}/>
-								</Route>
-								<Route path="/">
-									<LoginForm submitCredentials={login} setUser={setUser}/> 
-								</Route>
-							</Switch> 
-						</CSSTransition>
-					</TransitionGroup>
-				</div>
+				<TransitionGroup style={{height:"100%",display:"flex",  justifyItems:"flex-start"}}>
+					<CSSTransition
+						key={location}
+						timeout={{ enter: 500, exit: 200 }}>
+						<Switch>
+							<Route path="/register">
+								<RegisterForm submitCredentials={registerService.register}/>
+							</Route>
+							<Route path="/">
+								<LoginForm submitCredentials={login} setUser={setUser}/> 
+							</Route>
+						</Switch> 
+					</CSSTransition>
+				</TransitionGroup>
 			}
 		</div>
 	) 

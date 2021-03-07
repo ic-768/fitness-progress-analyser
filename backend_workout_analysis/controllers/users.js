@@ -20,7 +20,7 @@ usersRouter.post('/', async(request, response) => {
     username: body.username,
     passwordHash,
 		dates:[],
-		currentRegiment:{Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]},
+		currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null},
 		regIsSet:false
   }) 
   const savedUser = await user.save()

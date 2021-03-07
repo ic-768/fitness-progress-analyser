@@ -1,37 +1,33 @@
 import React from "react"
-import {CSSTransition, TransitionGroup} from "react-transition-group"
 
 const DaySubmissions=({currentRegiment,setCurrentRegiment, day})=>{
 
 	return(
-		<div key={day} style={{backgroundColor:"black",display:"flex", flexDirection:"column",alignItems:"center",borderRadius:"20px",border:"1px solid green",padding:"10px",margin:"10px", }}>
-			<h2 style={{color:"white"}}>{day}</h2>
-
-			<TransitionGroup> {/*for fade effect*/}
+		<div key={day} style={{padding:"10px",display:"flex", flexDirection:"column",alignItems:"center",
+		}}>
+			<ul style={{padding:"0",margin:"0",width:"100%", display:"flex" ,flexDirection:"column"}}>
 				{currentRegiment[day].map((exercise,i)=>( 
-					<CSSTransition classNames="t-daySubmission" timeout={300} key={i}>
-						<div  style={{display:"flex", flexDirection:"column",alignContent:"center",alignItems:"center",
-							justifyContent:"center",
-							marginTop:"10px"   }}> {/*show each submitted exercise*/}
-							<div style={{width:"100%",display:"flex",  alignContent:"center",alignItems:"center"}}>
-								<h5 style={{color:"white",margin:"8px",marginRight:"20px"}}>
-									{exercise}
-								</h5> 
-								{/*remove exercise*/}
-								<button  style={{padding:"5px",marginLeft:"auto"}}type="button" onClick={()=>
-									setCurrentRegiment( 
-										{...currentRegiment, 
-											[day]:currentRegiment[day].filter((name)=>(
-												name!=exercise)
-											)}
+					<div  key={`${exercise}${i}`} style={{paddingTop:"4px",width:"100%",display:"flex",flexGrow:"1", 
+						flexDirection:"column",
+					}}> {/*show each submitted exercise*/}
+						<div style={{width:"100%",display:"flex",alignItems:"center", alignContent:"center", justifyContent:"center",justifyItems:"center"}}>
+							<p style={{margin:"0", marginRight:"4px"}}>
+								{exercise}
+							</p> 
+							{/*remove exercise*/}
+							<button  style={{border:"none",borderRadius:"5px",marginLeft:"auto"}}type="button" onClick={()=>
+								setCurrentRegiment( 
+									{...currentRegiment, 
+										[day]:currentRegiment[day].filter((name)=>(
+											name!=exercise)
+										)}
 
-									)}><h5 style={{color:"white"}}>remove</h5>
-								</button>
-							</div>
+								)}>remove
+							</button>
 						</div>
-					</CSSTransition>
-				))}
-			</TransitionGroup>
+					</div>
+				)) }
+			</ul>
 
 		</div>
 						

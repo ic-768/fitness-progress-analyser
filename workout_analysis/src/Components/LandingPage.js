@@ -17,8 +17,9 @@ const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{ //Respo
 	},[]) 
 	
 	return (  
-		<TransitionGroup style={{flexGrow:"1",display:"flex", flexDirection:"column"}}>
+		<TransitionGroup style={{height:"100%",flexGrow:"1",display:"flex", flexDirection:"column"}}>
 			<CSSTransition
+			
 				key={location}
 				timeout={{ enter: 500, exit: 200 }}>
 				<Switch location={location}>
