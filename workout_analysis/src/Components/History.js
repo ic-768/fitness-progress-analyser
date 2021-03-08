@@ -3,6 +3,7 @@ import {filterExercises} from "../Functions/workoutFunctions"
 import Form from "react-bootstrap/Form"
 import FormControl from "react-bootstrap/FormControl"
 import HistoryWorkout from "./HistoryWorkout"
+import Container from "react-bootstrap/Container"
 
 const History=({workouts})=>{ 
 	const [filteredWorkouts,setFilteredWorkouts]=useState(workouts) 
@@ -25,16 +26,17 @@ const History=({workouts})=>{
 
 	)
 	return(
-		<div style={{paddingTop:"20px ",display:"flex", flexGrow:"1",
-			flexDirection:"column", 
-		}}>
-			<Form  onSubmit={(event)=>{event.preventDefault()}}>
-				<FormControl type="text" placeholder="Search exercises" className="mr-sm-2" onChange={(event)=>{ 
-					filterWorkouts(workouts,event.target.value)
-				}} />
-			</Form>
+		<Container>
+			<div style={{paddingTop:"20px ",display:"flex", flexGrow:"1",
+				flexDirection:"column", 
+			}}>
+				<Form  onSubmit={(event)=>{event.preventDefault()}}>
+					<FormControl type="text" placeholder="Search exercises" className="mr-sm-2" onChange={(event)=>{ 
+						filterWorkouts(workouts,event.target.value)
+					}} />
+				</Form>
 
-			{ filteredWorkouts.length>0 && 
+				{ filteredWorkouts.length>0 && 
 			<ul style={{ height:"inherit",listStyleType:"none",backgroundColor:"white",borderRadius:"20px",margin:"10px",padding:"20px",border:"2px solid black",display:"flex", flexDirection:"column", }}>
 				{filteredWorkouts.map((workout,index)=>( 
 					<li key={index} >
@@ -42,8 +44,8 @@ const History=({workouts})=>{
 					</li>
 				))}
 			</ul>}
-		</div>
-
+			</div>
+		</Container>
 	)
 }
 

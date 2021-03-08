@@ -13,6 +13,7 @@ const LoginForm=({submitCredentials, setUser})=>{
 			onSubmit={async (event)=>{
 				event.preventDefault()
 				const user=await submitCredentials({username,password})
+				console.log(user)
 				setUser(user)
 			}}> 
 			<div style={{borderRadius:"0 20px 20px 0",backgroundColor:"white",padding:"90px 0 0 60px",height:"624px",width:"608px",

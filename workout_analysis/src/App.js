@@ -11,7 +11,6 @@ import RegisterForm from "./Components/RegisterForm"
 import Banner from "./Components/Banner"
 import LandingPage from "./Components/LandingPage"
 import Headquarters from "./Components/Headquarters"
-import Container from "react-bootstrap/Container"
 
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
@@ -21,28 +20,33 @@ import { setTodaysExercises } from "./Functions/workoutFunctions"
 
 function App(){ 
 	const location=useLocation()
+	const [backgroundImage,setBackgroundImage] = useState("Media/weightLiftingGirl.png")
 
 	/*user contains authorization token, username, and flag to show if a target regiment has been set.
 	 User workouts history is sent to localStorage on log-in*/
 	const [user, setUser] = useState(null) 	
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
-	const [workouts, setWorkouts] = useState() // whole week target exercises
+	const [workouts, setWorkouts] = useState(null) // whole week target exercises
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
-		if (user){ 
+		if(user){
 			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 			setUser(user)
 			exerciseService.setToken(user.token) //token will be set on each render
-		}	
-	},[]) 
+		}}
+	,[]) 
 
 	useEffect(()=>{ //Set user's target workout (for a whole week)
 		if(user){
+			setBackgroundImage("Media/weights.jpeg")
 			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
 			setCurrentRegiment(regiment) 
+		}
+		else{
+			setBackgroundImage("Media/weightLiftingGirl.png") 
 		}
 	}
 	,[user])
@@ -55,18 +59,16 @@ function App(){
 	,[currentRegiment])
 
 	return ( 
-		<div className="App" style={{height:"100vh", backgroundImage:"url(Media/weightLiftingGirl.png)",
+		<div className="App" style={{height:"100vh", backgroundImage:`url(${backgroundImage})`,
 			backgroundSize:"cover"}}>
 			{user ? //if user is logged in
 				<>
 					{user.regIsSet
 						?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
-						<>
+						<div style={{height:"100%",}}>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<Container style={{height:"100%",marginTop:"120px",overflow:"auto",backgroundColor:"rgb(255,255,255,0.94",flexGrow:"1",display:"flex",flexDirection:"column", alignItems:"center" }}>
-								<Headquarters currentRegiment={currentRegiment}setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
-							</Container>
-						</>
+							<Headquarters currentRegiment={currentRegiment}setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
+						</div>
 						:  //if user hasn't set a regiment, do that.
 						<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 					}

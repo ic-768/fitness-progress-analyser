@@ -1,62 +1,51 @@
 import React from "react" 
 import {Switch,Route,useHistory} from "react-router-dom"
-import Button  from "react-bootstrap/Button"
 import Analysis from "./Analysis"
 import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
-import { BiBoltCircle, BiArchiveOut } from "react-icons/bi"
-import { GiBoltEye } from "react-icons/gi"
+import { AiOutlinePlus } from "react-icons/ai"
 
 const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDaysExercises})=>{
-	const history = useHistory()
+
+	const centeredStyle={marginBottom:"40px",marginTop:"4px",display:"flex", alignItems:"center",}
+	const linkStyle = {display:"inline", color:"white", cursor:"pointer"}
+
+	const history=useHistory()
 	
 	return (
-		<div style={{display:"inline",flexDirection:"column"}}>
-			<Switch>
-				<Route path="/dailySubmission">
-					<ExerciseSubmission currentRegiment={currentRegiment}setWorkouts={setWorkouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
-				</Route>
-				<Route path="/history"> 
-					<History workouts={workouts}/> 
-				</Route>
-				<Route path="/analysis" style = {{ height:"100%"}}> 
-					<Analysis workouts={workouts}/> 
-				</Route>
-				<Route path="/">
-					<div style={{height:"100%",flexGrow:"1", display:"flex", flexDirection:"column",
-						justifyContent:"center",alignItems:"center",
-					}}> 
-						<h1 style={{padding:"20px",borderRadius:"20px",backgroundColor:"black",color:"white",marginTop:"40px",marginBottom:"40px",}}>Welcome!</h1>
-						<div style={{height:"100%",flexGrow:"1", display:"flex", flexDirection:"column",
-							justifyContent:"center",alignItems:"center",
-						}}> 
-							<div style={{display:"flex", justifyContent:"space-between",backgroundColor:"cornflowerblue", borderRadius:"38px"}}>
-								<div style={{height:"100%",width:"190px",margin:"40px",alignItems:"center",display:"flex", flexDirection:"column"}}>
-									<h3 style={{marginTop:"50px",}}>Performance</h3>
-									<Button style={{width:"180px", height:"180px", borderRadius:"50%"}} variant="dark" onClick={()=>{history.push("/analysis")}}>
-										<BiBoltCircle size="150px"/>
-									</Button>
-								</div>
-								<div style={{height:"100%",width:"190px",margin:"40px",alignItems:"center",display:"flex", flexDirection:"column"}}>
-									<h3 style={{whiteSpace:"nowrap",}}>Submit Workout</h3>
-									<Button style={{width:"180px", height:"180px", borderRadius:"50%"}} variant="dark" onClick={()=>{history.push("/dailySubmission")}}>
-										<BiArchiveOut size="150px"/>
-									</Button>
-								</div>
-								<div style={{height:"100%",width:"190px",margin:"40px",alignItems:"center",display:"flex", flexDirection:"column"}}>
-									<h3 style={{marginTop:"50px",color:"black"}}>History</h3>
-									<Button style={{width:"180px", height:"180px", borderRadius:"50%"}} variant="dark" onClick={()=>{history.push("/history")}}>
-										<GiBoltEye size="150px"/>
-									</Button>
-								</div>
-							</div>
-							<div>
-							</div>
+		<Switch>
+			<Route exact path="/">
+				<div style={{height:"100%",display:"flex"}}>
+					<div 
+						style={{marginLeft:"80px",marginTop:"150px",display:"flex",flexDirection:"column", }}>
+						<div onClick={()=>{history.push("/dailySubmission")}}style={centeredStyle}>
+							<AiOutlinePlus style={{color:"white"}}/>
+							<h2 style={linkStyle}>Submit a Workout</h2> 
 						</div>
+						<div onClick={()=>{history.push("/history")}}
+							style={centeredStyle}> <AiOutlinePlus style={{color:"white"}} /> 
+							<h2 style={linkStyle}>My Workout History</h2>
+						</div> 
+						<div onClick={()=>{history.push("/analysis")}}
+							style={centeredStyle}>
+							<AiOutlinePlus style={{color:"white"}}/>
+							<h2 style={linkStyle}>Performance Analysis</h2> </div>
 					</div>
-				</Route>
-			</Switch>
-		</div>
+				</div>
+				{workouts && workouts.length>0 
+					?(<h1 style={{position:"absolute", bottom:"0",marginBottom:"60px",marginLeft:"60px",color:"white"}}> Welcome Back</h1>) 
+					: <h1 style={{position:"absolute", bottom:"0",marginBottom:"60px",marginLeft:"60px",color:"white"}}>Welcome!</h1>
+				}</Route>
+			<Route path="/dailySubmission">
+				<ExerciseSubmission currentRegiment={currentRegiment}setWorkouts={setWorkouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
+			</Route>
+			<Route path="/history"> 
+				<History workouts={workouts}/> 
+			</Route>
+			<Route path="/analysis" style = {{ height:"100%"}}> 
+				<Analysis workouts={workouts}/> 
+			</Route>
+		</Switch>
 	)
 }
 
