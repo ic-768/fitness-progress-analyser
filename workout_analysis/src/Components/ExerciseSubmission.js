@@ -1,11 +1,11 @@
-import React,{useState} from "react"
+import React,{useEffect,useState} from "react"
 import {useHistory} from "react-router-dom"
 import {IoIosArrowBack} from "react-icons/io"
 import {BsFillTrashFill} from "react-icons/bs"
 
 
-import ExerciseBox from "../Components/ExerciseBox"
 import exerciseService from "../Services/exercises" 
+import ExerciseBox from "./ExerciseBox" 
 import {setTodaysExercises} from "../Functions/workoutFunctions"
 
 const ExerciseSubmission=({currentRegiment, setWorkouts, daysExercises,setDaysExercises})=>{ 
@@ -22,21 +22,28 @@ const ExerciseSubmission=({currentRegiment, setWorkouts, daysExercises,setDaysEx
 			</div> 
 		)}
 
-	//Initialise workout exercise
-	const [newWorkout, setNewWorkout]=useState(daysExercises.map((exerciseName)=>( {name:exerciseName,reps:1,sets:1}))) 
+	//! Instead of using Unique names to create exercises, use NewWorkout
+	// Each index holds an array of same-name exercises
+	const [newWorkout, setNewWorkout]=useState([]) 
 	const [removedExercises, setRemovedExercises]=useState([])
-	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing
-	console.log(newWorkout)
+	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
 
+	useEffect(()=>{
+		setNewWorkout( daysExercises.map((exerciseName)=>( [{name:exerciseName,reps:1,sets:1}]))) 
+	},[daysExercises])
 
 	const submitWorkout=async ()=>{ 
-		if(newWorkout.length>0){
+		const exercisesForSubmission=[]
+		newWorkout.forEach((exerciseArray)=>
+		{exerciseArray.forEach((exercise)=>{exercisesForSubmission.push(exercise)}) 
+		})
+		if(exercisesForSubmission.length>0){
 			const validEntries = newWorkout // Non-empty
 				.filter((_,i) =>  
-					newWorkout[i] && true)
+					exercisesForSubmission[i] && true)
 
 			if (validEntries.length>0) { 
-				const sentWorkout=await exerciseService.sendWorkout(newWorkout) //server response to new workout submission 
+				const sentWorkout=await exerciseService.sendWorkout(exercisesForSubmission) //server response to new workout submission 
 				const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
 				window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local Storage
 				setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))//update state
@@ -80,34 +87,19 @@ const ExerciseSubmission=({currentRegiment, setWorkouts, daysExercises,setDaysEx
 			))
 			}
 
-			<ul style={{width:"100%",display:"flex", flexWrap:"wrap"}}> 
-				{/*Create area for each exercise*/
-					uniqueNames.map((uniqueName) => {
-						if(uniqueName==selectedExercise){ //show only last clicked exercise
-							return(
-								<div style={{width:"100%",}}key={uniqueName}>
-									<button onClick={()=>{setDaysExercises(daysExercises.concat(uniqueName))}}> Add set </button> 
+			{newWorkout.map((exerciseArray,i)=>{ // pass exercise array as param
+				console.log(exerciseArray)
+				if (exerciseArray[0].name!==selectedExercise){return}
+				return(
+					<ExerciseBox key={i} exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
+				)
+			})
 
-									{/*If Multiple sets of same exercise, pass exerciseBox an array of the exercises.*/ }
-									{(daysExercises.filter((exercise)=>(exercise==uniqueName)).length!=1) &&  
-									( <ExerciseBox exerciseNumber={daysExercises.filter((exercise)=>(exercise==uniqueName)).length}
-										newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={uniqueName}/>
-									)}
-						
-									{/*If single set*/}
-									{daysExercises.map((exerciseName,i)=>{
-										if (exerciseName==uniqueName){ //append all Exercise Boxes to their respective divs
-											return( 
-												<ExerciseBox key={`${i} ${exerciseName}`} newWorkout={newWorkout} setNewWorkout={setNewWorkout} exerciseName={exerciseName} indexInArray={i}/>
-											)
-										}
-						
-									})}))
-								</div> )
-						}}
-					)}
-				
-			</ul>
+			})
+			<div>
+
+			</div>
+
 		</div>
 	)
 } 
