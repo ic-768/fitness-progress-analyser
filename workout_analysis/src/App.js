@@ -40,7 +40,7 @@ function App(){
 
 	useEffect(()=>{ //Set user's target workout (for a whole week)
 		if(user){
-			setBackgroundImage("Media/weights.jpeg")
+			setBackgroundImage("Media/weights_dark_flipped.jpeg")
 			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
 			setCurrentRegiment(regiment) 

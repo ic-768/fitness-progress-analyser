@@ -120,10 +120,8 @@ const ExerciseSubmission=({setWorkouts, daysExercises})=>{
 				)
 			}) 
 			})
-			<div> 
-			</div>
-
 		</div>
+
 	)
 } 
 

@@ -3,7 +3,7 @@ import {Switch,Route,useHistory} from "react-router-dom"
 import Analysis from "./Analysis"
 import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
-import { AiOutlinePlus } from "react-icons/ai"
+import { GoPlusSmall } from "react-icons/go"
 
 const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDaysExercises})=>{
 
@@ -19,17 +19,20 @@ const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDays
 					<div 
 						style={{marginLeft:"80px",marginTop:"150px",display:"flex",flexDirection:"column", }}>
 						<div onClick={()=>{history.push("/dailySubmission")}}style={centeredStyle}>
-							<AiOutlinePlus style={{color:"white"}}/>
-							<h2 style={linkStyle}>Submit a Workout</h2> 
+							<h2 style={linkStyle}>
+								<GoPlusSmall style={{color:"white"}}/>
+							Submit a Workout</h2> 
 						</div>
 						<div onClick={()=>{history.push("/history")}}
-							style={centeredStyle}> <AiOutlinePlus style={{color:"white"}} /> 
-							<h2 style={linkStyle}>My Workout History</h2>
+							style={centeredStyle}> 
+							<h2 style={linkStyle}>
+								<GoPlusSmall style={{color:"white"}} /> 
+							My Workout History</h2>
 						</div> 
 						<div onClick={()=>{history.push("/analysis")}}
 							style={centeredStyle}>
-							<AiOutlinePlus style={{color:"white"}}/>
-							<h2 style={linkStyle}>Performance Analysis</h2> </div>
+							<h2 style={linkStyle}> <GoPlusSmall style={{color:"white"}}/> Performance Analysis</h2> 
+						</div>
 					</div>
 				</div>
 				{workouts && workouts.length>0 

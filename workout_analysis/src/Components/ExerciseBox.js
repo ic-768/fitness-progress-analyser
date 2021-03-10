@@ -22,30 +22,31 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 				Add set
 					</button>
 				</div>
-				{exerciseArray.map((exercise,i)=>( 
-					<div style={{display:"flex"}}key={`${exercise}${i}`}> {/* if multiple sets of exercise, allow removal*/}
-						<StatRow exercise={exercise} setExercise={(exercise)=>{ 
-							setNewWorkout(
-								newWorkout.map((Array)=>{return exerciseName===Array[0].name  //Find correct array
-									? exerciseArray.map((item,index)=>{ // if correct array, find correct exercise index
-										if (i===index) {
-											return exercise // set equal to current Exercise ( passed as func parameter )
-										}
-										return item // keep all else the same
-									}) 
-									: Array})) //irrelevant array, keep same
-						}} />
-						{exerciseArray.length>1 &&  
-						<AiOutlineClose onClick={()=>{setNewWorkout(newWorkout.map((item)=>( 
+				<div style={{paddingBottom:"25px",borderBottom:"0.5px solid #C4C4C4"}}>
+					{exerciseArray.map((exercise,i)=>( 
+						<div style={{display:"flex"}}key={`${exercise}${i}`}> {/* if multiple sets of exercise, allow removal*/}
+							<StatRow exercise={exercise} setExercise={(exercise)=>{ 
+								setNewWorkout(
+									newWorkout.map((Array)=>{return exerciseName===Array[0].name  //Find correct array
+										? exerciseArray.map((item,index)=>{ // if correct array, find correct exercise index
+											if (i===index) {
+												return exercise // set equal to current Exercise ( passed as func parameter )
+											}
+											return item // keep all else the same
+										}) 
+										: Array})) //irrelevant array, keep same
+							}} />
+							{exerciseArray.length>1 &&  
+						<AiOutlineClose style={{cursor:"pointer"}} onClick={()=>{setNewWorkout(newWorkout.map((item)=>( 
 							exerciseName === item[0].name 
 								? exerciseArray.filter((item,index)=>(index!=i)) // remove by index
 								: item
 						) 
 						))}} />
-						}
+							}
 
-					</div>
-				))} 
+						</div>
+					))}</div> 
 			</div>
 		</div>
 	)} 
