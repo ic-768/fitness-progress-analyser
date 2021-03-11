@@ -33,13 +33,15 @@ export const filterExercisesByName = (exercises, name) => (
 		exercise.name.toLowerCase().includes(name.toLowerCase())
 	))
 ) 
-export const filterWorkoutsByDate = (workouts, date) => {  
+export const filterWorkoutsByDate = (workouts, dates) => {  
 	//Date property is in workout object, not in individual exercises
 	const resultArray=[]
 	workouts.forEach((workout)=>{
-		if (new Date(workout.date).toDateString() === date.toDateString() ){
+		if (new Date(workout.date) >= dates[0] && new Date(workout.date)<=dates[1]){
 			resultArray.push(workout) 
-		}})
+		}
+	})
+	
 	return resultArray
 }
 

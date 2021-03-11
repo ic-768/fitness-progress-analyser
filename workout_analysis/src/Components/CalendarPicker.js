@@ -1,22 +1,23 @@
-import React,{useState} from "react"
+import React from "react"
 import Calendar from "react-calendar"
 
 import "../Calendar.css"
  
-const CalendarPicker = ({workouts,callback}) => { 
-	const [date,setDate]=useState(new Date())
+const CalendarPicker = ({dateRange,setDateRange, workouts,callback}) => { 
 
-	const onDateChange=(newDate)=>{
-		setDate(newDate)
-		console.log(
-			callback(workouts,newDate))
+	const onDateChange=(newDateRange)=>{
+		setDateRange(newDateRange) // Update selected range
+		callback(workouts,newDateRange)  //Filter stuff with selected range
 	} 
+
 	return (
 		<Calendar
 			onChange={onDateChange}
-			value={date}
+			value={dateRange}
 			showNeighboringMonth={true}
-			locale={"en-US"} />
+			locale={"en-US"} 
+			selectRange={true}
+		/>
 	)
 }
 export default CalendarPicker
