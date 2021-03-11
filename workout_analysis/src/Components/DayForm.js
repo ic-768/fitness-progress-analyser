@@ -23,8 +23,8 @@ const DayForm=({currentRegiment,setCurrentRegiment})=>{
 						{Object.keys(currentRegiment).map((item,i)=>( 
 							<div style ={{display:"flex", flexDirection:"column",alignItems:"center",width:"150px",margin:"10px",padding:"10px",borderRadius:"5px",border:"1px solid black"}}key={i}>
 								<h2 >{item}</h2>
-								<input className="themedCheckbox" type="checkbox" defaultChecked={currentRegiment[item]}
-									onChange={()=>{console.log(currentRegiment);toggleRegimentDay(item)}}></input>
+								<input className="themedCheckbox" type="checkbox"  checked={currentRegiment[item]||""}
+									onChange={()=>{console.log(currentRegiment);toggleRegimentDay(item)}}/>
 							</div>
 						)
 						)}
