@@ -13,11 +13,12 @@ const ExerciseSubmission=({setWorkouts, daysExercises})=>{
 	if (!daysExercises){
 		//TODO allow voluntary exercises
 		return(
-			<div>
-				<h1>
-			No exercises for today! Get some rest :) 
-				</h1>
-				<button onClick={()=>{history.push("/")}}>Home</button>
+			<div style={{display:"flex", height:"100%"}}>
+				<div style={{borderRadius:"5px",marginBottom:"57px",marginLeft:"20px",marginTop:"80px",padding:"40px",backgroundColor:"white",display:"flex",flexDirection:"column"}}>
+					<h1 style={{marginBottom:"57px"}}> <IoIosArrowBack style={{cursor:"pointer"}} onClick={()=>{history.push("/") }}/> My Exercises </h1>
+					<p>No exercises for today! Get some rest :)</p>
+					<button onClick={()=>{history.push("/")}}>Home</button>
+				</div> 
 			</div> 
 		)}
 

@@ -3,11 +3,13 @@ import Calendar from "react-calendar"
 
 import "../Calendar.css"
  
-const CalendarPicker = () => { 
+const CalendarPicker = ({workouts,callback}) => { 
 	const [date,setDate]=useState(new Date())
+
 	const onDateChange=(newDate)=>{
 		setDate(newDate)
-		console.log(newDate)
+		console.log(
+			callback(workouts,newDate))
 	} 
 	return (
 		<Calendar

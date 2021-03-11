@@ -12,9 +12,10 @@ export const setTodaysExercises = (currentRegiment, setDaysExercises) => {
 }
 
 export const exercisesFromWorkouts=(workouts)=>{ //exercise data is nested a bit deep
+	//TODO clean up code
 	const exerciseArray = [] 
 	workouts.map((dayObject)=>(dayObject.exercises))
-		.map((workout)=>{ 
+		.forEach((workout)=>{ 
 			exerciseArray.push(...workout)
 		})
 	return exerciseArray 
@@ -22,29 +23,32 @@ export const exercisesFromWorkouts=(workouts)=>{ //exercise data is nested a bit
 
 //same as above, but one step further
 export const exerciseNamesFromWorkouts=(workouts)=>{
-	return exercisesFromWorkouts(workouts).map((exercise)=>exercise.name)
-	
-
+	//TODO clean up code
+	return exercisesFromWorkouts(workouts).map((exercise)=>exercise.name) 
 }
-export const filterExercises = (exercises, name) => ( 
+
+export const filterExercisesByName = (exercises, name) => ( 
 	//Filter exercise array of a workout object
 	exercises.filter((exercise) => (
 		exercise.name.toLowerCase().includes(name.toLowerCase())
 	))
-)
+) 
+export const filterWorkoutsByDate = (workouts, date) => {  
+	//Date property is in workout object, not in individual exercises
+	const resultArray=[]
+	workouts.forEach((workout)=>{
+		if (new Date(workout.date).toDateString() === date.toDateString() ){
+			resultArray.push(workout) 
+		}})
+	return resultArray
+}
 
 export const getTotalReps = (exercises, name) => { 
-	{ /**
-		* ! Because of filterExercises(), if searching for totalReps of "abs", 
-			abs curls and abs crunches will be mixed together.
-		**/
-	}
-	/*e.g. if user did 3 sets of 8, and then 2 sets of 2 => return 8*3+1*2*/
 	try{
-		const filteredWorkouts = filterExercises(exercises, name) //filter exercises by name 
-		const repsArray = filteredWorkouts.map((exercise) => { //total reps on each exercise
-			return (exercise.reps*exercise.sets)
-		}) 
+		const filteredWorkouts = filterExercisesByName(exercises, name) //filter exercises by name 
+		const repsArray = filteredWorkouts.map((exercise) =>  //total reps on each exercise
+			(exercise.reps*exercise.sets)
+		) 
 		//sum all reps in array
 		return repsArray.reduce((sum,currentValue)=>(sum+currentValue))
 	}
@@ -155,5 +159,4 @@ export const allTimeAnalysis=(workouts,exerciseName,parameter)=>{
 	} 
 	if (total===0) return null
 	return [{timeProperty:"total", total:total||null}]
-}
-
+} 
