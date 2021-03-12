@@ -20,18 +20,21 @@ const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDays
 						style={{marginLeft:"80px",marginTop:"150px",display:"flex",flexDirection:"column", }}>
 						<div onClick={()=>{history.push("/dailySubmission")}}style={centeredStyle}>
 							<h2 style={linkStyle}>
-								<GoPlusSmall style={{color:"white"}}/>
-							Submit a Workout</h2> 
+								<a> <GoPlusSmall style={{color:"white"}}/> Submit a Workout </a>
+							</h2> 
+
 						</div>
 						<div onClick={()=>{history.push("/history")}}
 							style={centeredStyle}> 
 							<h2 style={linkStyle}>
-								<GoPlusSmall style={{color:"white"}} /> 
-							My Workout History</h2>
+								<a> <GoPlusSmall style={{color:"white"}} /> My Workout History </a>
+							</h2>
 						</div> 
 						<div onClick={()=>{history.push("/analysis")}}
 							style={centeredStyle}>
-							<h2 style={linkStyle}> <GoPlusSmall style={{color:"white"}}/> Performance Analysis</h2> 
+							<h2 style={linkStyle}> 
+								<a> <GoPlusSmall style={{color:"white"}}/> Performance Analysis </a>
+							</h2> 
 						</div>
 					</div>
 				</div>

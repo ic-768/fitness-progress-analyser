@@ -37,12 +37,16 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 										: Array})) //irrelevant array, keep same
 							}} />
 							{exerciseArray.length>1 &&  
-						<AiOutlineClose style={{cursor:"pointer"}} onClick={()=>{setNewWorkout(newWorkout.map((item)=>( 
-							exerciseName === item[0].name 
-								? exerciseArray.filter((item,index)=>(index!=i)) // remove by index
-								: item
-						) 
-						))}} />
+							<a
+								onClick={()=>{setNewWorkout(newWorkout.map((item)=>( 
+									exerciseName === item[0].name 
+										? exerciseArray.filter((item,index)=>(index!=i)) // remove by index
+										: item
+								) 
+								))}}
+							>
+								<AiOutlineClose style={{cursor:"pointer"}}  />
+							</a>
 							}
 
 						</div>
