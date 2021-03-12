@@ -11,6 +11,7 @@ import RegisterForm from "./Components/RegisterForm"
 import Banner from "./Components/Banner"
 import LandingPage from "./Components/LandingPage"
 import Headquarters from "./Components/Headquarters"
+import Notification from "./Components/Notification"
 
 import registerService from "./Services/register"
 import exerciseService from "./Services/exercises"
@@ -21,6 +22,8 @@ import { setTodaysExercises } from "./Functions/workoutFunctions"
 function App(){ 
 	const location=useLocation()
 	const [backgroundImage,setBackgroundImage] = useState("Media/weightLiftingGirl.png")
+	const [notification,setNotification] = useState(null) //Action feedback + Error messages
+	//will be object e.g. {color:"red",message:"text"}
 
 	/*user contains authorization token, username, and flag to show if a target regiment has been set.
 	 User workouts history is sent to localStorage on log-in*/
@@ -28,6 +31,15 @@ function App(){
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
 	const [workouts, setWorkouts] = useState(null) // whole week target exercises
+
+
+	useEffect(()=>{ //Turn off notification after 3 sec
+		if(notification){
+			setTimeout(() => { 
+				setNotification(null)
+			}, 3000)
+		} 
+	},[notification])
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
@@ -61,13 +73,16 @@ function App(){
 	return ( 
 		<div className="App" style={{height:"100vh", backgroundImage:`url(${backgroundImage})`,
 			backgroundSize:"cover"}}>
+			{notification && <Notification color={notification.color} message={notification.message}/>}
+
 			{user ? //if user is logged in
 				<>
 					{user.regIsSet
 						?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
 						<div style={{height:"100%",}}>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<Headquarters currentRegiment={currentRegiment}setWorkouts={setWorkouts} workouts={workouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
+							<Headquarters setNotification={setNotification} setWorkouts={setWorkouts} workouts={workouts}
+								daysExercises={daysExercises} />
 						</div>
 						:  //if user hasn't set a regiment, do that.
 						<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
@@ -80,10 +95,10 @@ function App(){
 						timeout={{ enter: 500, exit: 200 }}>
 						<Switch>
 							<Route path="/register">
-								<RegisterForm submitCredentials={registerService.register}/>
+								<RegisterForm setNotification={setNotification} submitCredentials={registerService.register}/>
 							</Route>
 							<Route path="/">
-								<LoginForm submitCredentials={login} setUser={setUser}/> 
+								<LoginForm setNotification={setNotification} submitCredentials={login} setUser={setUser}/> 
 							</Route>
 						</Switch> 
 					</CSSTransition>

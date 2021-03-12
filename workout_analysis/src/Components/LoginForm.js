@@ -1,20 +1,27 @@
 import React,{useState} from "react" 
 import {Link } from "react-router-dom"
 
-const LoginForm=({submitCredentials, setUser})=>{ 
+const LoginForm=({setNotification,submitCredentials, setUser})=>{ 
 
 	const [username, setUsername]=useState("")
 	const [password, setPassword]=useState("")
 
 	const inputStyle={width:"400px",padding:"0",marginBottom:"55px", border:"none", borderBottom:"1px solid black"}
+	//TODO notification on wrong credentials
 
 	return ( 
 		<form  style={{paddingTop:"40px",display:"flex", alignItems:"center"}}
 			onSubmit={async (event)=>{
 				event.preventDefault()
 				const user=await submitCredentials({username,password})
-				console.log(user)
-				setUser(user)
+				if(user){
+					console.log(user)
+					setUser(user) 
+				}
+				else{
+					setNotification({color:"red",message:"Wrong username or password :("})
+
+				}
 			}}> 
 			<div style={{borderRadius:"0 20px 20px 0",backgroundColor:"white",padding:"90px 0 0 60px",height:"624px",width:"608px",
 				marginRight:"auto",display:"flex", flexDirection:"column",

@@ -8,7 +8,6 @@ import MenuCard from "./MenuCard"
 
 
 const History=({workouts})=>{ 
-
 	const [filterQuery, setFilterQuery] = useState("") //Search term
 	const [useDate,setUseDate]=useState(false) // use calendar selection? 
 	const [dateRange,setDateRange]=useState(new Date()) // when interacted with, will become array  with start and end of selection
@@ -71,6 +70,7 @@ const History=({workouts})=>{
 		</>
 
 	)
+
 	return(
 		<>
 			<div style={{display:"flex", height:"100%"}}>

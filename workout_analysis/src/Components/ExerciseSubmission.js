@@ -6,7 +6,7 @@ import exerciseService from "../Services/exercises"
 import ExerciseBox from "./ExerciseBox" 
 import MenuCard from "./MenuCard"
 
-const ExerciseSubmission=({setWorkouts, daysExercises})=>{ 
+const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{ 
 	const history=useHistory()
 
 	if (!daysExercises){
@@ -24,7 +24,6 @@ const ExerciseSubmission=({setWorkouts, daysExercises})=>{
 	const [newWorkout, setNewWorkout]=useState([]) 
 	const [removedExercises, setRemovedExercises]=useState([]) // Keep track of removed exercises
 	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
-	console.log(newWorkout)
 
 	useEffect(()=>{
 		setNewWorkout( daysExercises.map((exerciseName)=>( [{name:exerciseName,reps:1,sets:1}]))) 
@@ -49,17 +48,23 @@ const ExerciseSubmission=({setWorkouts, daysExercises})=>{
 
 			if (validEntries.length>0) { 
 				const sentWorkout=await exerciseService.sendWorkout(exercisesForSubmission) //server response to new workout submission 
-				const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
-				window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local storage
-				setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))//update state
-				history.push("/") 
+				if(sentWorkout){
+					const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
+					window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local storage
+					setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))//update state
+					setNotification({color:"white",message:"Workout uploaded successfully"})
+					history.push("/") 
+				}
+				else{
+					setNotification({color:"red",message:"Something went wrong :("}) 
+				}
 			} 
 			else{
-				console.log("No valid entries")
+				console.log("No valid entries") //Data mangled-Shouldn't happen in production.
 			}
 		}
 		else{
-			console.log("Couldn't find a single submitted exercise :/")
+			setNotification({color:"red",message:"Looks like you haven't submitted any exercises!"}) 
 		} 
 	} 
 	const body=()=>(

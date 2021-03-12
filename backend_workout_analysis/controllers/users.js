@@ -22,9 +22,14 @@ usersRouter.post('/', async(request, response) => {
 		dates:[],
 		currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null},
 		regIsSet:false
-  }) 
-  const savedUser = await user.save()
+	}) 
+	try{
+	const savedUser = await user.save() 
   response.json(savedUser)
+	}
+	catch{
+		return response.status(401).json({ error:'user exists' })
+	}
 })
 
 module.exports = usersRouter

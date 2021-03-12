@@ -1,7 +1,7 @@
 import React,{useState} from "react" 
 import {useHistory,Link} from "react-router-dom"
 
-const RegisterForm=({submitCredentials})=>{ 
+const RegisterForm=({setNotification, submitCredentials})=>{ 
 	const history=useHistory()
 	const [username, setUsername]=useState("")
 	const [password, setPassword]=useState("")
@@ -10,10 +10,13 @@ const RegisterForm=({submitCredentials})=>{
 
 	return ( 
 		<form style={{paddingTop:"40px",display:"flex", alignItems:"center"}}
-			onSubmit={(event)=>{
+			onSubmit={async (event)=>{
 				event.preventDefault()
-				submitCredentials({username,password})
-				history.push("/")
+				if( await	submitCredentials({username,password})){ //Account creation succeeded
+					history.push("/")
+					setNotification({color:"white",message:"User created!"})
+				}
+				else{setNotification({color:"red",message:"Username already exists"})}
 			}}> 
 			<div style={{borderRadius:"0 20px 20px 0",backgroundColor:"white",padding:"90px 0 0 60px",height:"624px",width:"608px",
 				marginRight:"auto",display:"flex", flexDirection:"column",

@@ -5,7 +5,7 @@ import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
 import { GoPlusSmall } from "react-icons/go"
 
-const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDaysExercises})=>{
+const HeadQuarters=({setNotification,setWorkouts,workouts, daysExercises})=>{
 
 	const centeredStyle={marginBottom:"40px",marginTop:"4px",display:"flex", alignItems:"center",}
 	const linkStyle = {display:"inline", color:"white", cursor:"pointer"}
@@ -43,7 +43,8 @@ const HeadQuarters=({currentRegiment,setWorkouts,workouts, daysExercises,setDays
 					: <h1 style={{position:"absolute", bottom:"0",marginBottom:"60px",marginLeft:"60px",color:"white"}}>Welcome!</h1>
 				}</Route>
 			<Route path="/dailySubmission">
-				<ExerciseSubmission currentRegiment={currentRegiment}setWorkouts={setWorkouts} daysExercises={daysExercises} setDaysExercises={setDaysExercises}/>
+				<ExerciseSubmission setNotification={setNotification} setWorkouts={setWorkouts} 
+					daysExercises={daysExercises} />
 			</Route>
 			<Route path="/history"> 
 				<History workouts={workouts}/> 
