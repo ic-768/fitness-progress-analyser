@@ -17,11 +17,9 @@ const verifyToken = token =>{
 	return [success,decodedToken] 
 }
 
-
 workoutRouter.post('/', async(request, response) => {
 	/*Create new workout "day" for user. Append object to mongoDB "day" array, comprising ID, 
-	 * exercise "name", sets and reps */
-
+	 * exercise "name", sets and reps */ 
   const body = request.body 
 	const token = getTokenFrom(request)
 	const [succeeded, decodedToken]=verifyToken(token)
@@ -29,15 +27,14 @@ workoutRouter.post('/', async(request, response) => {
 	if(!succeeded){ // Verification failure
 		return response.status(401).json({error:"token missing or invalid"})
 	}
-	console.log(body)
-
+	console.log(body) 
 	const user = await User.findById(decodedToken.id)
   user.days=user.days.concat({date:new Date(), exercises:body}) 
 	await user.save()
 	response.status(201).json({date:new Date(), exercises:body})
 })
 
-workoutRouter.patch('/regiment', async(request, response) => { //set target regiment
+workoutRouter.patch('/regiment', async(request, response) => { //set/update target regiment
   const regiment = request.body 
 	console.log(regiment)
 	const token = getTokenFrom(request)
@@ -52,4 +49,17 @@ workoutRouter.patch('/regiment', async(request, response) => { //set target regi
 	response.status(201).json(regiment)
 })
 
+workoutRouter.put('/regiment', async(request, response) => { //reset regiment entirely
+	const token = getTokenFrom(request)
+	console.log(token)
+	const [succeeded, decodedToken]=verifyToken(token) 
+	if(!succeeded){ 
+		return response.status(401).json({error:"token missing or invalid"})
+	} 
+	const user = await User.findById(decodedToken.id) 
+	user.currentRegiment={Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null}
+	user.regIsSet=false
+	await user.save()
+	response.status(201).json(user) 
+})
 module.exports = workoutRouter

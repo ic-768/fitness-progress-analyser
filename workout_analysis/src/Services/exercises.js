@@ -6,6 +6,14 @@ const setToken = newToken=> {
 	token = `bearer ${newToken}`
 }
 
+const resetRegiment=async()=> {
+	const config = {
+		headers:{Authorization:token,
+		}}
+	const response = await axios.put(`${baseUrl}/regiment`, null, config)
+	return response.data
+}
+
 const setRegiment=async(regiment)=> {
 	const config = {
 		headers:{Authorization:token,
@@ -36,5 +44,4 @@ const getUserWorkouts=async()=>{
 	return response.data
 }
 
-export default {setToken,sendWorkout,getUserWorkouts,setRegiment}
-
+export default {resetRegiment,setToken,sendWorkout,getUserWorkouts,setRegiment}

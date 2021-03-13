@@ -19,7 +19,8 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 
 	const finaliseRegiment=async()=>{ //when regiment form has been filled out
 		if (!regimentHasEmptyDay()){ // Don't allow submission unless all active days are filled 
-			const returnedRegiment=await exerciseService.setRegiment(currentRegiment) //use server's response as data to be set. Also sets regIsSet in server
+			const returnedRegiment=await exerciseService.setRegiment(currentRegiment) 
+			//use server's response as data to be set. Also sets regIsSet in server
 			const loggedUser=JSON.parse(window.localStorage.getItem("loggedUser"))
 
 			setUser({...user, regIsSet:true}) //update local data
@@ -28,6 +29,11 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 			history.push("/")
 		}
 	}
+	useEffect(()=>{
+		if(!Object.entries(currentRegiment).length){ //No days (happens on refresh), redirect back to selection
+			history.push("/") 
+		}
+	},[])
 
 	useEffect(()=>{
 		regimentHasEmptyDay() 
@@ -57,15 +63,13 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 			</div>
 			<div style={{marginTop:"auto", }}>
 				<button style={{backgroundColor:"#FF8933",visibility:submissionVisibility,
-					width:"80px",height:"50px",
-					borderRadius:"5px",}}
+					width:"80px",height:"50px", borderRadius:"5px",}}
 				onClick={()=>{finaliseRegiment()}}>
 					Save
 				</button>   
 
 				<button style={{
-					width:"80px",height:"50px",
-					borderRadius:"5px",paddingRight:"0px", paddingLeft:"0px"}}
+					width:"80px",height:"50px", borderRadius:"5px",paddingRight:"0px", paddingLeft:"0px"}}
 				onClick={()=>{history.push("/")}}>
 					Back
 				</button>   

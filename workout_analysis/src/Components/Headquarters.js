@@ -1,11 +1,12 @@
 import React from "react" 
 import {Switch,Route,useHistory} from "react-router-dom"
+import { GoPlusSmall } from "react-icons/go"
 import Analysis from "./Analysis"
 import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
-import { GoPlusSmall } from "react-icons/go"
+import AccountPage from "./AccountPage"
 
-const HeadQuarters=({setNotification,setWorkouts,workouts, daysExercises})=>{
+const HeadQuarters=({setUser,setNotification,setWorkouts,workouts, daysExercises})=>{
 
 	const centeredStyle={marginBottom:"40px",marginTop:"4px",display:"flex", alignItems:"center",}
 	const linkStyle = {display:"inline", color:"white", cursor:"pointer"}
@@ -14,7 +15,21 @@ const HeadQuarters=({setNotification,setWorkouts,workouts, daysExercises})=>{
 	
 	return (
 		<Switch>
-			<Route exact path="/">
+			<Route path="/account">
+				<AccountPage setUser={setUser}/>
+
+			</Route>
+			<Route path="/dailySubmission">
+				<ExerciseSubmission setNotification={setNotification} setWorkouts={setWorkouts} 
+					daysExercises={daysExercises} />
+			</Route>
+			<Route path="/history"> 
+				<History workouts={workouts}/> 
+			</Route>
+			<Route path="/analysis" style = {{ height:"100%"}}> 
+				<Analysis workouts={workouts}/> 
+			</Route>
+			<Route path="/">
 				<div style={{height:"100%",display:"flex"}}>
 					<div 
 						style={{marginLeft:"80px",marginTop:"150px",display:"flex",flexDirection:"column", }}>
@@ -36,22 +51,18 @@ const HeadQuarters=({setNotification,setWorkouts,workouts, daysExercises})=>{
 								<a> <GoPlusSmall style={{color:"white"}}/> Performance Analysis </a>
 							</h2> 
 						</div>
+						<div onClick={()=>{history.push("/account")}}
+							style={centeredStyle}>
+							<h2 style={linkStyle}> 
+								<a> <GoPlusSmall style={{color:"white"}}/>My Account</a>
+							</h2> 
+						</div>
 					</div>
 				</div>
 				{workouts && workouts.length>0 
 					?(<h1 style={{position:"absolute", bottom:"0",marginBottom:"60px",marginLeft:"60px",color:"white"}}> Welcome Back</h1>) 
 					: <h1 style={{position:"absolute", bottom:"0",marginBottom:"60px",marginLeft:"60px",color:"white"}}>Welcome!</h1>
 				}</Route>
-			<Route path="/dailySubmission">
-				<ExerciseSubmission setNotification={setNotification} setWorkouts={setWorkouts} 
-					daysExercises={daysExercises} />
-			</Route>
-			<Route path="/history"> 
-				<History workouts={workouts}/> 
-			</Route>
-			<Route path="/analysis" style = {{ height:"100%"}}> 
-				<Analysis workouts={workouts}/> 
-			</Route>
 		</Switch>
 	)
 }

@@ -74,6 +74,7 @@ function App(){
 		<div className="App" style={{height:"100vh", backgroundImage:`url(${backgroundImage})`,
 			backgroundSize:"cover"}}>
 			{notification && <Notification color={notification.color} message={notification.message}/>}
+			{user &&console.log(user.regIsSet)}
 
 			{user ? //if user is logged in
 				<>
@@ -81,11 +82,11 @@ function App(){
 						?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
 						<div style={{height:"100%",}}>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<Headquarters setNotification={setNotification} setWorkouts={setWorkouts} workouts={workouts}
+							<Headquarters setUser={setUser} setNotification={setNotification} setWorkouts={setWorkouts} workouts={workouts}
 								daysExercises={daysExercises} />
 						</div>
 						:  //if user hasn't set a regiment, do that.
-						<LandingPage currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+						<LandingPage setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 					}
 				</>
 				: //if no user, register or login

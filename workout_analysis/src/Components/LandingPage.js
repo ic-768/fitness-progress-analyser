@@ -8,7 +8,7 @@ import RegimentForm from "./RegimentForm"
 import DayForm from "./DayForm"
 import {CSSTransition, TransitionGroup} from "react-transition-group"
 
-const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{ //Responsible for weekly regiment setup
+const LandingPage=({setNotification, currentRegiment,setCurrentRegiment,user,setUser})=>{ //Responsible for weekly regiment setup
 	const location=useLocation()
 
 	useEffect(()=>{  
@@ -27,7 +27,7 @@ const LandingPage=({currentRegiment,setCurrentRegiment,user,setUser})=>{ //Respo
 						<RegimentForm user={user} setUser={setUser} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)
 					</Route> 
 					<Route path="/"> {/*initial page*/}
-						<DayForm currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/> 
+						<DayForm setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/> 
 					</Route>
 				</Switch>
 			</CSSTransition>

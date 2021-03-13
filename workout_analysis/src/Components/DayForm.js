@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom"
 import Banner from "../Components/Banner"
 import Container from "react-bootstrap/Container"
 
-const DayForm=({currentRegiment,setCurrentRegiment})=>{
+const DayForm=({setNotification,currentRegiment,setCurrentRegiment})=>{
 	const history=useHistory()
 
 	const toggleRegimentDay=(dayKey)=>{  //toggles a specific day between null/empty array
@@ -29,8 +29,20 @@ const DayForm=({currentRegiment,setCurrentRegiment})=>{
 						)
 						)}
 					</div>
-					<button style={{height:"40px",marginTop:"20px",backgroundColor:"#FF8933",border:"none", borderRadius:"5px"}}onClick={(event)=>{
-						event.preventDefault();history.push("/setTargetWorkout")}}>Next</button> 
+					<button style={{height:"40px",marginTop:"20px",backgroundColor:"#FF8933",border:"none", borderRadius:"5px"}}
+						onClick={(event)=>{
+							event.preventDefault()
+							let hasAtLeastOne=false
+							for (const key in currentRegiment){
+								if(currentRegiment[key]){ hasAtLeastOne=true 
+								}}
+							if (hasAtLeastOne) {
+								history.push("/setTargetWorkout") 
+							}
+							else{
+								setNotification({color:"red", message:"Pick at least one day to exercise!"})
+							}
+						}}>Next</button> 
 				</form>
 			</Container>
 		</div> 

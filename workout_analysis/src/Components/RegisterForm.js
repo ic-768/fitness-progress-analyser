@@ -12,7 +12,11 @@ const RegisterForm=({setNotification, submitCredentials})=>{
 		<form style={{paddingTop:"40px",display:"flex", alignItems:"center"}}
 			onSubmit={async (event)=>{
 				event.preventDefault()
-				if( await	submitCredentials({username,password})){ //Account creation succeeded
+				if(!username || !password){
+					setNotification({color:"red",message:"Please fill out both fields"})
+
+				}
+				else if( await	submitCredentials({username,password})){ //Account creation succeeded
 					history.push("/")
 					setNotification({color:"white",message:"User created!"})
 				}
