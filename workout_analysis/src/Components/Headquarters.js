@@ -6,7 +6,7 @@ import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
 import AccountPage from "./AccountPage"
 
-const HeadQuarters=({setUser,setNotification,setWorkouts,workouts, daysExercises})=>{
+const HeadQuarters=({currentRegiment, setCurrentRegiment, user, setUser,setNotification,setWorkouts,workouts, daysExercises})=>{
 
 	const centeredStyle={marginBottom:"40px",marginTop:"4px",display:"flex", alignItems:"center",}
 	const linkStyle = {display:"inline", color:"white", cursor:"pointer"}
@@ -16,7 +16,7 @@ const HeadQuarters=({setUser,setNotification,setWorkouts,workouts, daysExercises
 	return (
 		<Switch>
 			<Route path="/account">
-				<AccountPage setUser={setUser}/>
+				<AccountPage  currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user}setUser={setUser}/>
 
 			</Route>
 			<Route path="/dailySubmission">

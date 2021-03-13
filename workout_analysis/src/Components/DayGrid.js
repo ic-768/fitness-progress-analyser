@@ -2,6 +2,7 @@ import React,{useState} from "react"
 
 const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{ 
 	const [exercise,setExercise] = useState("") //individual exercise to control input
+	console.log(exercise)
 
 	return( 
 
