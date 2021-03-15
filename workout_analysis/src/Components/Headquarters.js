@@ -16,7 +16,7 @@ const HeadQuarters=({currentRegiment, setCurrentRegiment, user, setUser,setNotif
 	return (
 		<Switch>
 			<Route path="/account">
-				<AccountPage  currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user}setUser={setUser}/>
+				<AccountPage  setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user}setUser={setUser}/>
 
 			</Route>
 			<Route path="/dailySubmission">

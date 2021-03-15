@@ -3,13 +3,21 @@ import {useHistory} from "react-router-dom"
 import MenuCard from "./MenuCard"
 import RegimentForm from "./RegimentForm"
 import exerciseService from "../Services/exercises"
+import passwordService from "../Services/password"
 
-const AccountPage = ({ currentRegiment,setCurrentRegiment, user,setUser}) => { 
-	const [view,setView] = useState("") //"Reset"/"Edit"/Password
+const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,setUser}) => {
+
+	const [view,setView] = useState("")//"Reset"/"Edit"/Password 
+	const [currentPassword,setCurrentPassword] = useState("")
+
+	const [newPassword,setNewPassword] = useState("") // Let user change password
+	const [validatePassword,setValidatePassword] = useState("") // If these two passwords match
 	const history = useHistory()
 	return( 
 		<div style={{display:"flex",height:"100%"}}> 
-			<MenuCard header={"My Account"}body={()=> (
+			<MenuCard  callback={()=>{setCurrentRegiment(JSON.parse(window.localStorage.getItem("currentRegiment")) 
+			//If unsaved changes, revert currentRegiment
+			)} } header={"My Account"}body={()=> (
 				<>
 					<div style={{height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
 						margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}} > 
@@ -47,13 +55,45 @@ const AccountPage = ({ currentRegiment,setCurrentRegiment, user,setUser}) => {
 								setUser(updatedUser)
 								history.push("/") }}>Yes</button> 
 						</div> )}
-					<div style={{paddingBottom:"25px",borderBottom:"0.5px solid #C4C4C4"}}>
-					</div> 
-				</div> 
-			</div>  
-			}
+
+					{view==="Password" && (
+						<form onSubmit={async(event)=>{
+							event.preventDefault()
+							if (newPassword===validatePassword ){
+								const updatedUser = await passwordService
+									.changePassword({username:user.username,currentPassword,newPassword})
+								if(updatedUser){
+									setUser(updatedUser)
+									setNotification({color:"green",message:"Password changed successfully"}) 
+								}
+								else{ 
+									setNotification({color:"red",message:"Process failed. Wrong password maybe?"}) 
+								}
+							}
+						}} style={{alignItems:"center",width:"100%",display:"flex",flexDirection:"column"}} >
+							<div>
+								<h5>Current password</h5>
+								<input type="password" value={currentPassword} onChange={(event)=>{setCurrentPassword(event.target.value)}}placeholder="current password"/>
+							</div>
+							<div>
+								<h5>New password</h5>
+								<input type="password" value={validatePassword} onChange={(event)=>{setValidatePassword(event.target.value)}}placeholder="new password"/>
+							</div>
+							<div>
+								<h5>Repeat new password</h5>
+								<input type="password" value={newPassword} onChange={(event)=>{setNewPassword(event.target.value)}}placeholder="new password"/>
+							</div>
+							<button style={{marginTop:"15px",borderRadius:"5px",border:"none"}} type="submit">Change my password</button>
+							<div style={{width:"100%",paddingBottom:"25px",borderBottom:"0.5px solid #C4C4C4"}}>
+							</div> 
+						</form>  
+					)}
 			
-		</div>
+				</div> 
+			</div> 
+			}
+		</div> 
 	)
 }
+
 export default AccountPage

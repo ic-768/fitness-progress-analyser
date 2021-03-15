@@ -24,7 +24,7 @@ const LandingPage=({setNotification, currentRegiment,setCurrentRegiment,user,set
 				timeout={{ enter: 500, exit: 200 }}>
 				<Switch location={location}>
 					<Route path="/setTargetWorkout"> {/*second page*/}
-						<RegimentForm user={user} setUser={setUser} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)
+						<RegimentForm backButton={true} user={user} setUser={setUser} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)
 					</Route> 
 					<Route path="/"> {/*initial page*/}
 						<DayForm setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/> 

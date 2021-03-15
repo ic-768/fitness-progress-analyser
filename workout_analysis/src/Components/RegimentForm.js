@@ -5,7 +5,7 @@ import DayGrid from "./DayGrid"
 import DaySubmissions from "./DaySubmissions"
 import Container from "react-bootstrap/Container" 
 
-const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{ 
+const RegimentForm=({backButton,user,setUser,currentRegiment, setCurrentRegiment})=>{ 
 	const [submissionVisibility,setVisibility]=useState("hidden") 
 	const history = useHistory() 
 
@@ -68,11 +68,14 @@ const RegimentForm=({user,setUser,currentRegiment, setCurrentRegiment})=>{
 					Save
 				</button>   
 
+				{backButton &&  //If editing existing regiment from AccountPage, backButton already in MenuCard =>
 				<button style={{
 					width:"80px",height:"50px", borderRadius:"5px",paddingRight:"0px", paddingLeft:"0px"}}
 				onClick={()=>{history.push("/")}}>
 					Back
 				</button>   
+				}
+
 			</div>
 		</Container>
 	)
