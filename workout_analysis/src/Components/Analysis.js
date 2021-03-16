@@ -26,7 +26,7 @@ const Analysis=({workouts})=>{
 			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","reps"))
 		}
 		else if(analysisType==="Monthly"){
-			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","weight"))
+			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","weight"))
 			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","reps"))
 		} 
 		else{

@@ -7,7 +7,6 @@ const LoginForm=({setNotification,submitCredentials, setUser})=>{
 	const [password, setPassword]=useState("")
 
 	const inputStyle={width:"400px",padding:"0",marginBottom:"55px", border:"none", borderBottom:"1px solid black"}
-	//TODO notification on wrong credentials
 
 	return ( 
 		<form  style={{paddingTop:"40px",display:"flex", alignItems:"center"}}
@@ -15,12 +14,10 @@ const LoginForm=({setNotification,submitCredentials, setUser})=>{
 				event.preventDefault()
 				const user=await submitCredentials({username,password})
 				if(user){
-					console.log(user)
 					setUser(user) 
 				}
 				else{
-					setNotification({color:"red",message:"Wrong username or password :("})
-
+					setNotification({color:"red",message:"Wrong username or password :("}) 
 				}
 			}}> 
 			<div style={{borderRadius:"0 20px 20px 0",backgroundColor:"white",padding:"90px 0 0 60px",height:"624px",width:"608px",
@@ -31,7 +28,7 @@ const LoginForm=({setNotification,submitCredentials, setUser})=>{
 					<h1 style ={{marginBottom:"80px"}} className="HomeRoute a-routeFadeIn">Log in.</h1>
 					<input style={inputStyle} value={username} placeholder="Username" 
 						onChange={(event)=>{setUsername(event.target.value) }}/>
-					<input style={inputStyle} value={password} placeholder="Password" 
+					<input type="password"style={inputStyle} value={password} placeholder="Password" 
 						onChange={(event)=>{setPassword(event.target.value) }}/> 
 				</div>
 				<div style = {{display:"flex", flexDirection:"column",alignItems:"center"}}>

@@ -23,5 +23,12 @@ app.use('/api/users', userRouter) /*get/create users,edit non-workout user data*
 app.use('/api/login', loginRouter) 
 app.use('/api/workout', workoutRouter) 
 
+app.get('/*', function(req, res) {
+	res.sendFile(`${__dirname}/build/index.html`,function(err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+})
 
 module.exports = app

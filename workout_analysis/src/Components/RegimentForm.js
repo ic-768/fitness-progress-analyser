@@ -62,7 +62,7 @@ const RegimentForm=({backButton,user,setUser,currentRegiment, setCurrentRegiment
 
 			</div>
 			<div style={{marginTop:"auto", }}>
-				<button style={{backgroundColor:"#FF8933",visibility:submissionVisibility,
+				<button style={{marginTop:"10px",border:"none",backgroundColor:"#FF8933",visibility:submissionVisibility,
 					width:"80px",height:"50px", borderRadius:"5px",}}
 				onClick={()=>{finaliseRegiment()}}>
 					Save

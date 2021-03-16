@@ -39,29 +39,38 @@ button{color:white;
 	transition: opacity 0.2s ease-in-out;
 }
 
-.a-routeFadeIn.fade-exit {
-	animation: none;
-	animation-fill-mode: none;
-	opacity: 1;
-	transition: opacity 0.2s ease-in-out;
-}
-
 .a-routeFadeIn.fade-exit-active {
 	opacity: 0;
 }
 
-/* Transitions prefixed with .t */ 
-.t-daySubmission-enter{
-	opacity:0;
+
+.a-exerciseEntry {
+	animation: a-exerciseEntry 0.3s ease-in-out 0.1s;
+	animation-fill-mode: both;
 }
-.t-daySubmission-enter-active{
-	opacity:1;
-	transition: all 200ms ease-in;
+
+@keyframes a-exerciseEntry {
+	0% {
+		transform: rotate(-90deg) ;
+		opacity:0
+	} 
+
+	100% {
+		transform: rotate(0deg) ;
+		opacity:1
+	}
 }
-.t-daySubmission-exit{
-	transition: all 200ms ease-in;
-	opacity:0;
+
+.a-exerciseEntry.fade-exit {
+	animation: none;
+	animation-fill-mode: none;
 }
-.t-daySubmission-exit-active{
-	opacity:0;
+
+.a-exerciseEntry.fade-exit {
+	animation: none;
+	animation-fill-mode: none;
+}
+
+.a-exerciseEntry.fade-exit-active {
+	opacity: 1;
 }

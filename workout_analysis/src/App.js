@@ -43,7 +43,7 @@ function App(){
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
-		if(Object.entries(user).length>0){ //if no user, will return empty object
+		if(user && Object.entries(user).length>0){ //if no user, will return empty object
 			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 			setUser(user)
 			exerciseService.setToken(user.token) //token will be set on each render

@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from "react"
 import {useHistory} from "react-router-dom"
 import {BsFillTrashFill} from "react-icons/bs"
+import {CSSTransition}  from "react-transition-group"
 
 import exerciseService from "../Services/exercises" 
 import ExerciseBox from "./ExerciseBox" 
@@ -41,13 +42,18 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 		{exerciseArray.forEach((exercise)=>{exercisesForSubmission.push(exercise)}) 
 		})
 
-		if(exercisesForSubmission.length>0){// Non-empty
+		const validatedExercises=exercisesForSubmission.filter((exercise)=>( //validate exercises here
+			exercise.sets!=0 && exercise.reps!=0
+		))
+
+		if(validatedExercises.length>0){// Non-empty
 			const validEntries = newWorkout 
 				.filter((_,i) =>  
-					exercisesForSubmission[i] && true)
+					validatedExercises[i] && true)
+			console.log("trash", exerciseService,setWorkouts,history,validEntries)
 
 			if (validEntries.length>0) { 
-				const sentWorkout=await exerciseService.sendWorkout(exercisesForSubmission) //server response to new workout submission 
+				const sentWorkout=await exerciseService.sendWorkout(validatedExercises) //server response to new workout submission 
 				if(sentWorkout){
 					const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
 					window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local storage
@@ -59,6 +65,7 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 					setNotification({color:"red",message:"Something went wrong :("}) 
 				}
 			} 
+			
 			else{
 				console.log("No valid entries") //Data mangled-Shouldn't happen in production.
 			}
@@ -113,14 +120,17 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 		<div style={{display:"flex", height:"100%"}}>
 			<MenuCard  header={"My Exercises"} body={body}/> 
 			{newWorkout.map((exerciseArray,i)=>{ 
-				if (exerciseArray[0].name!==selectedExercise){return}
-				return( // render only for selected exercise
-					<ExerciseBox key={i} exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
+				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise
+				return( 
+					<div  key={i}style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}> 
+						<CSSTransition timeout={{ enter: 10, exit: 10 }}>
+							<ExerciseBox  exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
+						</CSSTransition>
+					</div>
 				)
 			}) 
 			}
-		</div>
-
+		</div> 
 	)
 } 
 

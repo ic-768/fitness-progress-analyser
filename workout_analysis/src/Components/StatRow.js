@@ -18,7 +18,7 @@ const StatRow=({exercise,setExercise})=>{
 				<input style={{width:"80px",textAlign:"left"}} onChange={(event)=>{
 					setExercise({...exercise, ["sets"]:event.target.value})}}value = {exercise["sets"]}/>
 			</div>
-			{exercise.weight &&( 
+			{exercise.weight!=null &&( 
 				<div style={cellStyle}> 
 					<h5>Weight</h5> 
 					<input style={{width:"80px",textAlign:"left"}} onChange={(event)=>{

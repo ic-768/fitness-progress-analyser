@@ -19,21 +19,20 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 			//If unsaved changes, revert currentRegiment
 			)} } header={"My Account"}body={()=> (
 				<>
-					<div style={{height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
+					<a onClick={()=>{setView("Reset")}} style={{cursor:"pointer",height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
 						margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}} > 
-						<a style ={{cursor:"pointer"}} onClick ={()=>{setView("Reset")}}>
-							Reset weekly regiment</a>
-					</div>
+							Reset weekly regiment
+					</a>
 
-					<div style={{height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
+					<a  onClick={()=>{setView("Edit")}}style={{cursor:"pointer",height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
 						margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}} > 
-						<a onClick={()=>{setView("Edit")}}style ={{cursor:"pointer"}} >Edit weekly regiment </a> 
-					</div>
+						Edit weekly regiment 
+					</a>
 
-					<div style={{height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
+					<a onClick={()=>{setView("Password")}}  style={{cursor:"pointer",height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
 						margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}} > 
-						<a onClick={()=>{setView("Password")}}>Change password</a>
-					</div>
+						Change password
+					</a>
 				</> 
 			)}/>
 
@@ -47,9 +46,11 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 					{view==="Reset" && (
 						<div>
 							<h2>Are you sure you want to reset your weekly regiment?</h2> 
-							<h5 style={{marginTop:"20px"}}>You&apos;ll be redirected to fill out all your weekly exercises from scratch. Alternatively, you can simply edit your existing regiment
+							<h5 style={{marginTop:"20px"}}>You&apos;ll be redirected to fill out all your weekly exercises from scratch. 
+								<br/>
+							Alternatively, you can simply edit your existing regiment
 						from the other option in the menu.</h5> 
-							<button onClick ={async()=>{
+							<button style={{border:"none", borderRadius:"5px"}}onClick ={async()=>{
 								const updatedUser = await exerciseService.resetRegiment()
 								localStorage.setItem("currentRegiment", JSON.stringify(updatedUser.currentRegiment))
 								setUser(updatedUser)
