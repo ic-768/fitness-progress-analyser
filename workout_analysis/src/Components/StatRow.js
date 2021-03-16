@@ -10,18 +10,21 @@ const StatRow=({exercise,setExercise})=>{
 							exercise.weight ? null : 1}) }}>KG</button> {/*Toggle weighted*/}
 			<div style={cellStyle} > 
 				<h5>Repetitions</h5> 
-				<input style={{width:"80px",textAlign:"left"}} onChange={(event)=>{
+				<input type="number" style={{width:"80px",textAlign:"left"}} onChange={(event)=>{
+					(/^[0-9]+$/.test(event.target.value)) &&  // If contains only digits
 					setExercise({...exercise, ["reps"]:event.target.value})}}value = {exercise["reps"]}/> 
 			</div>
 			<div style={cellStyle}> 
 				<h5>Sets</h5> 
-				<input style={{width:"80px",textAlign:"left"}} onChange={(event)=>{
+				<input type="number" style={{width:"80px",textAlign:"left"}} onChange={(event)=>{
+					(/^[0-9]+$/.test(event.target.value)) &&
 					setExercise({...exercise, ["sets"]:event.target.value})}}value = {exercise["sets"]}/>
 			</div>
 			{exercise.weight!=null &&( 
 				<div style={cellStyle}> 
 					<h5>Weight</h5> 
-					<input style={{width:"80px",textAlign:"left"}} onChange={(event)=>{
+					<input type="number" style={{width:"80px",textAlign:"left"}} onChange={(event)=>{
+						(/^[0-9]+$/.test(event.target.value)) &&
 						setExercise({...exercise, ["weight"]:event.target.value})}}value = {exercise["weight"]}/> {/* if weighted, allow changing weight*/}
 				</div>
 
