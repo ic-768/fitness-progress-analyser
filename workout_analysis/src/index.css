@@ -266,14 +266,6 @@ text-align:left;
 }
 
 
- /*History*/ 
-.history__list{
-	height:inherit;
-	border-radius:20px;
-	display:flex;
-	flex-direction:column-reverse;
-}
-
 /*Analysis*/
 .analysis__list{
 	margin-top:30px;
