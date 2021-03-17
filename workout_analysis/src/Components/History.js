@@ -39,7 +39,7 @@ const History=({workouts})=>{
 	},[filterQuery,useDate])  //search box content or checkbox are changed
 
 	if (workouts.length ===0) return ( //TODO styling
-		<div style={{display:"flex", height:"100%"}}>
+		<div className="pageContainer">
 			<MenuCard header={"My History"} body={()=>(null)}/>
 
 			<div style={{  marginTop:"80px",display:"flex",flexDirection:"column"}}> 
@@ -73,7 +73,7 @@ const History=({workouts})=>{
 
 	return(
 		<>
-			<div style={{display:"flex", height:"100%"}}>
+			<div className="pageContainer">
 				<MenuCard header={"My History"} body={body}/>
 
 				<div style={{  marginTop:"80px",display:"flex",flexDirection:"column"}}> 

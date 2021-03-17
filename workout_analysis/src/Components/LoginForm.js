@@ -20,19 +20,16 @@ const LoginForm=({setNotification,submitCredentials, setUser})=>{
 					setNotification({color:"red",message:"Wrong username or password :("}) 
 				}
 			}}> 
-			<div style={{borderRadius:"0 20px 20px 0",backgroundColor:"white",padding:"90px 0 0 60px",height:"624px",width:"608px",
-				marginRight:"auto",display:"flex", flexDirection:"column",
-				alignItems:"center",
-			}}>
-				<div style = {{ marginBottom:"50px",padding:"0px",display:"flex", flexDirection:"column", justifyItems:"flex-start"}}>
+			<div className="credentialBox" >
+				<div className="credentialBox__inputContainer">
 					<h1 style ={{marginBottom:"80px"}} className="HomeRoute a-routeFadeIn">Log in.</h1>
 					<input style={inputStyle} value={username} placeholder="Username" 
 						onChange={(event)=>{setUsername(event.target.value) }}/>
 					<input type="password"style={inputStyle} value={password} placeholder="Password" 
 						onChange={(event)=>{setPassword(event.target.value) }}/> 
 				</div>
-				<div style = {{display:"flex", flexDirection:"column",alignItems:"center"}}>
-					<button style={{border:"none", borderRadius:"5px",backgroundColor:"#ff8933",width:"400px",height:"40px",padding:"5px"}}>Log in</button> 
+				<div className="credentialBox__submission" >
+					<button className="themed" style={{width:"400px",height:"40px"}}>Log in</button>
 					<p> Don&apos;t have an account? <Link style={{color:"#ff8933"}} to="/register"> Sign up </Link></p>
 				</div>
 			</div>

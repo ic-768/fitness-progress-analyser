@@ -42,40 +42,36 @@ const RegimentForm=({backButton,user,setUser,currentRegiment, setCurrentRegiment
 	},[currentRegiment]) //Make submission button appear only once everything is filled
 
 	return(
-		<Container style = {{height:"100%",overflow:"auto",alignItems:"center",borderRadius:"5px",backgroundColor:"white",
-			display:"flex", flexDirection:"column"}}>
-			<div className="HomeRoute a-routeFadeIn" style={{overflow:"auto",display:"flex", flexDirection:"column", 
-				alignItems:"center",marginTop:"20px",height:"100%",flexGrow:"1"}}> 
+		<Container className="regimentForm" >
+			<div className=" regimentForm__fadeContainer HomeRoute a-routeFadeIn"> 
 				<h1>Fill out your weekly regiment</h1>
-				<div style={{height:"100%",backgroundColor:"white",display:"flex", flexWrap:"wrap",justifyContent:"center", alignItems:"flex-start"}}> 
+				<div className="regimentForm__weekContainer"> 
 					{/*for each  (non-null) day-array in currentRegiment, create a DayGrid to fill in target exercises*/}
 					{Object.keys(currentRegiment).map((item,i)=>{  
-						if(!currentRegiment[item]){ return null}
+						if(!currentRegiment[item]){return null}
 						return(
-							<div key={i} style = {{marginTop:"10px",display:"flex", flexDirection:"column", alignItems:"center"}}>
-								<DayGrid  day={item} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
+							<div key={i} className="regimentForm__dayContainer">
+								<DayGrid day={item} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>
 								<DaySubmissions key={item} day={item} setCurrentRegiment={setCurrentRegiment}currentRegiment={currentRegiment}/> 
 							</div>
 						)
-					})} 
-				</div >
-
+					})}
+				</div> 
 			</div>
-			<div style={{marginTop:"auto", }}>
-				<button style={{marginTop:"10px",border:"none",backgroundColor:"#FF8933",visibility:submissionVisibility,
-					width:"80px",height:"50px", borderRadius:"5px",}}
-				onClick={()=>{finaliseRegiment()}}>
+			<div style={{marginBottom:"5px",marginTop:"auto"}}>
+				<button className="themed" 
+					style={{marginRight:"5px",width:"80px",height:"50px",border:"none", 
+						visibility:submissionVisibility}}
+					onClick={()=>{finaliseRegiment()}}>
 					Save
 				</button>   
 
 				{backButton &&  //If editing existing regiment from AccountPage, backButton already in MenuCard =>
-				<button style={{
-					width:"80px",height:"50px", borderRadius:"5px",paddingRight:"0px", paddingLeft:"0px"}}
-				onClick={()=>{history.push("/")}}>
+				<button style={{border:"none", borderRadius:"5px",width:"80px",height:"50px"}}
+					onClick={()=>{history.push("/")}}>
 					Back
 				</button>   
-				}
-
+				} 
 			</div>
 		</Container>
 	)

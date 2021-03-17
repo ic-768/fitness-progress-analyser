@@ -13,7 +13,7 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 	if (!daysExercises){
 		//TODO allow voluntary exercises
 		return(
-			<div style={{display:"flex", height:"100%"}}>
+			<div className="pageContainer">
 				<MenuCard header={"My Exercises"} body={()=>(<p>No exercises for today :)</p>)} />
 			</div> 
 		)}
@@ -76,31 +76,26 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 	} 
 	const body=()=>(
 		<>
-			{ uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
-				<div style={{height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
-					margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}}
-				key={`${uniqueName}${i}`}> 
-					<a onClick={()=>{setSelectedExercise(uniqueName)}} style={{width:"100%",cursor:"pointer",margin:0,marginLeft:"5px",marginRight:"20px",}}>{uniqueName}</a>
-					<a style={{cursor:"pointer",padding:"5px",margin:0,}}
+			{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
+				<div className="menuCard__exercise" key={`${uniqueName}${i}`}> 
+					<a className="menuItem__text" onClick={()=>{setSelectedExercise(uniqueName)}}>{uniqueName}</a>
+					<a style={{cursor:"pointer"}}
 						onClick={()=>{
 							setRemovedExercises(removedExercises.concat(uniqueName))
 							setNewWorkout(newWorkout.filter((exerciseArray)=>(exerciseArray[0].name!==uniqueName))) 
 							setUniqueNames(uniqueNames.filter((name)=>(uniqueName!==name)))
 						}}>
-						<BsFillTrashFill style={{marginLeft:"auto",marginRight:"15px"}} onClick={()=>{ // remove an exercise
-						}}/>
+						<BsFillTrashFill style={{marginLeft:"auto",marginRight:"15px"}}/>
 					</a>
 				</div>
-			)) }
+			))}
 
 			{ removedExercises.length>0 && 
 				<h5 style={{marginTop:"auto",textAlign:"center"}}>Removed</h5> }
 			{ removedExercises.map((exercise)=>{ //bring back a removed exercise
 				return(
-					<div style={{cursor:"pointer",height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
-						borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}}
-					key={exercise}>
-						<a    
+					<div className="menuCard__exercise--removed" key={exercise}> 
+						<a className="menuItem__text"
 							onClick={()=>{
 								setRemovedExercises(removedExercises.filter((name)=>(name!=exercise)))
 								setNewWorkout(newWorkout.concat([[{name:exercise,reps:1,sets:1,weight:null}]]))
@@ -111,18 +106,18 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 					</div>
 				)})
 			}
-			<button style={{borderRadius:"5px",border:"none",marginTop:"auto",}}onClick={()=>
+			<button style={{borderRadius:"5px",marginTop:"auto",}}onClick={()=>
 				submitWorkout(newWorkout)}>Submit</button> 
 		</> 
 	)
 	
 	return ( 
-		<div style={{display:"flex", height:"100%"}}>
-			<MenuCard  header={"My Exercises"} body={body}/> 
+		<div className="pageContainer">
+			<MenuCard header={"My Exercises"} body={body}/> 
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise
 				return( 
-					<div  key={i}style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}> 
+					<div key={i} style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}> 
 						<CSSTransition timeout={{ enter: 10, exit: 10 }}>
 							<ExerciseBox  exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
 						</CSSTransition>

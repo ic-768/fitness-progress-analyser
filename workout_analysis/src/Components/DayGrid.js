@@ -6,8 +6,7 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 
 	return( 
 
-		<form style={{borderRadius:"5px",margin:"5px",display:"flex",flexDirection:"column",
-		}} onSubmit={(event)=>{event.preventDefault()
+		<form className="regimentForm__dayGrid" onSubmit={(event)=>{event.preventDefault()
 			{/*Append submitted exercise to one of day arrays in currentRegiment*/}
 			if(exercise.trim()){ //no empty strings
 				if(currentRegiment[day].includes( //no same exercise in day
@@ -22,19 +21,17 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 				}}
 		}}> 
 
-			<div style={{width:"120px",justifyContent:"center",alignItems:"center",borderRadius:"5px", display:"flex", flexDirection:"column"}}> {/*exercise input*/}
-				<h2 style={{padding:"10px",borderRadius:"5px", color:"black", }}>{day}</h2> 
+			<div style={{alignItems:"center", display:"flex", flexDirection:"column"}}>
+				<h2>{day}</h2> 
 				<input style={{width:"120px"}}value={exercise} name={day} placeholder="exercise" onChange={(event)=>{
 					if(event.target.value!==" "){
 						setExercise(event.target.value)
 					}}}/>
-				<button style={{marginTop:"5px",padding:"0px",width:"57px",height:"20px",border:"none",borderRadius:"5px",backgroundColor:"#FF8933"}}type="submit">add</button>
+				<button className="themed" style={{margin:"5px",padding:"0px",width:"57px"}} type="submit">
+					add
+				</button>
 			</div> 
 
-			<div style={{display:"flex",flexWrap:"wrap",flexDirection:"column",
-				alignContent:"center",justifyContent:"space-between"}}>
-
-			</div>
 		</form> 
 	)
 

@@ -3,19 +3,19 @@ import React from "react"
 const DaySubmissions=({currentRegiment,setCurrentRegiment, day})=>{
 
 	return(
-		<div key={day} style={{padding:"10px",display:"flex", flexDirection:"column",alignItems:"center",
-		}}>
-			<ul style={{padding:"0",margin:"0",width:"100%", display:"flex" ,flexDirection:"column"}}>
+		<div key={day} style={{display:"flex", flexDirection:"column"}}>
+			<ul>
 				{currentRegiment[day].map((exercise,i)=>( 
-					<div  key={`${exercise}${i}`} style={{paddingTop:"4px",width:"100%",display:"flex",flexGrow:"1", 
-						flexDirection:"column",
-					}}> {/*show each submitted exercise*/}
-						<div style={{width:"100%",display:"flex",alignItems:"center", alignContent:"center", justifyContent:"center",justifyItems:"center"}}>
-							<p style={{margin:"0", marginRight:"4px"}}>
+					<div key={`${exercise}${i}`} 
+						style={{paddingBottom:"5px",display:"flex", 
+							flexDirection:"column",
+						}}> {/*show each submitted exercise*/}
+						<div style={{display:"flex",alignItems:"center", justifyContent:"center",}}>
+							<p style={{margin:"0",marginRight:"6px"}}>
 								{exercise}
 							</p> 
 							{/*remove exercise*/}
-							<button  style={{border:"none",borderRadius:"5px",marginLeft:"auto"}}type="button" onClick={()=>
+							<button style={{borderRadius:"5px",marginLeft:"auto"}} type="button" onClick={()=>
 								setCurrentRegiment( 
 									{...currentRegiment, 
 										[day]:currentRegiment[day].filter((name)=>(

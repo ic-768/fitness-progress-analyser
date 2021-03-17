@@ -17,25 +17,26 @@ const DayForm=({setNotification,currentRegiment,setCurrentRegiment})=>{
 		<div style={{overflow:"auto"}}>
 			<Banner/>
 			<Container>
-				<form style={{backgroundColor:"white",margin:"40px",padding:"50px",borderRadius:"5px",display:"flex",flexDirection:"column", alignItems:"center"}}> {/*one checkbox for each day, to toggle if it will be an active day or not*/}
-					<h1 style={{borderRadius:"20px",padding:"20px",fontWeight:"bold",color:"black",marginTop:"40px"}}>Which days will you be working out on?</h1>
-					<div style={{flexWrap:"wrap",marginTop:"20px",display:"flex", justifyContent:"center",justifyItems:"center"}}>
+				<form  className="dayForm"> 
+					<h1 style={{fontWeight:"bold"}}>
+						Which days will you be working out on?</h1>
+					<div className="dayForm__dayContainer">
 						{Object.keys(currentRegiment).map((item,i)=>( 
-							<div style ={{display:"flex", flexDirection:"column",alignItems:"center",width:"150px",margin:"10px",padding:"10px",borderRadius:"5px",border:"1px solid black"}}key={i}>
+							<div className="dayForm__dayBox"key={i}>
 								<h2 >{item}</h2>
-								<input className="themedCheckbox" type="checkbox"  checked={currentRegiment[item]||""}
+								<input  type="checkbox"  checked={currentRegiment[item]||""}
 									onChange={()=>{console.log(currentRegiment);toggleRegimentDay(item)}}/>
 							</div>
-						)
-						)}
+						))}
 					</div>
-					<button style={{height:"40px",marginTop:"20px",backgroundColor:"#FF8933",border:"none", borderRadius:"5px"}}
+					<button className="themed" style={{marginTop:"20px"}}
 						onClick={(event)=>{
 							event.preventDefault()
 							let hasAtLeastOne=false
 							for (const key in currentRegiment){
-								if(currentRegiment[key]){ hasAtLeastOne=true 
-								}}
+								if(currentRegiment[key]){
+									hasAtLeastOne=true }
+							}
 							if (hasAtLeastOne) {
 								history.push("/setTargetWorkout") 
 							}
