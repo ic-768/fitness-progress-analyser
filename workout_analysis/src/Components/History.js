@@ -38,13 +38,12 @@ const History=({workouts})=>{
 		} 
 	},[filterQuery,useDate])  //search box content or checkbox are changed
 
-	if (workouts.length ===0) return ( //TODO styling
+	if (workouts.length ===0) return ( 
 		<div className="pageContainer">
 			<MenuCard header={"My History"} body={()=>(null)}/>
 
-			<div style={{  marginTop:"80px",display:"flex",flexDirection:"column"}}> 
-				<div style={{marginBottom:"57px",overflowY:"auto",minWidth:"500px",padding:"0px 58px 36px 58px",boxShadow: ("0px 0px 4px rgba(0, 0, 0, 0.45)"),borderRadius:"5px",
-					backgroundColor:"white",marginLeft:"58px",marginRight:"58px"}}>
+			<div style={{marginTop:"80px",display:"flex",flexDirection:"column"}}> 
+				<div className="historyContainer">					
 					<h2>It looks like you&apos;s never submitted an exercise!</h2>
 					<h4 style={{marginTop:"40px"}}>After you submit one, you can start viewing your past workouts here.</h4>
 				</div>
@@ -56,31 +55,24 @@ const History=({workouts})=>{
 	const body=()=>(
 		<>
 			<p>Search by name</p>
-			<Form  style={{marginBottom:"40px"}} onSubmit={(event)=>{event.preventDefault()}}>
-				<FormControl type="text" placeholder="Search exercises" className="mr-sm-2" onChange={(event)=>{ 
-					setFilterQuery(event.target.value)
-				}} />
+			<Form style={{marginBottom:"40px"}} onSubmit={(event)=>{event.preventDefault()}}>
+				<FormControl type="text" placeholder="e.g. pushups"  onChange={(event)=>{setFilterQuery(event.target.value)}}/>
 			</Form>
 			<div>
 				<p style={{marginRight:"20px",display:"inline"}}>Filter by date</p>
-				<input type="checkbox" value={useDate} onClick={()=>{setUseDate(!useDate)}}/> {/* ON TOGGLE OFF, SET DATE RANGE TO UNREALISTIC RANGES*/}
+				<input type="checkbox" value={useDate} onClick={()=>{setUseDate(!useDate)}}/> 
 			</div>
-			<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={workouts} callback={filterByDate} />
-
-		</>
-
+			<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={workouts} callback={filterByDate} /> 
+		</> 
 	)
 
 	return(
 		<>
 			<div className="pageContainer">
-				<MenuCard header={"My History"} body={body}/>
-
-				<div style={{  marginTop:"80px",display:"flex",flexDirection:"column"}}> 
-					{ filteredWorkouts && filteredWorkouts.length>0 && 
-				<div style={{marginBottom:"57px",overflowY:"auto",minWidth:"500px",padding:"0px 58px 36px 58px",boxShadow: ("0px 0px 4px rgba(0, 0, 0, 0.45)"),borderRadius:"5px",
-					backgroundColor:"white",marginLeft:"58px",marginRight:"58px"}}>
-					<ul style={{ height:"inherit",listStyleType:"none",backgroundColor:"white",borderRadius:"20px",display:"flex", flexDirection:"column", }}>
+				<MenuCard header={"My History"} body={body}/> 
+				{ filteredWorkouts && filteredWorkouts.length>0 && 
+				<div className="resultPage history">
+					<ul Name="history__list" style={{listStyleType:"none"}}>
 						{filteredWorkouts.map((workout,index)=>( 
 							<li key={index} >
 								<HistoryWorkout workout={workout} /> 
@@ -88,7 +80,6 @@ const History=({workouts})=>{
 						))}
 					</ul>
 				</div>}
-				</div>
 			</div>
 		</>
 	)

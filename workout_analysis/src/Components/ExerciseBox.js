@@ -9,13 +9,11 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 	const exerciseName=exerciseArray[0].name
 
 	return(
-		<div className="a-exerciseEntry"
-			style={{minWidth:"500px",padding:"36px 58px 36px 58px",boxShadow: ("0px 0px 4px rgba(0, 0, 0, 0.45)"),borderRadius:"5px",
-				backgroundColor:"white",marginLeft:"58px",marginRight:"58px"}}>
+		<div className="a-exerciseEntry exerciseBox" >
 			<h5>Title</h5>
-			<div style={{color:"#FF8933",marginBottom:"15px",display:"flex",alignItems:"center"}}>
+			<div style={{marginBottom:"15px",display:"flex"}}>
 				<h3 style={{display:"inline",color:"black"}}>{exerciseName} </h3>
-				<button style={{backgroundColor:"#FF8933",marginLeft:"auto",border:"none",borderRadius:"5px"}}onClick={()=>{setNewWorkout(
+				<button className="themed" style={{marginLeft:"auto"}} onClick={()=>{setNewWorkout(
 					newWorkout.map((Array)=>{return exerciseName===Array[0].name 
 						? Array.concat({name:exerciseName,reps:1,sets:1,weight:null})  //Append new exercise instance to array
 						: Array}))}}>

@@ -3,13 +3,10 @@ import React from "react"
 const DaySubmissions=({currentRegiment,setCurrentRegiment, day})=>{
 
 	return(
-		<div key={day} style={{display:"flex", flexDirection:"column"}}>
+		<div className="pageContainer"key={day} >
 			<ul>
 				{currentRegiment[day].map((exercise,i)=>( 
-					<div key={`${exercise}${i}`} 
-						style={{paddingBottom:"5px",display:"flex", 
-							flexDirection:"column",
-						}}> {/*show each submitted exercise*/}
+					<div key={`${exercise}${i}`} style={{padding:"2px"}}> {/*show each submitted exercise*/}
 						<div style={{display:"flex",alignItems:"center", justifyContent:"center",}}>
 							<p style={{margin:"0",marginRight:"6px"}}>
 								{exercise}

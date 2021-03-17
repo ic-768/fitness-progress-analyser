@@ -29,8 +29,25 @@ button.themed{
 	border-radius:5px;
 }
 
+th * {
+	color:cornflowerblue;
+}
+
 /*COMPONENTS*/ 
 .pageContainer{height:100%;display:flex}
+
+.resultPage{
+	background-color:white;
+	margin-bottom:57px;
+	overflow-y:auto;
+	min-width:500px;
+	padding:0px 58px 36px 58px;
+	box-shadow: (0px 0px 4px rgba(0, 0, 0, 0.45));
+	border-radius:5px;
+	margin-left:58px;
+	margin-right:58px;
+	margin-top:80px 
+}
 
 	/*Login & Register Forms*/
 .credentialBox { 
@@ -214,8 +231,67 @@ border: 1px solid black;
 	margin-left:5px;
 	margin-right:20px
 }
-	/*Exercise Submission*/ 
-	gg
+
+.menuCard__account:hover{
+		color:black;
+	 text-decoration:none;
+
+}
+.menuCard__account{
+ 	cursor:pointer;
+ 	height:36px;
+ 	display:flex;
+ 	align-items:center;
+ 	justify-content:center;
+ 	 margin:5px;
+ 	border-radius:5px;
+	 box-shadow:0px 0px 4px rgba(0, 0, 0, 0.45) ;
+		color:black;
+	 text-decoration:none;
+	}
+
+	/*Exercise Submission*/
+.exerciseBox{
+	min-width:500px;
+	padding:36px 58px 36px 58px;
+	box-shadow: (0px 0px 4px rgba(0, 0, 0, 0.45));
+	border-radius:5px;
+	background-color:white;
+	margin-left:58px;
+	margin-right:58px
+}
+.statRow__input{
+width:80px;
+text-align:left;
+}
+
+
+ /*History*/ 
+.history__list{
+	height:inherit;
+	border-radius:20px;
+	display:flex;
+	flex-direction:column-reverse;
+}
+
+/*Analysis*/
+.analysis__list{
+	margin-top:30px;
+	padding:0px;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	justify-items:center;
+	align-content:center; 
+}
+.analysis__result{ 
+	margin:0px 5px 0px 10px;
+	display:flex;
+	flex-direction:column;
+	align-items:center
+}
+
+	/*Account*/
 /*ANIMATIONS*/
 .a-routeFadeIn {
 	animation: a-routeFadeIn 0.5s ease-in-out 0.35s;
@@ -244,7 +320,7 @@ border: 1px solid black;
 }
 
 .a-exerciseEntry {
-	animation: a-exerciseEntry 0.3s ease-in-out 0.1s;
+	animation: a-exerciseEntry 0.4s ease-in-out 0s;
 	animation-fill-mode: both;
 }
 
@@ -258,18 +334,9 @@ border: 1px solid black;
 		transform: rotate(0deg) ;
 		opacity:1
 	}
-}
+} 
 
 .a-exerciseEntry.fade-exit {
 	animation: none;
 	animation-fill-mode: none;
-}
-
-.a-exerciseEntry.fade-exit {
-	animation: none;
-	animation-fill-mode: none;
-}
-
-.a-exerciseEntry.fade-exit-active {
-	opacity: 1;
 }

@@ -21,89 +21,71 @@ const Analysis=({workouts})=>{
 	const [weightAnalysis,setWeightAnalysis]=useState(null)  //Data from analysis
 
 	useEffect(()=>{
-		if(analysisType==="Daily"){
+		switch(analysisType){
+		case "Daily": 
 			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","weight"))
 			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","reps"))
-		}
-		else if(analysisType==="Monthly"){
+			break
+		case "Monthly": 
 			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","weight"))
 			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","reps"))
-		} 
-		else{
+			break
+		default: 
 			setWeightAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"weight"))
 			setRepsAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"reps"))
+			break
 		}
-
 	},[selection, analysisType])
 	
 	if (workouts.length===0) return (
-		<div style={{display:"flex", height:"100%"}}>
-			<MenuCard header={"Performance Analysis"} body={()=>(null)}/>
-
-			<div style={{  marginTop:"80px",display:"flex",flexDirection:"column"}}> 
-				<div style={{marginBottom:"57px",overflowY:"auto",minWidth:"500px",padding:"0px 58px 36px 58px",boxShadow: ("0px 0px 4px rgba(0, 0, 0, 0.45)"),borderRadius:"5px",
-					backgroundColor:"white",marginLeft:"58px",marginRight:"58px"}}>
-					<h2>It looks like you&apos;s never submitted an exercise!</h2>
-					<h4 style={{marginTop:"40px"}}>After you submit one, you can start viewing your progress here, and get various performance stats.</h4>
-				</div>
-			</div> 
-
+		<div className="pageContainer">
+			<MenuCard header={"Performance Analysis"} body={()=>(null)}/> 
+			<div className="resultPage analysis">
+				<h2>It looks like you&apos;s never submitted an exercise!</h2>
+				<h4 style={{marginTop:"40px"}}>After you submit one, you can start viewing your progress here, and get various performance stats.</h4>
+			</div>
 		</div> 
 	)
 
 	const body=()=>(
 		<>
-			<input style={{marginTop:"20px"}} onChange={(event)=>{ //filter suggestions
+			<input placeholder="exercise" onChange={(event)=>{ //filter suggestions
 				setSuggestions(exerciseNameCache.filter((name)=>(
-					name.toLowerCase().includes(event.target.value.toLowerCase())
-				))) }} placeholder="exercise"> 
-			</input> 
+					name.toLowerCase().includes(event.target.value.toLowerCase()))))
+			}}/> 
 			{suggestions.length<5 //if suggestions narrowed down, allow setting the selection for analysis
-				? (<ul style={{marginTop:"30px",padding:"0px",display:"flex", 
-					flexDirection:"column",
-					justifyContent:"center",
-					justifyItems:"center", alignContent:"center",
-				}}>{suggestions.map((suggestion,index)=> 
-						(<div style={{ margin:"0px 5px 0px 10px",display:"flex", flexDirection:"column", alignItems:"center",}}key={index}>
-							<h5 style={{color:"black"}}>{suggestion}</h5> 
-							<Dropdown style ={{borderRadius:"50px"}} key ={`${index}Button`}>
-								<Dropdown.Toggle>
+				? (<ul className="analysis__list">{suggestions.map((suggestion,index)=> 
+					(<div className="analysis__result" key={index}>
+						<h5>{suggestion}</h5> 
+						<Dropdown key ={`${index}Button`}>
+							<Dropdown.Toggle>
 							Analyse 
-								</Dropdown.Toggle>
-								<Dropdown.Menu>
-									<Dropdown.Item onClick={()=>{setAnalysisType("Daily");setSelection(suggestions[index])}}> Daily</Dropdown.Item>
-									<Dropdown.Item onClick={()=>{setAnalysisType("Monthly");setSelection(suggestions[index])}}> Monthly</Dropdown.Item>
-									<Dropdown.Item onClick={()=>{setAnalysisType("All-Time");setSelection(suggestions[index])}}> All-Time</Dropdown.Item>
-								</Dropdown.Menu>
-							</Dropdown>
-						</div>)
-					)} </ul>)  
-				: (<h6 style={{margin:"40px 0 40px 0",color:"black"}}>Too many suggestions to show!</h6>)} 
+							</Dropdown.Toggle>
+							<Dropdown.Menu>
+								<Dropdown.Item onClick={()=>{setAnalysisType("Daily");setSelection(suggestions[index])}}> Daily</Dropdown.Item>
+								<Dropdown.Item onClick={()=>{setAnalysisType("Monthly");setSelection(suggestions[index])}}> Monthly</Dropdown.Item>
+								<Dropdown.Item onClick={()=>{setAnalysisType("All-Time");setSelection(suggestions[index])}}> All-Time</Dropdown.Item>
+							</Dropdown.Menu>
+						</Dropdown>
+					</div>)
+				)} </ul>)  
+				: (<h6>Too many suggestions to show!</h6>)} 
 		</>
-	)
-
+	) 
 	return(
-		<div style={{display:"flex",height:"100%"}}> 
-			<MenuCard header={"Analyse"} body={body}/>
-
-
+		<div className="pageContainer"> 
+			<MenuCard header={"Analyse"} body={body}/> 
 			{ repsAnalysis && selection &&  //Right-side card
-				<div style={{ marginTop:"80px",display:"flex",flexDirection:"column" }} >
-					<div style={{overflowY:"auto",minWidth:"500px",padding:"36px 58px 36px 58px",boxShadow: ("0px 0px 4px rgba(0, 0, 0, 0.45)"),borderRadius:"5px",
-						backgroundColor:"white",marginLeft:"58px",marginRight:"58px",marginBottom:"57px"}}>
-					
+					<div className="resultPage analysis"> 
 						<h2 >{analysisType}</h2>
 						<h2>Total repetitions</h2>
 						<AnalysisPlot analysis={repsAnalysis} dataKey="total"/>
-						{
-							weightAnalysis && ( 
-								<>
-									<h2>Total weight lifted</h2>
-									<AnalysisPlot analysis={weightAnalysis} dataKey="total" />
-								</>) 
-						}
+						{ weightAnalysis && ( 
+							<>
+								<h2>Total weight lifted</h2>
+								<AnalysisPlot analysis={weightAnalysis} dataKey="total" />
+							</> )}
 					</div>
-				</div>
 			}
 		</div>
 	)

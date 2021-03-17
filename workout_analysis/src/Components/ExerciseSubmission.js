@@ -95,7 +95,7 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 			{ removedExercises.map((exercise)=>{ //bring back a removed exercise
 				return(
 					<div className="menuCard__exercise--removed" key={exercise}> 
-						<a className="menuItem__text"
+						<a key={exercise} className="menuItem__text"
 							onClick={()=>{
 								setRemovedExercises(removedExercises.filter((name)=>(name!=exercise)))
 								setNewWorkout(newWorkout.concat([[{name:exercise,reps:1,sets:1,weight:null}]]))

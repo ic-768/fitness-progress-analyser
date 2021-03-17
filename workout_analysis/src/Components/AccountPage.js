@@ -14,37 +14,33 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 	const [validatePassword,setValidatePassword] = useState("") // If these two passwords match
 	const history = useHistory()
 	return( 
-		<div style={{display:"flex",height:"100%"}}> 
+		<div className="pageContainer"> 
 			<MenuCard  callback={()=>{setCurrentRegiment(JSON.parse(window.localStorage.getItem("currentRegiment")) 
 			//If unsaved changes, revert currentRegiment
 			)} } header={"My Account"}body={()=> (
 				<>
-					<a onClick={()=>{setView("Reset")}} style={{cursor:"pointer",height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
-						margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}} > 
+					<a className="menuCard__account"onClick={()=>{setView("Reset")}}> 
 							Reset weekly regiment
 					</a>
 
-					<a  onClick={()=>{setView("Edit")}}style={{cursor:"pointer",height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
-						margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}} > 
+					<a  className="menuCard__account"onClick={()=>{setView("Edit")}}> 
 						Edit weekly regiment 
 					</a>
 
-					<a onClick={()=>{setView("Password")}}  style={{cursor:"pointer",height:"36px",display:"flex",alignItems:"center", justifyContent:"center",
-						margin:"5px",borderRadius:"5px",boxShadow:"0px 0px 4px rgba(0, 0, 0, 0.45)"}} > 
+					<a className="menuCard__account" onClick={()=>{setView("Password")}}> 
 						Change password
 					</a>
 				</> 
 			)}/>
 
 			{view && 
-			<div style={{ marginTop:"80px",display:"flex",flexDirection:"column"}}> 
-				<div style={{marginBottom:"57px",overflowY:"auto",minWidth:"500px",padding:"36px 58px 36px 58px",boxShadow: ("0px 0px 4px rgba(0, 0, 0, 0.45)"),borderRadius:"5px",
-					backgroundColor:"white",marginLeft:"58px",marginRight:"58px"}}>
+				<div className="resultPage account" style={{display:"flex"}}>
 					{view==="Edit" && (
-						<RegimentForm  user={user} setUser={setUser} currentRegiment={currentRegiment} 
-							setCurrentRegiment={setCurrentRegiment}/>)}
+						<RegimentForm  user={user} setUser={setUser} 
+							currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)}
+
 					{view==="Reset" && (
-						<div>
+						<div style={{marginTop:"20px"}}>
 							<h2>Are you sure you want to reset your weekly regiment?</h2> 
 							<h5 style={{marginTop:"20px"}}>You&apos;ll be redirected to fill out all your weekly exercises from scratch. 
 								<br/>
@@ -58,40 +54,44 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 						</div> )}
 
 					{view==="Password" && (
-						<form onSubmit={async(event)=>{
-							event.preventDefault()
-							if (newPassword===validatePassword ){
-								const updatedUser = await passwordService
-									.changePassword({username:user.username,currentPassword,newPassword})
-								if(updatedUser){
-									setUser(updatedUser)
-									setNotification({color:"green",message:"Password changed successfully"}) 
+						<form 
+							style={{marginTop:"40px",alignItems:"center",width:"100%",display:"flex",flexDirection:"column"}}
+							onSubmit={async(event)=>{
+								event.preventDefault()
+								if (newPassword===validatePassword ){
+									const updatedUser = await passwordService
+										.changePassword({username:user.username,currentPassword,newPassword})
+									if(updatedUser){
+										setUser(updatedUser)
+										setNotification({color:"green",message:"Password changed successfully"}) 
+									}
+									else{ 
+										setNotification({color:"red",message:"Process failed. Wrong password maybe?"}) 
+									}
 								}
-								else{ 
-									setNotification({color:"red",message:"Process failed. Wrong password maybe?"}) 
-								}
-							}
-						}} style={{alignItems:"center",width:"100%",display:"flex",flexDirection:"column"}} >
+							}}  >
 							<div>
-								<h5>Current password</h5>
-								<input type="password" value={currentPassword} onChange={(event)=>{setCurrentPassword(event.target.value)}}placeholder="current password"/>
+								<h5 >Current password</h5>
+								<input style={{marginBottom:"20px"}}type="password" value={currentPassword} onChange={(event)=>{
+									setCurrentPassword(event.target.value)}}placeholder="current password"/>
 							</div>
 							<div>
-								<h5>New password</h5>
-								<input type="password" value={validatePassword} onChange={(event)=>{setValidatePassword(event.target.value)}}placeholder="new password"/>
+								<h5 >New password</h5>
+								<input style={{marginBottom:"20px"}}type="password" value={validatePassword} onChange={(event)=>{
+									setValidatePassword(event.target.value)}}placeholder="new password"/>
 							</div>
 							<div>
-								<h5>Repeat new password</h5>
-								<input type="password" value={newPassword} onChange={(event)=>{setNewPassword(event.target.value)}}placeholder="new password"/>
+								<h5 >Repeat new password</h5>
+								<input style={{marginBottom:"20px"}}type="password" value={newPassword} onChange={(event)=>{
+									setNewPassword(event.target.value)}}placeholder="new password"/>
 							</div>
 							<button style={{marginTop:"15px",borderRadius:"5px",border:"none"}} type="submit">Change my password</button>
-							<div style={{width:"100%",paddingBottom:"25px",borderBottom:"0.5px solid #C4C4C4"}}>
+							<div style={{marginTop:"auto",marginBottom:"20px",width:"100%",borderBottom:"0.5px solid #C4C4C4"}}>
 							</div> 
 						</form>  
 					)}
 			
 				</div> 
-			</div> 
 			}
 		</div> 
 	)
