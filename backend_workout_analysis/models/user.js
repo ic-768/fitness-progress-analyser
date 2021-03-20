@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   name: String,
-  passwordHash: String,
+	passwordHash: String,
+	isTrainer:Boolean,
+	/* if athlete */
   days : [
     {
 			date: Date, //each day will have a date and a list of exercises
@@ -20,17 +22,17 @@ const userSchema = new mongoose.Schema({
 				}
 			]
     }
-  ],
-	currentRegiment:{}, // exercise regiment for user to focus on. Will contain keys of days, and array values with names of exercises. E.g.Mon: ["situps","pushups", etc.]
-	regIsSet:Boolean
-})
+	],
+		currentRegiment:{}, // exercise regiment for user to focus on. Will contain keys of days, and array values with names of exercises. E.g.Mon: ["situps","pushups", etc.]
+		regIsSet:Boolean,
+		/*if trainer */
+			clients: [] ,
+},{strict:false}) 
 
 userSchema.plugin(uniqueValidator)
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
     delete returnedObject.__v
     delete returnedObject.passwordHash
   }

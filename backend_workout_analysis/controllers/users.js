@@ -4,11 +4,11 @@ const User = require ('../models/user')
 
 usersRouter.get('/', async(request, response) => {
   const user=await User
-    .find({}).populate('dates')
+    .find({}).populate('dates') //TODO no populate necessary
   response.json(user)
 })
 
-usersRouter.post('/', async(request, response) => {
+usersRouter.post('/', async(request, response) => { // same for trainer - just add new field for clients, and add client array one by one
 	/*Register new user*/
   const body = request.body 
   if (!body.username || !body.password){
@@ -16,12 +16,11 @@ usersRouter.post('/', async(request, response) => {
   } 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(body.password, saltRounds) 
-  const user = new User({
+  const user = new User({   // Initialised to an athlete's fields - if trainer => remove currentRegiment, regIsSet, add clients, etc
     username: body.username,
     passwordHash,
-		dates:[],
 		currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null},
-		regIsSet:false
+		regIsSet:false,
 	}) 
 	try{
 		const savedUser = await user.save() 

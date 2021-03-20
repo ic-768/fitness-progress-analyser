@@ -1,9 +1,9 @@
-import ExerciseService from "../Services/exercises"
+import tokenService from "../Services/token"
 import LoginService from "../Services/login"
 
 export const login = async(username, password) => {
 	const user = await LoginService.login(username, password)
-	ExerciseService.setToken(user.token) 
+	tokenService.setToken(user.token) 
 
 	/*initialise local storage*/ 
 	/* set user's details. Last field specifies if user has set a workout regiment (false for new users) */

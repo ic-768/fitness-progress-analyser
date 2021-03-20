@@ -126,6 +126,7 @@ border: 1px solid black;
 }
 
 .regimentForm__fadeContainer{
+
 	overflow:auto;
 	display:flex;
 	flex-direction:column;
@@ -264,7 +265,6 @@ border: 1px solid black;
 width:80px;
 text-align:left;
 }
-
 
 /*Analysis*/
 .analysis__list{

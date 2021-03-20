@@ -22,7 +22,7 @@ const LoginForm=({setNotification,submitCredentials, setUser})=>{
 			}}> 
 			<div className="credentialBox" >
 				<div className="credentialBox__inputContainer">
-					<h1 style ={{marginBottom:"80px"}} className="HomeRoute a-routeFadeIn">Log in.</h1>
+					<h1 style ={{marginBottom:"80px"}} className="HomeRoute a-routeFadeIn">Log in</h1>
 					<input style={inputStyle} value={username} placeholder="Username" 
 						onChange={(event)=>{setUsername(event.target.value) }}/>
 					<input type="password"style={inputStyle} value={password} placeholder="Password" 

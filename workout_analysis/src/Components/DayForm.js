@@ -38,7 +38,7 @@ const DayForm=({setNotification,currentRegiment,setCurrentRegiment})=>{
 									hasAtLeastOne=true }
 							}
 							if (hasAtLeastOne) {
-								history.push("/setTargetWorkout") 
+								history.push("/athlete/setTargetWorkout") 
 							}
 							else{
 								setNotification({color:"red", message:"Pick at least one day to exercise!"})

@@ -14,7 +14,7 @@ import Headquarters from "./Components/Headquarters"
 import Notification from "./Components/Notification"
 
 import registerService from "./Services/register"
-import exerciseService from "./Services/exercises"
+import tokenService from "./Services/token"
 import {login,logout}from "./Functions/userFunctions"
 import { setTodaysExercises } from "./Functions/workoutFunctions"
 
@@ -46,7 +46,7 @@ function App(){
 		if(user && Object.entries(user).length>0){ //if no user, will return empty object
 			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 			setUser(user)
-			exerciseService.setToken(user.token) //token will be set on each render
+			tokenService.setToken(user.token) //token will be set on each render
 		}}
 	,[]) 
 
@@ -77,14 +77,14 @@ function App(){
 
 			{user ? //if user is logged in
 				<>
-					{user.regIsSet
-						?  //User isn't new and has a regiment set - allow submissions, performance analysis & workout history view
+					{user.regIsSet || user.isTrainer
+						?  //User isn't new - allow submissions, performance analysis & workout history view
 						<div style={{height:"100%",}}>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
 							<Headquarters currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser} setNotification={setNotification} setWorkouts={setWorkouts} workouts={workouts}
 								daysExercises={daysExercises} />
 						</div>
-						:  //if user hasn't set a regiment, do that.
+						:  //if user hasn't set a regiment, do that. TODO create landing page 
 						<LandingPage setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 					}
 				</>
