@@ -1,30 +1,42 @@
-import React,{useState} from "react"
+import React,{useState,useEffect} from "react"
 import {CSSTransition, TransitionGroup} from "react-transition-group"
 import Container from "react-bootstrap/Container" 
 import clientService from "../Services/clients" 
+import {useHistory} from "react-router-dom"
 
-const OnBoardTrainer = () => {
+const OnBoardTrainer = ({setUser}) => {
+	const [trainer, setTrainer]=useState(null)  //To hold newly created "user" data, until the "next" button is pressed
 	const [clients, setClients]=useState([]) 
 	const [currentClient, setCurrentClient]=useState({name:"",username:"",password:"", validatePassword:""})
+	const history = useHistory()
 
-	const addClient=()=>{ 
+	useEffect(()=>{
+		if (trainer){
+			window.localStorage.setItem("clients",JSON.stringify(trainer.clients)) 
+		}
+	},[trainer])
+
+	const clearClient=()=>{ 
 		if( currentClient.name && currentClient.username && currentClient.password &&
 		(currentClient.password===currentClient.validatePassword))
 		{ setClients(clients.concat(currentClient))
 			setCurrentClient({name:"",username:"",password:"", validatePassword:""})}
 	} 
 
-	const finaliseClient = async(client) => {
-		const updatedTrainer = await clientService.sendClient(client)
-		console.log(updatedTrainer)
-
-		//const returnedRegiment=await exerciseService.setRegiment(currentRegiment) 
-		//const loggedUser=JSON.parse(window.localStorage.getItem("loggedUser")) 
-		//setUser({...user, regIsSet:true}) //update local data
-		//window.localStorage.setItem("currentRegiment",JSON.stringify(returnedRegiment))
-		//window.localStorage.setItem("loggedUser",JSON.stringify({...loggedUser,regIsSet:true}))
-		//history.push("/")
+	const addClient = async(client,index) => { //register client, ID is appended to trainer.
+		const updatedTrainer = await clientService.sendClient(client) 
+		setTrainer(updatedTrainer) // on every successful addition-> save to localStorage
+		setClients(clients.filter((client,i)=>index!=i)) //remove client from list after successful creation 
 	} 
+
+	const finaliseBoarding=()=> { 
+		window.localStorage.removeItem("currentRegiment")
+		window.localStorage.removeItem("userWorkouts")
+		//! on finalise -> populate clients?
+		setUser(trainer)
+		history.push("/")
+	} 
+
 	return (
 		<div className="pageContainer" style={{flexDirection:"column"}}>
 			<TransitionGroup style={{height:"100%"}}>
@@ -32,7 +44,8 @@ const OnBoardTrainer = () => {
 					key={location}
 					timeout={{ enter: 500, exit: 200 }}> 
 					<Container className="regimentForm" >
-						<form className="regimentForm__fadeContainer HomeRoute a-routeFadeIn" onSubmit={(event)=>{event.preventDefault();addClient()}} > 
+						<form className="regimentForm__fadeContainer HomeRoute a-routeFadeIn" 
+							onSubmit={(event)=>{event.preventDefault();clearClient()}} > 
 							<h1>Add some of your clients </h1>
 							<div style={{marginTop:"40px",display:"flex", flexDirection:"column",alignItems:"center",}}>
 
@@ -64,12 +77,14 @@ const OnBoardTrainer = () => {
 							{clients.map((client,i)=>(
 								<div key={i}>
 									{client.name}
-									<button onClick={()=>{finaliseClient(client)} } style={{marginTop:"140px"}}>Register</button>
+									<button onClick={()=>{addClient(client,i)} } style={{marginTop:"140px"}}>Register</button>
 								</div>
-							))}
-							
-
+							))} 
 						</form>
+
+						{/*TODO  if refresh and click next when no clients in state-> setUser(trainer) sets to null -> redirects to home. 
+						If log in again, should work.*/} 
+						<button onClick={()=>{ finaliseBoarding() }}>next</button> 
 					</Container>
 				</CSSTransition>
 			</TransitionGroup>

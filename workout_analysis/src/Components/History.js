@@ -72,7 +72,7 @@ const History=({workouts})=>{
 				<MenuCard header={"My History"} body={body}/> 
 				{ filteredWorkouts && filteredWorkouts.length>0 && 
 				<div className="resultPage history">
-					<ul Name="history__list" 
+					<ul className="history__list" 
 						style={{display:"flex",flexDirection:"column-reverse",listStyleType:"none"}}>
 						{filteredWorkouts.map((workout,index)=>( 
 							<li key={index} >

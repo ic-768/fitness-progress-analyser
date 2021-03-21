@@ -38,7 +38,6 @@ clientRouter.post('/', async(request, response) => {
 		currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null},
 		regIsSet:false,
 	}) 
-	client.clients=undefined
 
 	let savedClient 
 	try{ /*register client*/
@@ -66,7 +65,8 @@ clientRouter.post('/', async(request, response) => {
 		console.log("Some error when formatting trainer fields - should be fine") 
 	} 
 		const updatedTrainer=await trainer.save()
-	  response.json(updatedTrainer)
+		await updatedTrainer.populate("clients").execPopulate();
+	  response.status(200).send(updatedTrainer)
 })
 
 module.exports = clientRouter

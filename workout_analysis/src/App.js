@@ -10,7 +10,8 @@ import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
 import Banner from "./Components/Banner"
 import LandingPage from "./Components/LandingPage"
-import Headquarters from "./Components/Headquarters"
+import AthleteHeadquarters from "./Components/AhleteHeadquarters"
+import TrainerHeadquarters from "./Components/TrainerHeadquarters"
 import Notification from "./Components/Notification"
 
 import registerService from "./Services/register"
@@ -25,13 +26,15 @@ function App(){
 	const [notification,setNotification] = useState(null) //Action feedback + Error messages
 	//will be object e.g. {color:"red",message:"text"}
 
-	/*user contains authorization token, username, and flag to show if a target regiment has been set.
-	 User workouts history is sent to localStorage on log-in*/
+	/*user contains authorization token, username, and flags to show if trainer or if a target regiment has been set.
+	 User workouts history (if athlete) or clients (if trainer) is sent to localStorage on log-in*/ 
 	const [user, setUser] = useState(null) 	
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
 	const [workouts, setWorkouts] = useState(null) // whole week target exercises
 
+	/*if trainer */
+	const [clients, setClients] = useState(null) // whole week target exercises
 
 	useEffect(()=>{ //Turn off notification after 3 sec
 		if(notification){
@@ -43,19 +46,23 @@ function App(){
 
 	useEffect(()=>{  //Check to see if user is already logged in
 		const user = JSON.parse(window.localStorage.getItem("loggedUser"))
-		if(user && Object.entries(user).length>0){ //if no user, will return empty object
-			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
+		if(user){
 			setUser(user)
 			tokenService.setToken(user.token) //token will be set on each render
-		}}
+		}
+	}
 	,[]) 
 
-	useEffect(()=>{ //Set user's target workout (for a whole week)
+	useEffect(()=>{ 
 		if(user){
 			setBackgroundImage("Media/weights_dark_flipped.jpeg")
-			setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
-			const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))
-			setCurrentRegiment(regiment) 
+			if (!user.isTrainer){//Set user's target workout (for a whole week)
+				setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
+				setCurrentRegiment( JSON.parse(window.localStorage.getItem("currentRegiment")) )
+			}
+			else{ 
+				setClients(JSON.parse(window.localStorage.getItem("clients"))) 
+			}
 		}
 		else{
 			setBackgroundImage("Media/weightLiftingGirl.png") 
@@ -77,15 +84,28 @@ function App(){
 
 			{user ? //if user is logged in
 				<>
-					{user.regIsSet || user.isTrainer
-						?  //User isn't new - allow submissions, performance analysis & workout history view
-						<div style={{height:"100%",}}>
+					{user.isTrainer //user is a trainer
+						?<> 
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<Headquarters currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser} setNotification={setNotification} setWorkouts={setWorkouts} workouts={workouts}
-								daysExercises={daysExercises} />
-						</div>
-						:  //if user hasn't set a regiment, do that. TODO create landing page 
-						<LandingPage setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+							<TrainerHeadquarters clients={clients} user={user} setUser={setUser} setNotification={setNotification} />
+						</>
+						: //user is an athlete
+						<>
+							{user.regIsSet 
+								?  //User isn't new - allow submissions, performance analysis & workout history view
+								<div style={{height:"100%",}}>
+									<Banner user={user} logout={()=>{logout(setUser) }}/>  
+									<AthleteHeadquarters currentRegiment={currentRegiment} 
+										setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser} 
+										setNotification={setNotification} setWorkouts={setWorkouts} workouts={workouts}
+										daysExercises={daysExercises} />
+								</div>
+								:  //if user hasn't set a regiment, do that. 
+								<LandingPage setNotification={setNotification} currentRegiment={currentRegiment} 
+									setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+							}
+						</>
+				
 					}
 				</>
 				: //if no user, register or login

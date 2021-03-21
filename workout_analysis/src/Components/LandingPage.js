@@ -23,9 +23,7 @@ const LandingPage = ({setNotification, currentRegiment, setCurrentRegiment, user
 				</Route>
 				<Route path="/trainer">
 					<OnBoardTrainer 
-						setNotification={setNotification} 
-						currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} 
-						user={user} setUser={setUser}/>
+						user={user}setUser={setUser}/>
 				</Route>
 				<Route path="/"> 
 					<Banner/>

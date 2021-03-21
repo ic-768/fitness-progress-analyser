@@ -5,7 +5,7 @@ const User = require('../models/user')
 
 loginRouter.post('/', async (request, response) => {
   const body = request.body
-  const user = await User.findOne({ username: body.username })
+  const user = await User.findOne({ username: body.username }).populate("clients") //If trainer get clients
   const passwordCorrect = user === null
     ? false
     : await bcrypt.compare(body.password, user.passwordHash)
@@ -27,7 +27,8 @@ loginRouter.post('/', async (request, response) => {
   response
     .status(200)
   /* send token back to user*/
-    .send({ token, username: user.username,days:user.days, regIsSet:user.regIsSet, currentRegiment:user.currentRegiment})
+		.send({ token, username: user.username,days:user.days, regIsSet:user.regIsSet, currentRegiment:user.currentRegiment
+		, isTrainer:user.isTrainer,clients:user.clients})
 
 })
 

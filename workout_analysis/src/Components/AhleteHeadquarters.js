@@ -6,7 +6,7 @@ import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
 import AccountPage from "./AccountPage"
 
-const HeadQuarters=({currentRegiment, setCurrentRegiment, user, setUser,setNotification,setWorkouts,workouts, daysExercises})=>{ 
+const AthleteHeadquarters=({currentRegiment, setCurrentRegiment, user, setUser,setNotification,setWorkouts,workouts, daysExercises})=>{ 
 	const history=useHistory()
 	
 	return (
@@ -58,4 +58,4 @@ const HeadQuarters=({currentRegiment, setCurrentRegiment, user, setUser,setNotif
 	)
 }
 
-export default HeadQuarters
+export default AthleteHeadquarters

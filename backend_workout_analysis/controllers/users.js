@@ -3,12 +3,11 @@ const usersRouter = require('express').Router()
 const User = require ('../models/user')
 
 usersRouter.get('/', async(request, response) => {
-  const user=await User
-    .find({}).populate('dates') //TODO no populate necessary
+  const user=await User.find({}).populate('dates') //TODO no populate necessary
   response.json(user)
 })
 
-usersRouter.post('/', async(request, response) => { // same for trainer - just add new field for clients, and add client array one by one
+usersRouter.post('/', async(request, response) => { 
 	/*Register new user*/
   const body = request.body 
   if (!body.username || !body.password){
@@ -16,12 +15,13 @@ usersRouter.post('/', async(request, response) => { // same for trainer - just a
   } 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(body.password, saltRounds) 
-  const user = new User({   // Initialised to an athlete's fields - if trainer => remove currentRegiment, regIsSet, add clients, etc
+  const user = new User({   // Initialised to an athlete's fields - if trainer => remove currentRegiment, regIsSet, add clients, etc at onboarding
     username: body.username,
     passwordHash,
 		currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null},
 		regIsSet:false,
 	}) 
+		user.clients=undefined //TODO can't get rid of client field if athlete?
 	try{
 		const savedUser = await user.save() 
 	  response.json(savedUser)

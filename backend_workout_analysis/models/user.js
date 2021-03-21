@@ -26,7 +26,10 @@ const userSchema = new mongoose.Schema({
 		currentRegiment:{}, // exercise regiment for user to focus on. Will contain keys of days, and array values with names of exercises. E.g.Mon: ["situps","pushups", etc.]
 		regIsSet:Boolean,
 		/*if trainer */
-			clients: [] ,
+			clients: [{
+				type:mongoose.Schema.Types.ObjectId,
+				ref:"User" 
+			}] , 
 },{strict:false}) 
 
 userSchema.plugin(uniqueValidator)
