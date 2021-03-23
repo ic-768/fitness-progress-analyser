@@ -69,4 +69,19 @@ clientRouter.post('/', async(request, response) => {
 	  response.status(200).send(updatedTrainer)
 })
 
+clientRouter.patch('/', async(request, response) => { //set/update target regiment
+  const body = request.body 
+	const token = getTokenFrom(request) 
+	const [succeeded, decodedToken]=verifyToken(token)
+	if(!succeeded){ // Verification failure
+		return response.status(401).json({error:"token missing or invalid"})
+	}
+	let client=await User.findById(body._id)
+	client.currentRegiment=body.currentRegiment
+	client.regIsSet=true
+	const updatedClient=await client.save()
+	console.log(updatedClient)
+	response.status(200).send(updatedClient)
+})
+
 module.exports = clientRouter

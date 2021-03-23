@@ -3,7 +3,7 @@ import tokenService from "./token"
 
 const baseUrl = "/api/clients"
 
-const sendClient=async(clients)=> {
+const addClient=async(clients)=> {
 	const config = {
 		headers:{Authorization:tokenService.getToken()}
 	}
@@ -16,4 +16,17 @@ const sendClient=async(clients)=> {
 	}
 }
 
-export default {sendClient}
+const updateClient=async(clients)=> {
+	const config = {
+		headers:{Authorization:tokenService.getToken()}
+	}
+	try{
+		const response = await axios.patch(baseUrl, clients, config)
+		return response.data 
+	}
+	catch{
+		return false 
+	}
+}
+
+export default {addClient,updateClient}

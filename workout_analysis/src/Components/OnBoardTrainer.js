@@ -24,7 +24,7 @@ const OnBoardTrainer = ({setUser}) => {
 	} 
 
 	const addClient = async(client,index) => { //register client, ID is appended to trainer.
-		const updatedTrainer = await clientService.sendClient(client) 
+		const updatedTrainer = await clientService.addClient(client) 
 		setTrainer(updatedTrainer) // on every successful addition-> save to localStorage
 		setClients(clients.filter((client,i)=>index!=i)) //remove client from list after successful creation 
 	} 
@@ -32,7 +32,6 @@ const OnBoardTrainer = ({setUser}) => {
 	const finaliseBoarding=()=> { 
 		window.localStorage.removeItem("currentRegiment")
 		window.localStorage.removeItem("userWorkouts")
-		//! on finalise -> populate clients?
 		setUser(trainer)
 		history.push("/")
 	} 

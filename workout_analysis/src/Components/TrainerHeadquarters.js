@@ -3,14 +3,14 @@ import {Switch,Route,useHistory} from "react-router-dom"
 import { GoPlusSmall } from "react-icons/go"
 import ClientsPage from "./ClientsPage"
 
-const TrainerHeadquarters=({clients,//user, setUser,setNotification
+const TrainerHeadquarters=({clients,setClients//user, setUser,setNotification
 })=>{ 
 	const history=useHistory()
 
 	return (
 		<Switch>
 			<Route path="/clients">
-				<ClientsPage clients={clients}/>
+				<ClientsPage clients={clients} setClients={setClients}/>
 			</Route>
 			<Route path="/routines">
 				<div>

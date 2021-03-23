@@ -56,15 +56,14 @@ function App(){
 	useEffect(()=>{ 
 		if(user){
 			setBackgroundImage("Media/weights_dark_flipped.jpeg")
-			if (!user.isTrainer){//Set user's target workout (for a whole week)
+			if (!user.isTrainer){//Set athlete's target workout (for a whole week)
 				setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
 				setCurrentRegiment( JSON.parse(window.localStorage.getItem("currentRegiment")) )
 			}
-			else{ 
+			else{  //Set trainers clients
 				setClients(JSON.parse(window.localStorage.getItem("clients"))) 
-			}
-		}
-		else{
+			} }
+		else{ //no user logged in
 			setBackgroundImage("Media/weightLiftingGirl.png") 
 		}
 	}
@@ -87,7 +86,7 @@ function App(){
 					{user.isTrainer //user is a trainer
 						?<> 
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<TrainerHeadquarters clients={clients} user={user} setUser={setUser} setNotification={setNotification} />
+							<TrainerHeadquarters clients={clients} setClients={setClients} user={user} setUser={setUser} setNotification={setNotification} />
 						</>
 						: //user is an athlete
 						<>

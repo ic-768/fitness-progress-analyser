@@ -1,15 +1,22 @@
 import React,{useState,useEffect} from "react"
 import MenuCard from "./MenuCard"
+import clientService from "../Services/clients"
 
-const ClientsPage=({clients})=>{
+const ClientsPage=({clients,setClients})=>{ //TODO add a new client
 	const [selectedClient,setSelectedClient]=useState(null) //use this state to send update request to backend if changes happen
+	const [clientIndex,setClientIndex]=useState(null)  //Keep track of client index in clients state
 	const [editable,setEditable]=useState(false) //Allow editing client 
+
+	useEffect(()=>{
+		clients && editable==false &&  // On cancel
+		selectedClient!==clients[clientIndex] && setSelectedClient(clients[clientIndex])  //If differences, revert state to original
+	},[editable])
 
 	useEffect(()=>{ 
 		setEditable(false)
 	},[selectedClient && selectedClient.username]) //everytime username changes, set editable to false - otherwise would change on every edit
 
-	const toggleDay=(day)=>{
+	const toggleDay=(day)=>{ // workout day or rest day
 		editable && 
 		(day[1]
 			? setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,[day[0]]:null}})
@@ -31,9 +38,15 @@ const ClientsPage=({clients})=>{
 			[day[0]]:day[1].concat("newExercise")}})}
 
 	const removeExercise=(day,index)=>{ 
-		editable && 
-		setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,
-			[day[0]]:day[1].filter((_,i)=>index!=i)}})}
+		if (editable){ 
+			const updatedDay=selectedClient.currentRegiment[day[0]].filter((_,i)=>index!==i)
+			if(updatedDay.length===0)
+			{  //set day to null
+				setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment, [day[0]]:null}})
+			} //if zero length ,set to null
+			else{ //set day to filtered array
+				setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment, [day[0]]:updatedDay}})}} 
+	}
 	
 	{if(!clients){return (<div>No clients</div>)}}
 	return(
@@ -42,13 +55,15 @@ const ClientsPage=({clients})=>{
 				()=>
 					<div style={{flexWrap:"wrap",display:"flex"}}>
 						{clients.map((client,i)=>( 
-							<div onClick={()=>{setSelectedClient(client)}}
-								key={i} 
-								style={{
-									margin:"10px",
-									boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.45)", borderRadius: "5px",
-									cursor:"pointer",display:"flex",flexDirection:"column", alignItems:"center",
-									height:"200px", width:"155px", }}>
+							<div onClick={()=>{if(editable){console.log("Are you sure?")}
+								setSelectedClient(client)
+								setClientIndex(i)}}
+							key={i} 
+							style={{
+								margin:"10px",
+								boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.45)", borderRadius: "5px",
+								cursor:"pointer",display:"flex",flexDirection:"column", alignItems:"center",
+								height:"200px", width:"155px", }}>
 								<h5>
 									{client.username }
 								</h5>
@@ -67,8 +82,20 @@ const ClientsPage=({clients})=>{
 						<h5 style={{display:"inline"}}> Email </h5>
 						<p style={{display:"inline"}}> example@example.com</p>
 					</div>
-					<button onClick={()=>{setEditable(!editable)}}className="themed"> {/*Save function */}
-						{editable? "Save" : "Edit"}</button> 
+					<button onClick={()=>{setEditable(!editable)}}>
+						{editable
+							? "Cancel" 
+							: "Edit"}</button>  
+					{editable && <button onClick={async()=>{
+						const updatedClient=await clientService.updateClient(selectedClient) 
+						const updatedClients=clients.filter((client)=>client._id!==updatedClient._id).concat(updatedClient)
+						//TODO update local copy 
+						window.localStorage.setItem("clients",JSON.stringify(updatedClients))
+						setClients(updatedClients) 
+						setEditable(false)
+
+					}} //TODO if client included in trainer -> update, otherwise save new
+					className="themed">Save</button>}
 				</div>
 				<div className="client__regiment" style={{borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex",}} > 
 					{ Object.entries(selectedClient.currentRegiment)
@@ -90,7 +117,10 @@ const ClientsPage=({clients})=>{
 								<div style={{marginTop:"20px",display:"flex"}}>
 									<h5 style={{display:"inline"}}>	{day[0] } </h5>
 									{editable && 
-								<button onClick={()=>{addExercise(day)}}className="themed"style={{marginLeft:"auto",display:"inline"}}>Add</button>} {/*To add a new exercise*/}
+								<button onClick={()=>{addExercise(day)}}
+									className="themed"style={{marginLeft:"auto",display:"inline"}}>
+									Add
+								</button>}
 								</div>
 								<ul>
 									{day[1].map((exercise,i)=>
