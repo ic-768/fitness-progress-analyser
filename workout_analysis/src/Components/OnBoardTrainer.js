@@ -25,7 +25,7 @@ const OnBoardTrainer = ({setUser}) => {
 
 	const addClient = async(client,index) => { //register client, ID is appended to trainer.
 		const updatedTrainer = await clientService.addClient(client) 
-		setTrainer(updatedTrainer) // on every successful addition-> save to localStorage
+		setTrainer(updatedTrainer)
 		setClients(clients.filter((client,i)=>index!=i)) //remove client from list after successful creation 
 	} 
 

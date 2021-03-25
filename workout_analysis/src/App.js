@@ -86,7 +86,7 @@ function App(){
 					{user.isTrainer //user is a trainer
 						?<> 
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<TrainerHeadquarters clients={clients} setClients={setClients} user={user} setUser={setUser} setNotification={setNotification} />
+							<TrainerHeadquarters user={user} setUser={setUser} clients={clients} setClients={setClients} setNotification={setNotification} />
 						</>
 						: //user is an athlete
 						<>
@@ -103,8 +103,7 @@ function App(){
 								<LandingPage setNotification={setNotification} currentRegiment={currentRegiment} 
 									setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
 							}
-						</>
-				
+						</> 
 					}
 				</>
 				: //if no user, register or login
