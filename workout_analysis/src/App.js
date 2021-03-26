@@ -31,7 +31,7 @@ function App(){
 	const [user, setUser] = useState(null) 	
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
-	const [workouts, setWorkouts] = useState(null) // whole week target exercises
+	const [workouts, setWorkouts] = useState(null) // whole week target exercises !!TODO pass to Athlete Headquarters?
 
 	/*if trainer */
 	const [clients, setClients] = useState(null) // whole week target exercises

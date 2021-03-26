@@ -5,7 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown"
 import AnalysisPlot from "./AnalysisPlot"
 import MenuCard from "./MenuCard"
 
-const Analysis=({workouts})=>{
+const AthleteAnalysis=({workouts})=>{
 	const exerciseNameCache=exerciseNamesFromWorkouts(workouts)
 		.filter((name,index)=>( //keep only 1 instance of each name
 			exerciseNamesFromWorkouts(workouts).indexOf(name)===index))
@@ -74,7 +74,7 @@ const Analysis=({workouts})=>{
 	) 
 	return(
 		<div className="pageContainer"> 
-			<MenuCard header={"Analyse"} body={body}/> 
+			<MenuCard header={"Analyse"} body={body}/>  {/*TODO Change from MenuCard to resultPage*/}
 			{ repsAnalysis && selection &&  //Right-side card
 					<div className="resultPage analysis"> 
 						<h2 >{analysisType}</h2>
@@ -91,4 +91,4 @@ const Analysis=({workouts})=>{
 	)
 }
 
-export default Analysis
+export default AthleteAnalysis

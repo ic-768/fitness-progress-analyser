@@ -1,10 +1,10 @@
 import React from "react" 
 import {Switch,Route,useHistory} from "react-router-dom"
 import { GoPlusSmall } from "react-icons/go"
-import Analysis from "./Analysis"
 import History from "./History"
 import ExerciseSubmission from "./ExerciseSubmission"
 import AccountPage from "./AccountPage"
+import AthleteAnalysis from "./AthleteAnalysis"
 
 const AthleteHeadquarters=({currentRegiment, setCurrentRegiment, user, setUser,setNotification,setWorkouts,workouts, daysExercises})=>{ 
 	const history=useHistory()
@@ -23,7 +23,7 @@ const AthleteHeadquarters=({currentRegiment, setCurrentRegiment, user, setUser,s
 				<History workouts={workouts}/> 
 			</Route>
 			<Route path="/analysis" style = {{ height:"100%"}}> 
-				<Analysis workouts={workouts}/> 
+				<AthleteAnalysis workouts={workouts}/> 
 			</Route>
 			<Route path="/">
 				<div className="pageContainer">

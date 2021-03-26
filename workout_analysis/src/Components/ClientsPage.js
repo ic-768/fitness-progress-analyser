@@ -53,13 +53,13 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 	
 	const submitClient=async()=>{ 
 		let containsDuplicate=false
-		const regiment=Object.entries(selectedClient.currentRegiment) //!Vet against Empty entries
+		const regiment=Object.entries(selectedClient.currentRegiment) 
 			.map((day)=>{
-				if(day[1] && new Set(day[1]).size != day[1].length){ //If duplicate exercise
+				if(day[1] && new Set(day[1]).size != day[1].length){ //If duplicate exercise on same day
 					containsDuplicate=true  //set Notification
 				}
 				else{
-					if(day[1]){ //filter pure whitespace entries
+					if(day[1]){ //filter whitespace entries
 						const exercises = day[1].filter((exercise)=>(exercise.trim()))
 						return [day[0], exercises.length===0 
 							? null // no valid entries?
@@ -179,6 +179,10 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 									)} 
 								</ul> 
 							</div>)}
+						{//TODO  analysis plots - filter by name, select analysis. Be able to add multiple plots for side by side ( vertical ) analysis
+						}
+
+
 					</div> 
 				</div> 
 				: //new client
