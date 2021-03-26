@@ -9,7 +9,7 @@ const TrainerAnalysis=({clients})=>{
 
 	const [selectedClient,setSelectedClient]=useState() //workouts will depend on selectedClient
 
-	const [searchQuery,setSearchQuery]=useState([]) 
+	const [searchQuery,setSearchQuery]=useState("") 
 	const [suggestions,setSuggestions]=useState([]) 
 	const [selection,setSelection]=useState(null)  //Selection to be analysed
 
@@ -23,7 +23,6 @@ const TrainerAnalysis=({clients})=>{
 			if repetition of element in array, it will not equal the index of the first
 			element, thus being discarded */
 		
-	console.log(suggestions)
 	useEffect(()=>{ 
 		selectedClient &&
 		setExerciseNameCache(selectedClient.days && exerciseNamesFromWorkouts(selectedClient.days)
@@ -32,7 +31,7 @@ const TrainerAnalysis=({clients})=>{
 	},[selectedClient]) //when client changes, update selection ( if username has an exercise of the same name)
 
 	useEffect(()=>{
-		exerciseNameCache &&
+		exerciseNameCache && searchQuery && 
 		setSuggestions(exerciseNameCache.filter((name)=>(
 			name.toLowerCase().includes(searchQuery.toLowerCase())))) 
 	},[exerciseNameCache,searchQuery,])
@@ -57,10 +56,9 @@ const TrainerAnalysis=({clients})=>{
 	
 	const body=()=>(
 		<>
-			<h4>{selectedClient && selectedClient.username}</h4>
-			<Dropdown>
+			<Dropdown style={{marginBottom:"20px"}}>
 				<Dropdown.Toggle>
-						Clients
+					{selectedClient && selectedClient.username || "Select a client"} 
 				</Dropdown.Toggle>
 				<Dropdown.Menu>
 					{clients && clients.map((client)=>( 
