@@ -45,6 +45,10 @@ workoutRouter.patch('/regiment', async(request, response) => { //set/update targ
 	const user = await User.findById(decodedToken.id) 
 	user.currentRegiment=regiment
 	user.regIsSet=true // user won't be prompted to set a regiment again (until switched back to false)
+
+	user.clients=undefined //!Should only happen once, when user declares he is an athlete - not a trainer
+	user.routines=undefined
+
 	await user.save()
 	response.status(201).json(regiment)
 })
@@ -62,4 +66,32 @@ workoutRouter.put('/regiment', async(request, response) => { //reset regiment en
 	await user.save()
 	response.status(201).json(user) 
 })
+
+workoutRouter.post('/routines', async(request, response) => { //add a trainer routines
+	const token = getTokenFrom(request)
+	const routine=request.body.routine
+	const [succeeded, decodedToken]=verifyToken(token) 
+	if(!succeeded){ 
+		return response.status(401).json({error:"token missing or invalid"})
+	} 
+	const user = await User.findById(decodedToken.id) 
+	user.routines=user.routines.concat(routine)
+	await user.save()
+	response.status(201).json(user) 
+})
+
+workoutRouter.put('/routines', async(request, response) => { //update a trainers routines
+	const token = getTokenFrom(request)
+	const routines=request.body
+	const [succeeded, decodedToken]=verifyToken(token) 
+	if(!succeeded){ 
+		return response.status(401).json({error:"token missing or invalid"})
+	} 
+	const user = await User.findById(decodedToken.id) 
+	user.routines=routines
+	await user.save()
+	response.status(201).json(user.routines) 
+})
+
+
 module.exports = workoutRouter

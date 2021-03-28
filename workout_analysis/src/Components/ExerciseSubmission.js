@@ -1,7 +1,6 @@
 import React,{useEffect,useState} from "react"
 import {useHistory} from "react-router-dom"
 import {BsFillTrashFill} from "react-icons/bs"
-import {CSSTransition}  from "react-transition-group"
 
 import exerciseService from "../Services/exercises" 
 import ExerciseBox from "./ExerciseBox" 
@@ -10,8 +9,8 @@ import MenuCard from "./MenuCard"
 const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{ 
 	const history=useHistory()
 
+	//TODO animation like in routine page - too much on every exercise choice
 	if (!daysExercises){
-		//TODO allow voluntary exercises
 		return(
 			<div className="pageContainer">
 				<MenuCard header={"My Exercises"} body={()=>(<p>No exercises for today :)</p>)} />
@@ -77,7 +76,7 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 	const body=()=>(
 		<>
 			{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
-				<div className="menuCard__exercise" key={`${uniqueName}${i}`}> 
+				<div className="menuItem__removable" key={`${uniqueName}${i}`}>  
 					<a className="menuItem__text" onClick={()=>{setSelectedExercise(uniqueName)}}>{uniqueName}</a>
 					<a style={{cursor:"pointer"}}
 						onClick={()=>{
@@ -114,13 +113,12 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 	return ( 
 		<div className="pageContainer">
 			<MenuCard header={"My Exercises"} body={body}/> 
+
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise
 				return( 
-					<div key={i} style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}> 
-						<CSSTransition timeout={{ enter: 10, exit: 10 }}>
-							<ExerciseBox  exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
-						</CSSTransition>
+					<div key={i} style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}>   {/*TODO shared with routinePage */}
+						<ExerciseBox  exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
 					</div>
 				)
 			}) 

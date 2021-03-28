@@ -1,8 +1,9 @@
 const config = require('./utils/config')
 const userRouter = require('./controllers/users')
+const routineRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const workoutRouter = require('./controllers/workouts')
-const clientsRouter = require('./controllers/clients')
+const clientRouter = require('./controllers/clients')
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -23,7 +24,7 @@ app.use(express.static("build"))
 app.use('/api/users', userRouter) /*get/create users,edit non-workout user data*/
 app.use('/api/login', loginRouter) 
 app.use('/api/workout', workoutRouter) 
-app.use('/api/clients', clientsRouter) 
+app.use('/api/clients', clientRouter) 
 
 app.get('/*', function(req, res) {
 	res.sendFile(`${__dirname}/build/index.html`,function(err) {

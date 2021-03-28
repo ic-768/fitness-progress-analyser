@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react"
 import MenuCard from "./MenuCard"
+import CollapsableList from "./CollapsableList"
 import AddClient from "./AddClient"
 import clientService from "../Services/clients"
 import {GrAddCircle} from "react-icons/gr"
@@ -7,26 +8,26 @@ import {GrAddCircle} from "react-icons/gr"
 const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO add a new client
 	const [selectedClient,setSelectedClient]=useState(null) //use this state to send update request to backend if changes happen
 	const [clientIndex,setClientIndex]=useState(null)  //Keep track of client index in clients state
-	const [editable,setEditable]=useState(false) //Allow editing client 
+	const [isEditable,setIsEditable]=useState(false) //Allow editing client 
 
 	useEffect(()=>{
-		clients && editable==false &&  // On cancel
+		clients && isEditable==false &&  // On cancel
 		selectedClient!==clients[clientIndex] && setSelectedClient(clients[clientIndex])  //If differences, revert state to original
-	},[editable])
+	},[isEditable])
 
 	useEffect(()=>{ 
-		setEditable(false)
-	},[selectedClient && selectedClient.username]) //everytime username changes, set editable to false - otherwise would change on every edit
+		setIsEditable(false)
+	},[selectedClient && selectedClient.username]) //everytime user changes (NOT EDITED), set isEditable to false
 
 	const toggleDay=(day)=>{ // workout day or rest day
-		editable && 
+		isEditable && 
 		(day[1]
 			? setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,[day[0]]:null}})
 			: setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,[day[0]]:[""]}})
 		)} 
 
 	const editExercise=(day,index,newExercise)=>{ 
-		editable && 
+		isEditable && 
 		setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,
 			[day[0]]:day[1].map((currentExercise,i)=>( 
 				i==index
@@ -36,12 +37,12 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 			))}})} 
 
 	const addExercise=(day)=>{ 
-		editable && 
+		isEditable && 
 		setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,
 			[day[0]]:day[1].concat("")}})}
 
 	const removeExercise=(day,index)=>{ 
-		if (editable){ 
+		if (isEditable){ 
 			const updatedDay=selectedClient.currentRegiment[day[0]].filter((_,i)=>index!==i)
 			if(updatedDay.length===0)
 			{  //set day to null
@@ -80,7 +81,7 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 			const updatedClients=clients.filter((client)=>client._id!==updatedClient._id).concat(updatedClient)
 			window.localStorage.setItem("clients",JSON.stringify(updatedClients))
 			setClients(updatedClients) 
-			setEditable(false)
+			setIsEditable(false)
 			setNotification({color:"green",message:"Client updated successfully"})
 		}
 	}
@@ -105,7 +106,7 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 						</div>
 
 						{clients.map((client,i)=>( 
-							<div onClick={()=>{if(editable){console.log("Are you sure?")}
+							<div onClick={()=>{if(isEditable){console.log("Are you sure?")}
 								setSelectedClient(client)
 								setClientIndex(i)}}
 							key={i} 
@@ -124,8 +125,11 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 			{selectedClient && selectedClient.username
 				? //edit existing client
 				<div style={{display:"flex",flexDirection:"column",}} className="resultPage clientView" >
-					<div className="client__header" style={{borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex",}} > 
-						<div className="client__details" style={{marginRight:"25px",display:"flex",flexDirection:"column"}}>
+
+					<div className="client__header" 
+						style={{ width:"100%",borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex",}} > 
+
+						<div className="client__details" style={{flexGrow:"1",marginRight:"25px",display:"flex",flexDirection:"column"}}>
 							<h5 style={{display:"inline"}}> Username </h5>
 							<p style={{display:"inline"}}> {selectedClient.username}</p>
 						</div>
@@ -133,62 +137,37 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 							<h5 style={{display:"inline"}}> Email </h5>
 							<p style={{display:"inline"}}> example@example.com</p>
 						</div>
-						<button onClick={()=>{setEditable(!editable)}}>
-							{editable
+						<button style ={{marginLeft:"40px"}}onClick={()=>{setIsEditable(!isEditable)}}>
+							{isEditable
 								? "Cancel" 
 								: "Edit"}</button>  
-						{editable && <button onClick={()=>{ submitClient() }} className="themed">Save</button>}
+						{isEditable && <button onClick={()=>{ submitClient() }} className="themed">Save</button>}
 					</div>
-					<div className="client__regiment" style={{borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex",}} > 
+					<div className="client__regiment" style={{width:"100%",borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex"}} > 
+
 						{ Object.entries(selectedClient.currentRegiment)
 							.map((day)=>
 							{
 								const value=day[1]||""
 								return (
-									<div key={day[0]} style={{display:"flex",flexDirection:"column",margin:"5px"}}>
+									<div key={day[0]} style={{flexGrow:"1",display:"flex",flexDirection:"column",alignItems:"center",margin:"5px"}}>
 										<h5> {day[0]} </h5> 
 										<input value={value} type="checkbox" onChange={()=>{toggleDay(day)}}readOnly={false} checked={value} />
 									</div>)}) 
 						}
 					</div>
-					<div> {/* component class so each has "collapsed" state */}
+					<div style ={{width:"100%"}}>
 						{ Object.entries(selectedClient.currentRegiment)
 							.map((day)=>
 								day[1] &&
-							<div key={day[0]}>
-								<div style={{marginTop:"20px",display:"flex",alignItems:"center",}}>
-									<h5 style={{display:"inline",margin:"0px"}}>	{day[0] } </h5>
-									{editable && 
-								<button onClick={()=>{addExercise(day)}}
-									className="themed"style={{marginLeft:"15px",display:"inline"}}>
-									Add
-								</button>}
-								</div>
-								<ul>
-									{day[1].map((exercise,i)=>
-										editable
-											?
-											<div key={i} style={{margin:"5px",display:"flex"}}>
-												<input style={{display:"block"}} 
-													onBlur={(event)=>{editExercise(day,i,event.target.value.trim())} } //on unfocus, remove trailing whitespace
-													onChange={(event)=>editExercise(day,i,event.target.value)}
-													value={exercise}/>
-												<button onClick={()=>{removeExercise(day,i)}}>remove</button> 
-											</div>
-											: <li key={i}>{exercise}</li>
-									)} 
-								</ul> 
-							</div>)}
-						{//TODO  analysis plots - filter by name, select analysis. Be able to add multiple plots for side by side ( vertical ) analysis
-						}
-
-
+								<CollapsableList key={day[0]}day={day} isEditable={isEditable} 
+									addExercise={addExercise} editExercise={editExercise} 
+									removeExercise={removeExercise}/>
+							)} 
 					</div> 
 				</div> 
 				: //new client
-				<div>
-					<AddClient setClients={setClients} clients={clients} setUser={setUser} user={user} />
-				</div>
+				<AddClient setClients={setClients} clients={clients} setUser={setUser} user={user} />
 			}
 		</div> 
 	)

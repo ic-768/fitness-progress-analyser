@@ -9,7 +9,7 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 	const exerciseName=exerciseArray[0].name
 
 	return(
-		<div className="a-exerciseEntry exerciseBox" >
+		<div className="a-exerciseEntry itemCard" >
 			<h5>Title</h5>
 			<div style={{marginBottom:"15px",display:"flex"}}>
 				<h3 style={{display:"inline",color:"black"}}>{exerciseName} </h3>

@@ -69,7 +69,7 @@ const History=({clients})=>{
 	return(
 		<>
 			<div className="pageContainer">
-				<MenuCard header={"My History"} body={body}/> 
+				<MenuCard header={"History"} body={body}/> 
 				{ filteredWorkouts && filteredWorkouts.length>0 && 
 				<div className="resultPage history">
 					<ul className="history__list" 

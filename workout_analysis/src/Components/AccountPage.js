@@ -19,7 +19,7 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 			//If unsaved changes, revert currentRegiment
 			)} } header={"My Account"}body={()=> (
 				<>
-					<a className="menuCard__account"onClick={()=>{setView("Reset")}}> 
+					<a className="menuCard__account"onClick={()=>{setView("Reset")}}>
 							Reset weekly regiment
 					</a>
 

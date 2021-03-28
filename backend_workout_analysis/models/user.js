@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
 				type:mongoose.Schema.Types.ObjectId,
 				ref:"User" 
 			}] , 
+			routines:[{
+				name: String,
+				exercises:[String]
+			}]
 },{strict:false}) 
 
 userSchema.plugin(uniqueValidator)

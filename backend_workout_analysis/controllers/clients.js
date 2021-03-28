@@ -39,6 +39,9 @@ clientRouter.post('/', async(request, response) => {
 		regIsSet:false,
 	}) 
 
+	client.clients=undefined 
+	client.routines=undefined
+
 	let savedClient 
 	try{ /*register client*/
 		savedClient = await client.save()
@@ -54,8 +57,7 @@ clientRouter.post('/', async(request, response) => {
 	catch{ 
 			return response.status(500).json({ error:'Something went wrong :(' })
 	} 
-	try{  //TODO should only happen on first client of account
-		/*user is definitely a trainer at this point - get rid of athlete fields*/
+	try{  //! should only happen on first client of account - user declares he is a trainer and not an athlete
 		trainer.isTrainer=true
 		trainer.regIsSet=undefined
 		trainer.days=undefined

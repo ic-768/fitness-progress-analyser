@@ -95,7 +95,7 @@ const TrainerAnalysis=({clients})=>{
 	) 
 	return(
 		<div className="pageContainer"> 
-			<MenuCard header={"Analyse"} body={body}/>  {/*TODO change from menucard to resultpage*/}
+			<MenuCard header={"Analysis"} body={body}/>  {/*TODO change from menucard to resultpage*/}
 			{ repsAnalysis && selection &&  //Right-side card
 					<div className="resultPage analysis"> 
 						<h2 >{analysisType}</h2>

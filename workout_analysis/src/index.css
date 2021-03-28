@@ -37,14 +37,17 @@ th * {
 .pageContainer{height:100%;display:flex}
 
 .resultPage{
-	background-color:white;
+	display:flex;
+	flex-direction: column;
+	align-items:center;
+	background-color: white;
 	margin-bottom:57px;
 	overflow-y:auto;
-	min-width:500px;
+	width:100%;
 	padding:0px 58px 36px 58px;
 	box-shadow: (0px 0px 4px rgba(0, 0, 0, 0.45));
 	border-radius:5px;
-	margin-left:58px;
+	margin-left:20px;
 	margin-right:58px;
 	margin-top:80px 
 }
@@ -198,7 +201,7 @@ border: 1px solid black;
 	max-width:500px;
 	overflow-y:auto;
 }
-.menuCard__exercise{
+.menuItem__removable{
 	height:36px;
 	display:flex;
 	align-items:center;
@@ -254,7 +257,7 @@ border: 1px solid black;
 	}
 
 	/*Exercise Submission*/
-.exerciseBox{
+.itemCard{
 	min-width:500px;
 	padding:36px 58px 36px 58px;
 	box-shadow: (0px 0px 4px rgba(0, 0, 0, 0.45));

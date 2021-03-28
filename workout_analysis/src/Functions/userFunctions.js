@@ -5,12 +5,10 @@ export const login = async(username, password) => {
 	const user = await LoginService.login(username, password)
 	tokenService.setToken(user.token) 
 
-	//TODO set Different items for athletes and trainers
-	/*initialise local storage*/ 
-	/* set user's details. Last field specifies if user has set a workout regiment (false for new users) */
 	if (user.isTrainer) { 
 		window.localStorage.setItem("clients",JSON.stringify(user.clients)) 
 		window.localStorage.setItem("loggedUser",JSON.stringify({isTrainer:user.isTrainer,token:user.token, username:user.username})) 
+		window.localStorage.setItem("routines",JSON.stringify(user.routines))
 	}
 	else{
 		window.localStorage.setItem("loggedUser",JSON.stringify({token:user.token, username:user.username, regIsSet:user.regIsSet})) 
@@ -25,5 +23,6 @@ export const logout = (setUser)=>{
 	window.localStorage.removeItem("userWorkouts")
 	window.localStorage.removeItem("currentRegiment")
 	window.localStorage.removeItem("clients")
+	window.localStorage.removeItem("routines")
 	setUser(null)
 }

@@ -28,7 +28,7 @@ loginRouter.post('/', async (request, response) => {
     .status(200)
   /* send token back to user*/
 		.send({ token, username: user.username,days:user.days, regIsSet:user.regIsSet, currentRegiment:user.currentRegiment
-		, isTrainer:user.isTrainer,clients:user.clients})
+		, isTrainer:user.isTrainer,clients:user.clients,routines:user.routines}) //TODO clean up
 
 })
 

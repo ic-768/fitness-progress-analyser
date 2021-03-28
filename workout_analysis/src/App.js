@@ -34,7 +34,8 @@ function App(){
 	const [workouts, setWorkouts] = useState(null) // whole week target exercises !!TODO pass to Athlete Headquarters?
 
 	/*if trainer */
-	const [clients, setClients] = useState(null) // whole week target exercises
+	const [clients, setClients] = useState(null) 
+	const [routines, setRoutines] = useState(null) // whole week target exercises
 
 	useEffect(()=>{ //Turn off notification after 3 sec
 		if(notification){
@@ -62,6 +63,7 @@ function App(){
 			}
 			else{  //Set trainers clients
 				setClients(JSON.parse(window.localStorage.getItem("clients"))) 
+				setRoutines(JSON.parse(window.localStorage.getItem("routines"))) 
 			} }
 		else{ //no user logged in
 			setBackgroundImage("Media/weightLiftingGirl.png") 
@@ -86,7 +88,8 @@ function App(){
 					{user.isTrainer //user is a trainer
 						?<> 
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<TrainerHeadquarters user={user} setUser={setUser} clients={clients} setClients={setClients} setNotification={setNotification} />
+							<TrainerHeadquarters user={user} setUser={setUser} clients={clients} setClients={setClients} 
+								routines={routines} setRoutines={setRoutines} setNotification={setNotification} />
 						</>
 						: //user is an athlete
 						<>

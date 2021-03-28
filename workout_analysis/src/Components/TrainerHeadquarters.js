@@ -4,10 +4,12 @@ import { GoPlusSmall } from "react-icons/go"
 import ClientsPage from "./ClientsPage"
 import TrainerAnalysis from "./TrainerAnalysis.js"
 import TrainerHistory from "./TrainerHistory.js"
+import RoutinePage from "./RoutinePage.js"
 
-const TrainerHeadquarters=({user,setUser,clients,setClients,setNotification })=>{ 
+const TrainerHeadquarters=({user,setUser,clients,setClients,routines, setRoutines, setNotification })=>{ 
 	const history=useHistory()
 
+	console.log(routines, setRoutines)
 	return (
 		<Switch>
 			<Route path="/history">
@@ -20,9 +22,9 @@ const TrainerHeadquarters=({user,setUser,clients,setClients,setNotification })=>
 				<TrainerAnalysis clients={clients} />
 			</Route>
 			<Route path="/routines">
-				<div>
-					Your routines!
-				</div>
+
+				<RoutinePage user={user}setUser={setUser} routines={routines} setRoutines={setRoutines}/>
+
 			</Route>
 			<Route path="/">
 				<div className="pageContainer">
