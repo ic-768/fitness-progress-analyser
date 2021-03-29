@@ -17,7 +17,7 @@ import Notification from "./Components/Notification"
 import registerService from "./Services/register"
 import tokenService from "./Services/token"
 import {login,logout}from "./Functions/userFunctions"
-import { setTodaysExercises } from "./Functions/workoutFunctions"
+import { getTodaysExercises } from "./Functions/workoutFunctions"
 
 
 function App(){ 
@@ -35,7 +35,7 @@ function App(){
 
 	/*if trainer */
 	const [clients, setClients] = useState(null) 
-	const [routines, setRoutines] = useState(null) // whole week target exercises
+	const [routines, setRoutines] = useState(null)
 
 	useEffect(()=>{ //Turn off notification after 3 sec
 		if(notification){
@@ -72,8 +72,8 @@ function App(){
 	,[user])
 
 	useEffect(()=>{ //Set exercises of today's workout
-		if(user){ 
-			setTodaysExercises(currentRegiment, setDaysExercises)
+		if(user && !user.isTrainer){ 
+			setDaysExercises(getTodaysExercises(currentRegiment))
 		}
 	}
 	,[currentRegiment])

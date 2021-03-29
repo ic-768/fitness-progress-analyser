@@ -1,10 +1,10 @@
-export const setTodaysExercises = (currentRegiment, setDaysExercises) => { 
-	/*Choose todays exercises out of weekly regiment*/
+export const getTodaysExercises = (currentRegiment) => { 
+	/*Choose todays exercises out of weekly regiment*/ //TODO simplify
 	const day=(new Date()).getDay() //Sunday starts at 0 with Date() - with currentRegiment at 6.
 	const exercisesForToday = day===0
 		? Object.values(currentRegiment)[6] //Sunday
 		: Object.values(currentRegiment)[day-1] //All other days 
-	setDaysExercises(exercisesForToday) 
+	return exercisesForToday
 }
 
 export const exercisesFromWorkouts=(workouts)=>{

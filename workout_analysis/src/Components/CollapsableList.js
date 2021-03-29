@@ -1,11 +1,12 @@
 import React,{useState} from "react"
 import {BsChevronUp} from "react-icons/bs"
-import {BsChevronDown} from "react-icons/bs"
+import {BsChevronDown} from "react-icons/bs" 
+import Dropdown from "react-bootstrap/Dropdown"
 
-
-const CollapsableList=({day,isEditable,addExercise,editExercise,removeExercise})=>{
+const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient,addExercise,editExercise,removeExercise})=>{
 	const [isExpanded, setIsExpanded]=useState(false)
 	
+	console.log(routines)
 	return (	
 		<div style={{ marginTop:"20px",borderBottom:"0.5px solid #CECECE"}}>
 			<div 
@@ -22,15 +23,34 @@ const CollapsableList=({day,isEditable,addExercise,editExercise,removeExercise})
 				</div>
 
 				{isEditable && isExpanded &&  
-								<button onClick={()=>{addExercise(day)}}
-									className="themed"style={{marginLeft:"15px",display:"inline"}}>
+				<> {/*User pressed "edit" and has expanded the day list */}
+					<button onClick={()=>{addExercise(day)}}
+						className="themed"style={{marginLeft:"15px",display:"inline"}}>
 									Add
-								</button>}
+					</button>
+					<Dropdown >{/* dropdown menu to overwrite exercises with a routine*/}
+						<Dropdown.Toggle>
+							Assign routine
+						</Dropdown.Toggle>
+						<Dropdown.Menu>
+							{routines.map((routine)=>( 
+								<>
+									<Dropdown.Item onClick={()=>{ 
+										setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,
+											[day[0]]:routine.exercises
+										}})}}> {routine.name}</Dropdown.Item>
+								</>
+							))}
+						</Dropdown.Menu>
+					</Dropdown>
+				</>
+				}
 			</div>
+
 			<ul style={{listStyle:"none"}}>
 				{day[1].map((exercise,i)=>
 					isEditable
-						?
+						? //if editable -> allow render entries as inputs
 						<div key={i} style={{margin:"5px", display:"flex"}}>
 							{isExpanded && 
 							<>
@@ -43,7 +63,7 @@ const CollapsableList=({day,isEditable,addExercise,editExercise,removeExercise})
 							</>
 							}
 						</div>
-						: 
+						:  //else render as plain text
 						<div key={i}>
 							{isExpanded && <li>{exercise}</li> }
 						</div>

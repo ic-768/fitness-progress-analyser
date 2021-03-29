@@ -5,7 +5,7 @@ import AddClient from "./AddClient"
 import clientService from "../Services/clients"
 import {GrAddCircle} from "react-icons/gr"
 
-const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO add a new client
+const ClientsPage=({user,setUser,clients,setClients,routines,setNotification })=>{ 
 	const [selectedClient,setSelectedClient]=useState(null) //use this state to send update request to backend if changes happen
 	const [clientIndex,setClientIndex]=useState(null)  //Keep track of client index in clients state
 	const [isEditable,setIsEditable]=useState(false) //Allow editing client 
@@ -61,7 +61,7 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 				}
 				else{
 					if(day[1]){ //filter whitespace entries
-						const exercises = day[1].filter((exercise)=>(exercise.trim()))
+						const exercises = day[1].filter((exercise)=>(exercise.trim())) //TODO might be redundant -> handling with onblur of inputs
 						return [day[0], exercises.length===0 
 							? null // no valid entries?
 							: exercises ] //exercise array 
@@ -159,10 +159,13 @@ const ClientsPage=({user,setUser,clients,setClients,setNotification })=>{ //TODO
 					<div style ={{width:"100%"}}>
 						{ Object.entries(selectedClient.currentRegiment)
 							.map((day)=>
-								day[1] &&
-								<CollapsableList key={day[0]}day={day} isEditable={isEditable} 
+								day[1] &&  //if day has entries, render list
+								<CollapsableList key={day[0]} 
+									setSelectedClient={setSelectedClient}
+									selectedClient={selectedClient}
+									day={day} isEditable={isEditable} 
 									addExercise={addExercise} editExercise={editExercise} 
-									removeExercise={removeExercise}/>
+									removeExercise={removeExercise} routines={routines}/>
 							)} 
 					</div> 
 				</div> 

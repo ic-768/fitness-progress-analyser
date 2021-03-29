@@ -2,7 +2,7 @@ import React from "react"
 import {Switch,Route,useHistory} from "react-router-dom"
 import { GoPlusSmall } from "react-icons/go"
 import AthleteHistory from "./AthleteHistory"
-import ExerciseSubmission from "./ExerciseSubmission"
+import AthleteExerciseSubmission from "./AthleteExerciseSubmission"
 import AccountPage from "./AccountPage"
 import AthleteAnalysis from "./AthleteAnalysis"
 
@@ -16,7 +16,7 @@ const AthleteHeadquarters=({currentRegiment, setCurrentRegiment, user, setUser,s
 					user={user}setUser={setUser}/> 
 			</Route>
 			<Route path="/dailySubmission">
-				<ExerciseSubmission setNotification={setNotification} setWorkouts={setWorkouts} 
+				<AthleteExerciseSubmission setNotification={setNotification} setWorkouts={setWorkouts} 
 					daysExercises={daysExercises} />
 			</Route>
 			<Route path="/history"> 

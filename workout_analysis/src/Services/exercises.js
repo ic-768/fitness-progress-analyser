@@ -11,12 +11,13 @@ const getUserWorkouts=async()=>{
 	return response.data
 }
 
-const sendWorkout=async(workout)=> {
+const sendWorkout=async(workoutData)=> {  //TODO if trainer, {exercises: {}, _id:} else just {workout:}
 	const config = {
 		headers:{Authorization:tokenService.getToken()}
 	}
+
 	try{
-		const response = await axios.post(baseUrl, workout, config)
+		const response = await axios.post(baseUrl, workoutData, config)
 		return response.data 
 	}
 	catch{

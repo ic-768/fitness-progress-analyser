@@ -1,39 +1,31 @@
-import React,{useEffect,useState} from "react"
+import React,{useEffect, useState} from "react"
 import {useHistory} from "react-router-dom"
 import {BsFillTrashFill} from "react-icons/bs"
 
 import exerciseService from "../Services/exercises" 
 import ExerciseBox from "./ExerciseBox" 
 import MenuCard from "./MenuCard"
+import Dropdown from "react-bootstrap/Dropdown"
+import {getTodaysExercises } from "../Functions/workoutFunctions"
 
-const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{ 
+const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{ 
 	const history=useHistory()
-
-	//TODO animation like in routine page - too much on every exercise choice
-	if (!daysExercises){
-		return(
-			<div className="pageContainer">
-				<MenuCard header={"My Exercises"} body={()=>(<p>No exercises for today :)</p>)} />
-			</div> 
-		)}
-
-	/* Local copy of daysExercises
-	to let user remove exercises without messing with outter state*/
-	const [uniqueNames,setUniqueNames]=useState([])
-
+	
+	//TODO animation like in routine page - too much on every exercise choice 
+	const [uniqueNames,setUniqueNames]=useState([]) 
+	const [selectedClient, setSelectedClient] = useState(null)
 	const [newWorkout, setNewWorkout]=useState([]) 
 	const [removedExercises, setRemovedExercises]=useState([]) // Keep track of removed exercises
 	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
 
 	useEffect(()=>{
-		setNewWorkout( daysExercises.map((exerciseName)=>( [{name:exerciseName,reps:1,sets:1}]))) 
-		setUniqueNames([... new Set(daysExercises)]) 
-	}
-	,[daysExercises])
-
-	useEffect(()=>{
-		setUniqueNames([... new Set(daysExercises)]) 
-	},[])
+		if(selectedClient){
+			const unique=getTodaysExercises(selectedClient.currentRegiment)  //todays exercises
+			if(unique){ //has exercises for today
+				setUniqueNames(unique)
+				setNewWorkout(unique.map((exerciseName)=>(   [{name:exerciseName,reps:1,sets:1}] ) ))
+			}
+		}},[selectedClient])
 
 	const submitWorkout=async ()=>{ 
 		const exercisesForSubmission=[]
@@ -48,17 +40,17 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 		if(validatedExercises.length>0){// Non-empty
 			const validEntries = newWorkout 
 				.filter((_,i) =>  
-					validatedExercises[i] && true)
-			console.log("trash", exerciseService,setWorkouts,history,validEntries)
+					validatedExercises[i] && true) 
 
-			if (validEntries.length>0) { 
-				const sentWorkout=await exerciseService.sendWorkout(validatedExercises) //server response to new workout submission 
+			if (validEntries.length>0) {  
+				const sentWorkout=await exerciseService.sendWorkout({exercises:validatedExercises,_id:selectedClient._id}) 
 				if(sentWorkout){
-					const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
-					window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local storage
-					setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))//update state
-					setNotification({color:"white",message:"Workout uploaded successfully"})
+					const updatedClient={...selectedClient,days:selectedClient.days.concat(sentWorkout)}
+					const updatedClients=clients.filter((client)=>client._id!==selectedClient._id).concat(updatedClient)
+					setClients(updatedClients)
+					setNotification({color:"white",message:"Workout uploaded successfully"}) 
 					history.push("/") 
+
 				}
 				else{
 					setNotification({color:"red",message:"Something went wrong :("}) 
@@ -75,19 +67,36 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 	} 
 	const body=()=>(
 		<>
-			{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
-				<div className="menuItem__removable" key={`${uniqueName}${i}`}>  
-					<a className="menuItem__text" onClick={()=>{setSelectedExercise(uniqueName)}}>{uniqueName}</a>
-					<a style={{cursor:"pointer"}}
-						onClick={()=>{
-							setRemovedExercises(removedExercises.concat(uniqueName))
-							setNewWorkout(newWorkout.filter((exerciseArray)=>(exerciseArray[0].name!==uniqueName))) 
-							setUniqueNames(uniqueNames.filter((name)=>(uniqueName!==name)))
-						}}>
-						<BsFillTrashFill style={{marginLeft:"auto",marginRight:"15px"}}/>
-					</a>
-				</div>
-			))}
+			<Dropdown style={{marginBottom:"20px"}}>
+				<Dropdown.Toggle>
+					{selectedClient && selectedClient.username || "Select a client"} 
+				</Dropdown.Toggle>
+				<Dropdown.Menu>
+					{clients && clients.map((client)=>( 
+						<Dropdown.Item key={client.username} onClick={()=>{setSelectedClient(client)
+						}}> {client.username}</Dropdown.Item>
+					))}
+				</Dropdown.Menu>
+			</Dropdown> 
+
+			{uniqueNames &&
+
+<>
+	{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
+		<div className="menuItem__removable" key={`${uniqueName}${i}`}>  
+			<a className="menuItem__text" onClick={()=>{setSelectedExercise(uniqueName)}}>{uniqueName}</a>
+			<a style={{cursor:"pointer"}}
+				onClick={()=>{
+					setRemovedExercises(removedExercises.concat(uniqueName))
+					setNewWorkout(newWorkout.filter((exerciseArray)=>(exerciseArray[0].name!==uniqueName))) 
+					setUniqueNames(uniqueNames.filter((name)=>(uniqueName!==name)))
+				}}>
+				<BsFillTrashFill style={{marginLeft:"auto",marginRight:"15px"}}/>
+			</a>
+		</div>
+	))}
+</>
+			}
 
 			{ removedExercises.length>0 && 
 				<h5 style={{marginTop:"auto",textAlign:"center"}}>Removed</h5> }
@@ -112,7 +121,7 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 	
 	return ( 
 		<div className="pageContainer">
-			<MenuCard header={"My Exercises"} body={body}/> 
+			<MenuCard header={"Exercises"} body={body}/> 
 
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise
@@ -127,4 +136,4 @@ const ExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{
 	)
 } 
 
-export default ExerciseSubmission
+export default TrainerExerciseSubmission 

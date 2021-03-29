@@ -28,10 +28,10 @@ workoutRouter.post('/', async(request, response) => {
 		return response.status(401).json({error:"token missing or invalid"})
 	}
 	console.log(body) 
-	const user = await User.findById(decodedToken.id)
-  user.days=user.days.concat({date:new Date(), exercises:body}) 
+	const user = await User.findById(body._id || decodedToken.id) //if body._id -> sent by trainer,  otherwise sent by user himself
+  user.days=user.days.concat({date:new Date(), exercises:body.exercises}) 
 	await user.save()
-	response.status(201).json({date:new Date(), exercises:body})
+	response.status(201).json({date:new Date(), exercises:body.exercises})
 })
 
 workoutRouter.patch('/regiment', async(request, response) => { //set/update target regiment

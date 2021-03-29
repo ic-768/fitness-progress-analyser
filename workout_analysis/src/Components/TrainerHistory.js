@@ -7,7 +7,7 @@ import CalendarPicker from "./CalendarPicker"
 import MenuCard from "./MenuCard" 
 import Dropdown from "react-bootstrap/Dropdown"
 
-const History=({clients})=>{ 
+const TrainerHistory=({clients})=>{ 
 
 	const [selectedClient,setSelectedClient]=useState()
 	const [filterQuery, setFilterQuery] = useState("") //Search term
@@ -86,4 +86,4 @@ const History=({clients})=>{
 	)
 }
 
-export default History
+export default TrainerHistory
