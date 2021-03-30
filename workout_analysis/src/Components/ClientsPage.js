@@ -5,10 +5,11 @@ import AddClient from "./AddClient"
 import clientService from "../Services/clients"
 import {GrAddCircle} from "react-icons/gr"
 
-const ClientsPage=({user,setUser,clients,setClients,routines,setNotification })=>{ 
+const ClientsPage=({clients,setClients,routines,setNotification })=>{ 
 	const [selectedClient,setSelectedClient]=useState(null) //use this state to send update request to backend if changes happen
 	const [clientIndex,setClientIndex]=useState(null)  //Keep track of client index in clients state
 	const [isEditable,setIsEditable]=useState(false) //Allow editing client 
+
 
 	useEffect(()=>{
 		clients && isEditable==false &&  // On cancel
@@ -17,7 +18,7 @@ const ClientsPage=({user,setUser,clients,setClients,routines,setNotification })=
 
 	useEffect(()=>{ 
 		setIsEditable(false)
-	},[selectedClient && selectedClient.username]) //everytime user changes (NOT EDITED), set isEditable to false
+	},[selectedClient && selectedClient.username]) //everytime client changes (NOT EDITED), set isEditable to false
 
 	const toggleDay=(day)=>{ // workout day or rest day
 		isEditable && 
@@ -75,14 +76,19 @@ const ClientsPage=({user,setUser,clients,setClients,routines,setNotification })=
 			setNotification({color:"red",message:"Looks like you've assigned the same exercise twice in the same day :)"})
 		}
 		else{  //submit
-			//TODO try catch
-			setSelectedClient({...selectedClient,currentRegiment:Object.fromEntries(regiment)})
-			const updatedClient=await clientService.updateClient({...selectedClient,currentRegiment:Object.fromEntries(regiment)}) 
-			const updatedClients=clients.filter((client)=>client._id!==updatedClient._id).concat(updatedClient)
-			window.localStorage.setItem("clients",JSON.stringify(updatedClients))
-			setClients(updatedClients) 
-			setIsEditable(false)
-			setNotification({color:"green",message:"Client updated successfully"})
+			try{
+
+				setSelectedClient({...selectedClient,currentRegiment:Object.fromEntries(regiment)})
+				const updatedClient=await clientService.updateClient({...selectedClient,currentRegiment:Object.fromEntries(regiment)}) 
+				const updatedClients=clients.filter((client)=>client._id!==updatedClient._id).concat(updatedClient)
+				window.localStorage.setItem("clients",JSON.stringify(updatedClients))
+				setClients(updatedClients) 
+				setIsEditable(false)
+				setNotification({color:"green",message:"Client updated successfully"})
+			}
+			catch{ 
+				setNotification({color:"red",message:"Something went wrong :("})
+			}
 		}
 	}
 	
@@ -124,6 +130,7 @@ const ClientsPage=({user,setUser,clients,setClients,routines,setNotification })=
 			}/> 
 			{selectedClient && selectedClient.username
 				? //edit existing client
+				//TODO make component
 				<div style={{display:"flex",flexDirection:"column",}} className="resultPage clientView" >
 
 					<div className="client__header" 
@@ -170,7 +177,7 @@ const ClientsPage=({user,setUser,clients,setClients,routines,setNotification })=
 					</div> 
 				</div> 
 				: //new client
-				<AddClient setClients={setClients} clients={clients} setUser={setUser} user={user} />
+				<AddClient setClients={setClients} clients={clients} />
 			}
 		</div> 
 	)

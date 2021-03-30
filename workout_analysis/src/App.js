@@ -16,9 +16,7 @@ import Notification from "./Components/Notification"
 
 import registerService from "./Services/register"
 import tokenService from "./Services/token"
-import {login,logout}from "./Functions/userFunctions"
-import { getTodaysExercises } from "./Functions/workoutFunctions"
-
+import {login,logout}from "./Functions/userFunctions" 
 
 function App(){ 
 	const location=useLocation()
@@ -26,16 +24,14 @@ function App(){
 	const [notification,setNotification] = useState(null) //Action feedback + Error messages
 	//will be object e.g. {color:"red",message:"text"}
 
-	/*user contains authorization token, username, and flags to show if trainer or if a target regiment has been set.
-	 User workouts history (if athlete) or clients (if trainer) is sent to localStorage on log-in*/ 
 	const [user, setUser] = useState(null) 	
-	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
-	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
-	const [workouts, setWorkouts] = useState(null) // whole week target exercises !!TODO pass to Athlete Headquarters?
+	/*user contains authorization token, username, and bool flag to show if trainer or athlete. 
+	Athletes have 1) currentRegiment obj, showing target exercises for each day of week.
+								2) days array, showing their whole workout history
 
-	/*if trainer */
-	const [clients, setClients] = useState(null) 
-	const [routines, setRoutines] = useState(null)
+	Trainers have 1) clients array
+								2) routines array, to save frequently prescribed workout routines for easy access 
+	 */ 
 
 	useEffect(()=>{ //Turn off notification after 3 sec
 		if(notification){
@@ -50,61 +46,37 @@ function App(){
 		if(user){
 			setUser(user)
 			tokenService.setToken(user.token) //token will be set on each render
-		}
-	}
+		}}
 	,[]) 
 
-	useEffect(()=>{ 
-		if(user){
-			setBackgroundImage("Media/weights_dark_flipped.jpeg")
-			if (!user.isTrainer){//Set athlete's target workout (for a whole week)
-				setWorkouts(JSON.parse(window.localStorage.getItem("userWorkouts")))
-				setCurrentRegiment( JSON.parse(window.localStorage.getItem("currentRegiment")) )
-			}
-			else{  //Set trainers clients
-				setClients(JSON.parse(window.localStorage.getItem("clients"))) 
-				setRoutines(JSON.parse(window.localStorage.getItem("routines"))) 
-			} }
-		else{ //no user logged in
-			setBackgroundImage("Media/weightLiftingGirl.png") 
-		}
+	useEffect(()=>{  //different background if logged in
+		if (user){ setBackgroundImage("Media/weights_dark_flipped.jpeg") }
+		else { setBackgroundImage("Media/weightLiftingGirl.png") }
 	}
-	,[user])
-
-	useEffect(()=>{ //Set exercises of today's workout
-		if(user && !user.isTrainer){ 
-			setDaysExercises(getTodaysExercises(currentRegiment))
-		}
-	}
-	,[currentRegiment])
+	,[user]) 
 
 	return ( 
-		<div className="App" style={{height:"100vh", backgroundImage:`url(${backgroundImage})`,
-			backgroundSize:"cover"}}>
+		<div className="App" style={{height:"100vh", backgroundImage:`url(${backgroundImage})`,backgroundSize:"cover"}}>
 			{notification && <Notification color={notification.color} message={notification.message}/>}
 
 			{user ? //if user is logged in
 				<>
 					{user.isTrainer //user is a trainer
-						?<> 
+						?<>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<TrainerHeadquarters user={user} setUser={setUser} clients={clients} setClients={setClients} 
-								routines={routines} setRoutines={setRoutines} setNotification={setNotification} />
+							<TrainerHeadquarters user={user} setUser={setUser} setNotification={setNotification} />
 						</>
 						: //user is an athlete
 						<>
 							{user.regIsSet 
 								?  //User isn't new - allow submissions, performance analysis & workout history view
-								<div style={{height:"100%",}}>
+								<>
 									<Banner user={user} logout={()=>{logout(setUser) }}/>  
-									<AthleteHeadquarters currentRegiment={currentRegiment} 
-										setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser} 
-										setNotification={setNotification} setWorkouts={setWorkouts} workouts={workouts}
-										daysExercises={daysExercises} />
-								</div>
+									<AthleteHeadquarters  user={user} setUser={setUser} setNotification={setNotification}  />
+								</>
 								:  //if user hasn't set a regiment, do that. 
-								<LandingPage setNotification={setNotification} currentRegiment={currentRegiment} 
-									setCurrentRegiment={setCurrentRegiment} user={user} setUser={setUser}/>
+								//TODO fix CSS on trainer side
+								<LandingPage  user={user} setUser={setUser} setNotification={setNotification}/>
 							}
 						</> 
 					}

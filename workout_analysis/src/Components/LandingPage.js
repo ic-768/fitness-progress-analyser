@@ -9,21 +9,17 @@ import {
 import Banner from "../Components/Banner" 
 import Container from "react-bootstrap/Container"
 
-const LandingPage = ({setNotification, currentRegiment, setCurrentRegiment, user, setUser}) =>{
+const LandingPage = ({setNotification,  user, setUser}) =>{
 	const history = useHistory()
 
 	return(
 		<div style={{overflow:"auto",height:"100%"}}>
 			<Switch>
 				<Route path="/athlete">
-					<OnBoardAthlete 
-						setNotification={setNotification} 
-						currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment} 
-						user={user} setUser={setUser}/>
+					<OnBoardAthlete setNotification={setNotification} user={user} setUser={setUser}/>
 				</Route>
 				<Route path="/trainer">
-					<OnBoardTrainer 
-						user={user}setUser={setUser}/>
+					<OnBoardTrainer user={user}setUser={setUser}/>  {/*TODO set notifications, and fix bad css */}
 				</Route>
 				<Route path="/"> 
 					<Banner/>

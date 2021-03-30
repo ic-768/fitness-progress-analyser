@@ -11,7 +11,6 @@ import {getTodaysExercises } from "../Functions/workoutFunctions"
 const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{ 
 	const history=useHistory()
 	
-	//TODO animation like in routine page - too much on every exercise choice 
 	const [uniqueNames,setUniqueNames]=useState([]) 
 	const [selectedClient, setSelectedClient] = useState(null)
 	const [newWorkout, setNewWorkout]=useState([]) 
@@ -33,7 +32,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 		{exerciseArray.forEach((exercise)=>{exercisesForSubmission.push(exercise)}) 
 		})
 
-		const validatedExercises=exercisesForSubmission.filter((exercise)=>( //validate exercises here
+		const validatedExercises=exercisesForSubmission.filter((exercise)=>( //validate exercises
 			exercise.sets!=0 && exercise.reps!=0
 		))
 
@@ -126,7 +125,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise
 				return( 
-					<div key={i} style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}>   {/*TODO shared with routinePage */}
+					<div key={i} style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}>   {/*TODO make css class - shared with routinePage */}
 						<ExerciseBox  exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
 					</div>
 				)

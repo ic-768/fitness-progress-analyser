@@ -1,21 +1,15 @@
-import React,{useState,useEffect} from "react"
+import React,{useState} from "react"
 import clientService from "../Services/clients" 
 
-const AddClient=({setClients,clients,setUser,user})=>{ 
+const AddClient=({setClients})=>{ 
 
-	useEffect(()=>{
-		window.localStorage.setItem("clients",JSON.stringify(user.clients)) 
-	},[user])
-
-	const submitClient=async ()=>{ //TODO  UPDATE LOCAL STORAGE
-		if( currentClient.name 
+	const submitClient=async ()=>{
+		if (currentClient.name  //all fields filled in
 			&& currentClient.username 
 			&& currentClient.password 
-			&&
-		(currentClient.password===currentClient.validatePassword)){
+			&& (currentClient.password===currentClient.validatePassword)){ //password typed correctly twice
 			const updatedTrainer=await clientService.addClient(currentClient)
-			setUser(updatedTrainer)
-			setClients(clients.concat(currentClient))
+			setClients(updatedTrainer.clients)
 			setCurrentClient({username:"", password:"",validatePassword:""})
 		}
 	} 
@@ -33,7 +27,7 @@ const AddClient=({setClients,clients,setUser,user})=>{
 				<div style={{display:"flex",flexDirection:"column"}}>
 					<h1>Username</h1>
 					<input onChange={(event)=>{ setCurrentClient({...currentClient,name:event.target.value}) }} 
-						placeholder={currentClient.name || "client name"} //TODO set value to user name - changing from uncontrolled to controlled
+						placeholder={currentClient.name || "client name"} //TODO set value to user name - changing from uncontrolled to controlled right now
 						value={currentClient.name} /> 
 					<input onChange={(event)=>{ setCurrentClient({...currentClient,username:event.target.value}) }} 
 						placeholder={currentClient.username || "client username"}

@@ -1,4 +1,4 @@
-import React,{useEffect} from "react" 
+import React,{useState,useEffect} from "react" 
 import {
 	Switch,
 	Route,
@@ -8,9 +8,10 @@ import RegimentForm from "./RegimentForm"
 import DayForm from "./DayForm"
 import {CSSTransition, TransitionGroup} from "react-transition-group"
 
-const OnBoardAthlete=({setNotification, currentRegiment,setCurrentRegiment,user,setUser})=>{ 
+const OnBoardAthlete=({setNotification, user,setUser})=>{ 
 	//Responsible for weekly regiment setup
 	const location=useLocation()
+	const [currentRegiment, setCurrentRegiment]=useState({})
 
 	useEffect(()=>{  
 		const regiment=JSON.parse(window.localStorage.getItem("currentRegiment"))

@@ -1,4 +1,4 @@
-import React from "react" 
+import React,{useEffect,useState} from "react" 
 import {Switch,Route,useHistory} from "react-router-dom"
 import { GoPlusSmall } from "react-icons/go"
 import ClientsPage from "./ClientsPage"
@@ -7,19 +7,32 @@ import TrainerHistory from "./TrainerHistory.js"
 import RoutinePage from "./RoutinePage.js"
 import TrainerExerciseSubmission from "./TrainerExerciseSubmission"
 
-const TrainerHeadquarters=({user,setUser,clients,setClients,routines, setRoutines, setNotification })=>{ 
+const TrainerHeadquarters=({user,setUser,setNotification })=>{ 
 	const history=useHistory()
+
+	const [clients, setClients] = useState(null) 
+	const [routines, setRoutines] = useState(null)
+
+	useEffect(()=>{ //set trainer's clients
+		if(user && user.isTrainer){ 
+			const storedClients=JSON.parse(window.localStorage.getItem("clients"))
+			storedClients && setClients(storedClients)  
+			setRoutines(JSON.parse(window.localStorage.getItem("routines"))) 
+		}
+	},[user])
 
 	return (
 		<Switch>
 			<Route path="/dailySubmission">
-				<TrainerExerciseSubmission clients={clients} setClients={setClients} setNotification={setNotification}/>
+				<TrainerExerciseSubmission clients={clients} setClients={setClients} 
+					setNotification={setNotification}/>
 			</Route>
 			<Route path="/history">
 				<TrainerHistory clients={clients} setClients={setClients} />
 			</Route>
 			<Route path="/clients">
-				<ClientsPage user={user}setUser={setUser} clients={clients} setClients={setClients} routines={routines} setNotification={setNotification}/>
+				<ClientsPage user={user}setUser={setUser} clients={clients} 
+					setClients={setClients} routines={routines} setNotification={setNotification}/>
 			</Route>
 			<Route path="/analysis">
 				<TrainerAnalysis clients={clients} />

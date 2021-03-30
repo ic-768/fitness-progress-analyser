@@ -58,6 +58,7 @@ clientRouter.post('/', async(request, response) => {
 			return response.status(500).json({ error:'Something went wrong :(' })
 	} 
 	try{  //! should only happen on first client of account - user declares he is a trainer and not an athlete
+		//TODO if (clients.length==0)
 		trainer.isTrainer=true
 		trainer.regIsSet=undefined
 		trainer.days=undefined
