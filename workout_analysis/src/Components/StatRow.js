@@ -1,6 +1,6 @@
 import React from "react"
 const StatRow=({exercise,setExercise})=>{
-	/*Takes individual exercise instances and renders interactable rows of data*/
+	/*Takes individual exercise instances and renders interactable rows of data- used in Exercise Submission*/
 	const weightColor = exercise.weight ? "#FF8933" : "gray"
 	const cellStyle={width:"80px",marginLeft:"25px"}
 

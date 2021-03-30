@@ -10,8 +10,8 @@ import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
 import Banner from "./Components/Banner"
 import LandingPage from "./Components/LandingPage"
-import AthleteHeadquarters from "./Components/AhleteHeadquarters"
-import TrainerHeadquarters from "./Components/TrainerHeadquarters"
+import Headquarters_A from "./Components/Athlete/Headquarters_A"
+import Headquarters_T from "./Components/Trainer/Headquarters_T"
 import Notification from "./Components/Notification"
 
 import registerService from "./Services/register"
@@ -64,7 +64,7 @@ function App(){
 					{user.isTrainer //user is a trainer
 						?<>
 							<Banner user={user} logout={()=>{logout(setUser) }}/>  
-							<TrainerHeadquarters user={user} setUser={setUser} setNotification={setNotification} />
+							<Headquarters_T user={user} setUser={setUser} setNotification={setNotification} />
 						</>
 						: //user is an athlete
 						<>
@@ -72,7 +72,7 @@ function App(){
 								?  //User isn't new - allow submissions, performance analysis & workout history view
 								<>
 									<Banner user={user} logout={()=>{logout(setUser) }}/>  
-									<AthleteHeadquarters  user={user} setUser={setUser} setNotification={setNotification}  />
+									<Headquarters_A  user={user} setUser={setUser} setNotification={setNotification}  />
 								</>
 								:  //if user hasn't set a regiment, do that. 
 								//TODO fix CSS on trainer side

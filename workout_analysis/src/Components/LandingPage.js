@@ -1,6 +1,6 @@
 import React from "react"
-import OnBoardAthlete from "./OnBoardAthlete"
-import OnBoardTrainer from "./OnBoardTrainer"
+import OnBoard_A from "./Athlete/OnBoard_A"
+import OnBoard_T from "./Trainer/OnBoard_T"
 import {
 	Switch,
 	Route,
@@ -16,10 +16,10 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 		<div style={{overflow:"auto",height:"100%"}}>
 			<Switch>
 				<Route path="/athlete">
-					<OnBoardAthlete setNotification={setNotification} user={user} setUser={setUser}/>
+					<OnBoard_A setNotification={setNotification} user={user} setUser={setUser}/>
 				</Route>
 				<Route path="/trainer">
-					<OnBoardTrainer user={user}setUser={setUser}/>  {/*TODO set notifications, and fix bad css */}
+					<OnBoard_T user={user}setUser={setUser}/>  {/*TODO set notifications, and fix bad css */}
 				</Route>
 				<Route path="/"> 
 					<Banner/>

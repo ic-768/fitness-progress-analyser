@@ -1,11 +1,12 @@
 import React,{useState} from "react"
 import {useHistory} from "react-router-dom"
 import MenuCard from "./MenuCard"
-import RegimentForm from "./RegimentForm"
+import RegimentForm from "./Athlete/RegimentForm"
 import exerciseService from "../Services/exercises"
 import passwordService from "../Services/password"
 
 const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,setUser}) => {
+	/*Edit Account details */
 
 	const [view,setView] = useState("")//"Reset"/"Edit"/Password 
 	const [currentPassword,setCurrentPassword] = useState("")
@@ -35,11 +36,11 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 
 			{view && 
 				<div className="resultPage account" style={{display:"flex"}}>
-					{view==="Edit" && (
+					{view==="Edit" && ( //Edit current regiment
 						<RegimentForm  user={user} setUser={setUser} 
 							currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)}
 
-					{view==="Reset" && (
+					{view==="Reset" && ( //reset regiment entirely
 						<div style={{marginTop:"20px"}}>
 							<h2>Are you sure you want to reset your weekly regiment?</h2> 
 							<h5 style={{marginTop:"20px"}}>You&apos;ll be redirected to fill out all your weekly exercises from scratch. 
@@ -53,7 +54,7 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 								history.push("/") }}>Yes</button> 
 						</div> )}
 
-					{view==="Password" && (
+					{view==="Password" && ( //change password
 						<form 
 							style={{marginTop:"40px",alignItems:"center",width:"100%",display:"flex",flexDirection:"column"}}
 							onSubmit={async(event)=>{
