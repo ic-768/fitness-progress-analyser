@@ -59,12 +59,12 @@ const TrainerAnalysis=({clients})=>{
 		<>
 			<Dropdown style={{marginBottom:"20px"}}>
 				<Dropdown.Toggle>
-					{selectedClient && selectedClient.username || "Select a client"} 
+					{selectedClient && selectedClient.name || "Select a client"} 
 				</Dropdown.Toggle>
 				<Dropdown.Menu>
 					{clients && clients.map((client)=>( 
-						<Dropdown.Item key={client.username} onClick={()=>{setSelectedClient(client)
-						}}> {client.username}</Dropdown.Item>
+						<Dropdown.Item key={client.name} onClick={()=>{setSelectedClient(client)
+						}}> {client.name}</Dropdown.Item>
 					))}
 				</Dropdown.Menu>
 			</Dropdown> 

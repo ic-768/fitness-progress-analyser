@@ -1,6 +1,5 @@
 const config = require('./utils/config')
 const userRouter = require('./controllers/users')
-const routineRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const workoutRouter = require('./controllers/workouts')
 const clientRouter = require('./controllers/clients')

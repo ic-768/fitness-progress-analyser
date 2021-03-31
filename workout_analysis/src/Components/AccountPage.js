@@ -29,7 +29,7 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 					</a>
 
 					<a className="menuCard__account" onClick={()=>{setView("Password")}}> 
-						Change password
+						Change password //TODO allow changing name!
 					</a>
 				</> 
 			)}/>

@@ -124,7 +124,7 @@ const ClientsPage=({clients,setClients,routines,setNotification })=>{
 								cursor:"pointer",display:"flex",flexDirection:"column", alignItems:"center",
 								height:"200px", width:"155px", }}>
 								<h5>
-									{client.username }
+									{client.name }
 								</h5>
 							</div>
 						)) }
@@ -137,6 +137,11 @@ const ClientsPage=({clients,setClients,routines,setNotification })=>{
 
 					<div className="client__header" 
 						style={{ width:"100%",borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex",}} > 
+
+						<div className="client__details" style={{flexGrow:"1",marginRight:"25px",display:"flex",flexDirection:"column"}}>
+							<h5 style={{display:"inline"}}> Name </h5>
+							<p style={{display:"inline"}}> {selectedClient.name}</p>
+						</div>
 
 						<div className="client__details" style={{flexGrow:"1",marginRight:"25px",display:"flex",flexDirection:"column"}}>
 							<h5 style={{display:"inline"}}> Username </h5>

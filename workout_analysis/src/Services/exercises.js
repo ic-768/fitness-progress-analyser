@@ -11,7 +11,7 @@ const getUserWorkouts=async()=>{
 	return response.data
 }
 
-const sendWorkout=async(workoutData)=> {  //TODO if trainer, {exercises: {}, _id:} else just {workout:}
+const sendWorkout=async(workoutData)=> {  //if trainer, {exercises: {}, _id:}, if athlete just {exercises:}
 	const config = {
 		headers:{Authorization:tokenService.getToken()}
 	}

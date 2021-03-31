@@ -2,6 +2,7 @@ import React from "react"
 import Table from "react-bootstrap/Table"
 
 const HistoryWorkout = ({workout}) => {
+	/*Single workout table in History*/
 
 	if(workout){
 		const workoutDate=new Date(workout.date)

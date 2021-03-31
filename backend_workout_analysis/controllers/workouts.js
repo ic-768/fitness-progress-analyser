@@ -29,7 +29,7 @@ workoutRouter.post('/', async(request, response) => {
 	}
 	console.log(body) 
 	const user = await User.findById(body._id || decodedToken.id) //if body._id -> sent by trainer,  otherwise sent by user himself
-  user.days=user.days.concat({date:new Date(), exercises:body.exercises}) 
+  user.days=user.days.concat({date:new Date(), exercises:body.exercises})  //TODO timezone of user
 	await user.save()
 	response.status(201).json({date:new Date(), exercises:body.exercises})
 })

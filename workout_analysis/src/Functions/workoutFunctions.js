@@ -1,5 +1,15 @@
+export const getInvalidExercises = (exerciseArray) =>{ //look for mangled fields in exercise submission
+	const invalidExercises=[]
+	exerciseArray.forEach((exercise)=>{ //if exercise not filled out properly, populate array
+		if( !exercise.reps||!exercise.sets || exercise.sets==0 || exercise.reps==0){
+			invalidExercises.push(exercise.name)
+		}
+	}) 
+	return invalidExercises
+}
+
 export const getTodaysExercises = (currentRegiment) => { 
-	/*Choose todays exercises out of weekly regiment*/ //TODO simplify
+	/*Choose todays exercises out of weekly regiment*/ 
 	const day=(new Date()).getDay() //Sunday starts at 0 with Date() - with currentRegiment at 6.
 	const exercisesForToday = day===0
 		? Object.values(currentRegiment)[6] //Sunday
@@ -17,7 +27,7 @@ export const exercisesFromWorkouts=(workouts)=>{
 }
 
 //same as above, but one step further
-export const exerciseNamesFromWorkouts=(workouts)=>{
+export const exerciseNamesFromWorkouts=(workouts)=>{ //TODO is this called and then filtered? If so, filter right here
 	return exercisesFromWorkouts(workouts).map((exercise)=>exercise.name) 
 }
 
@@ -51,7 +61,7 @@ export const datedAnalysis=(workouts,exerciseName,interval,parameter)=>{
 		console.log("Interval is invalid")
 		return }
 
-	const getTime = interval === "daily" //To compare time of workouts
+	const getTime = interval === "daily" //To compare time of workouts //TODO  when more analysis types, use case statement
 		? (exercise) => (new Date (exercise.date).toDateString()) // Full date
 		: (exercise) => (new Date (exercise.date).toLocaleDateString("default",{month:"long",year:"numeric"}))  // Month and year
 

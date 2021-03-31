@@ -4,13 +4,12 @@ import {BsFillTrashFill} from "react-icons/bs"
 
 import exerciseService from "../../Services/exercises" 
 import ExerciseBox from "../ExerciseBox" 
-import MenuCard from "../MenuCard"
+import MenuCard from "../MenuCard" 
+import {getInvalidExercises } from "../../Functions/workoutFunctions"
 
 const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>{ 
 	/*allows user to select from today's scheduled exercises and submit his workout */
 	const history=useHistory()
-
-	//TODO animation like in routine page - too much on every exercise choice
 	if (!daysExercises){
 		return(
 			<div className="pageContainer">
@@ -25,6 +24,8 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 	const [newWorkout, setNewWorkout]=useState([]) 
 	const [removedExercises, setRemovedExercises]=useState([]) // Keep track of removed exercises
 	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
+	const [invalidArray,setInvalidArray]=useState([]) 
+	//On submission, if an exercise is invalid, its name will be stored, to set backgroundcolor of menuItem to red 
 
 	useEffect(()=>{
 		setNewWorkout( daysExercises.map((exerciseName)=>( [{name:exerciseName,reps:1,sets:1}]))) 
@@ -36,23 +37,21 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 		setUniqueNames([... new Set(daysExercises)]) 
 	},[])
 
-	const submitWorkout=async ()=>{ 
+	const submitWorkout=async ()=>{  
 		const exercisesForSubmission=[]
 		newWorkout.forEach((exerciseArray)=> //retrieve nested exercises
 		{exerciseArray.forEach((exercise)=>{exercisesForSubmission.push(exercise)}) 
 		})
 
-		const validatedExercises=exercisesForSubmission.filter((exercise)=>( //validate exercises here
-			exercise.sets!=0 && exercise.reps!=0
-		))
+		const invalidExercises=getInvalidExercises(exercisesForSubmission)
+		if (invalidExercises.length>0){
+			setInvalidArray(invalidExercises) //set state so that invalid items get colored
+			setNotification({color:"red",message:"An exercise hasn't been filled out :( please fill it out or remove it"})
+		}
 
-		if(validatedExercises.length>0){// Non-empty
-			const validEntries = newWorkout 
-				.filter((_,i) =>  
-					validatedExercises[i] && true)
-
-			if (validEntries.length>0) { 
-				const sentWorkout=await exerciseService.sendWorkout({exercises:validatedExercises}) //server response to new workout submission 
+		else{ //no invalid Entries
+			if (exercisesForSubmission.length>0) {   //exercises actually exist
+				const sentWorkout=await exerciseService.sendWorkout({exercises:exercisesForSubmission}) //server response to new workout submission 
 				if(sentWorkout){
 					const userWorkouts = JSON.parse(window.localStorage.getItem("userWorkouts")) //local storage copy of workouts 
 					window.localStorage.setItem("userWorkouts",JSON.stringify(userWorkouts.concat(sentWorkout))) //update local storage
@@ -60,27 +59,28 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 					setNotification({color:"white",message:"Workout uploaded successfully"})
 					history.push("/") 
 				}
-				else{
+				else{ //server response not valid
 					setNotification({color:"red",message:"Something went wrong :("}) 
 				}
 			} 
-			
-			else{
-				console.log("No valid entries") //Data mangled-Shouldn't happen in production.
-			}
+			else{ //no valid exercises
+				setNotification({color:"red",message:"Looks like you haven't submitted any exercises!"}) 
+			} 
 		}
-		else{
-			setNotification({color:"red",message:"Looks like you haven't submitted any exercises!"}) 
-		} 
 	} 
 	const body=()=>(
 		<>
-			{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
-				<div className="menuItem__removable" key={`${uniqueName}${i}`}>  
+			{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise 
+				<div className="menuItem__removable" style={{
+					backgroundColor:invalidArray.includes(uniqueName) // if submission attempted, and exercise has an empty field, set to pink
+						? "pink"
+						: "white"
+				} } key={`${uniqueName}${i}`}>  
 					<a className="menuItem__text" onClick={()=>{setSelectedExercise(uniqueName)}}>{uniqueName}</a>
 					<a style={{cursor:"pointer"}}
 						onClick={()=>{
 							setRemovedExercises(removedExercises.concat(uniqueName))
+							setInvalidArray(invalidArray.filter((exercise)=>exercise!=uniqueName)) //remove from invalid array
 							setNewWorkout(newWorkout.filter((exerciseArray)=>(exerciseArray[0].name!==uniqueName))) 
 							setUniqueNames(uniqueNames.filter((name)=>(uniqueName!==name)))
 						}}>

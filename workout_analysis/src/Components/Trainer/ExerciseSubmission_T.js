@@ -6,7 +6,7 @@ import exerciseService from "../../Services/exercises"
 import ExerciseBox from "../ExerciseBox" 
 import MenuCard from "../MenuCard"
 import Dropdown from "react-bootstrap/Dropdown"
-import {getTodaysExercises } from "../../Functions/workoutFunctions"
+import {getTodaysExercises,getInvalidExercises } from "../../Functions/workoutFunctions"
 
 const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{ 
 /*Trainer can submit workouts on behalf of a client */
@@ -18,7 +18,11 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 	const [removedExercises, setRemovedExercises]=useState([]) // Keep track of removed exercises
 	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
 
+	const [invalidArray, setInvalidArray]=useState([])
+	//On submission, if an exercise is invalid, its name will be stored, to set backgroundcolor of menuItem to red 
+
 	useEffect(()=>{
+		setInvalidArray([])
 		if(selectedClient){
 			const unique=getTodaysExercises(selectedClient.currentRegiment)  //todays exercises
 			if(unique){ //has exercises for today
@@ -27,44 +31,38 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 			}
 		}},[selectedClient])
 
-	const submitWorkout=async ()=>{ 
+	const submitWorkout=async ()=>{  
 		const exercisesForSubmission=[]
 		newWorkout.forEach((exerciseArray)=> //retrieve nested exercises
 		{exerciseArray.forEach((exercise)=>{exercisesForSubmission.push(exercise)}) 
 		})
 
-		const validatedExercises=exercisesForSubmission.filter((exercise)=>( //validate exercises
-			exercise.sets!=0 && exercise.reps!=0
-		))
+		const invalidExercises=getInvalidExercises(exercisesForSubmission)
+		if (invalidExercises.length>0){ //no invalid entries
+			setInvalidArray(invalidExercises) //set state so that invalid items get colored
+			setNotification({color:"red",message:"An exercise hasn't been filled out :( please fill it out or remove it"})
+		}
 
-		if(validatedExercises.length>0){// Non-empty
-			const validEntries = newWorkout 
-				.filter((_,i) =>  
-					validatedExercises[i] && true) 
-
-			if (validEntries.length>0) {  
-				const sentWorkout=await exerciseService.sendWorkout({exercises:validatedExercises,_id:selectedClient._id}) 
+		else{ // no invalid entries 
+			if (exercisesForSubmission.length>0) {  
+				const sentWorkout=await exerciseService.sendWorkout({exercises:exercisesForSubmission,_id:selectedClient._id}) 
 				if(sentWorkout){
 					const updatedClient={...selectedClient,days:selectedClient.days.concat(sentWorkout)}
 					const updatedClients=clients.filter((client)=>client._id!==selectedClient._id).concat(updatedClient)
+					window.localStorage.setItem("clients",JSON.stringify(updatedClients)) //update local storage
 					setClients(updatedClients)
 					setNotification({color:"white",message:"Workout uploaded successfully"}) 
 					history.push("/") 
-
 				}
 				else{
 					setNotification({color:"red",message:"Something went wrong :("}) 
 				}
 			} 
-			
 			else{
-				console.log("No valid entries") //Data mangled-Shouldn't happen in production.
-			}
-		}
-		else{
-			setNotification({color:"red",message:"Looks like you haven't submitted any exercises!"}) 
+				setNotification({color:"red",message:"Looks like you haven't submitted any exercises!"}) 
+			} 
 		} 
-	} 
+	}
 	const body=()=>(
 		<>
 			<Dropdown style={{marginBottom:"20px"}}>
@@ -83,10 +81,16 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 
 <>
 	{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
-		<div className="menuItem__removable" key={`${uniqueName}${i}`}>  
+		<div className="menuItem__removable" style={{
+			backgroundColor:invalidArray.includes(uniqueName) // if submission attempted, and exercise has an empty field, set to pink
+				? "pink"
+				: "white" 
+		}}
+		key={`${uniqueName}${i}`}>  
 			<a className="menuItem__text" onClick={()=>{setSelectedExercise(uniqueName)}}>{uniqueName}</a>
 			<a style={{cursor:"pointer"}}
 				onClick={()=>{
+					setInvalidArray(invalidArray.filter((exercise)=>uniqueName!==exercise))
 					setRemovedExercises(removedExercises.concat(uniqueName))
 					setNewWorkout(newWorkout.filter((exerciseArray)=>(exerciseArray[0].name!==uniqueName))) 
 					setUniqueNames(uniqueNames.filter((name)=>(uniqueName!==name)))

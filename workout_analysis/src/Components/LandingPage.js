@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useState} from "react"
 import OnBoard_A from "./Athlete/OnBoard_A"
 import OnBoard_T from "./Trainer/OnBoard_T"
 import {
@@ -9,9 +9,13 @@ import {
 import Banner from "../Components/Banner" 
 import Container from "react-bootstrap/Container"
 
-const LandingPage = ({setNotification,  user, setUser}) =>{
+import nameService from "../Services/name"
+
+const LandingPage = ({setNotification,  user, setUser}) =>{ 
+	const [name,setName]=useState(null) 
 	const history = useHistory()
 
+	console.log(name)
 	return(
 		<div style={{overflow:"auto",height:"100%"}}>
 			<Switch>
@@ -24,18 +28,23 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 				<Route path="/"> 
 					<Banner/>
 					<Container>
-						<form className="dayForm">
+						<form className="dayForm"> 
 							<h1 style={{fontWeight:"bold"}}>
-					I am ...</h1>
+					My name is ...</h1>
+							<input style={{marginBottom:"20px"}} onChange={(event)=>{setName(event.target.value)}}/> 
+							<h1 style={{fontWeight:"bold"}}>
+					and I am ...</h1>
 							<div className="dayForm__dayContainer">
 								<button onClick={(event)=>{
 									event.preventDefault()
+									nameService.changeName({name:name})
 									history.push("/trainer")
 								}}
 								className="themed"style ={{marginRight:"20px",height:"50px",width:"150px"}}>
 									<h3 style={{color:"white"}}>A trainer</h3></button>
 								<button onClick={(event)=>{
 									event.preventDefault()
+									nameService.changeName({name:name})
 									history.push("/athlete")
 								}}
 								className="themed"style ={{marginRight:"20px",height:"50px",width:"150px"}}>

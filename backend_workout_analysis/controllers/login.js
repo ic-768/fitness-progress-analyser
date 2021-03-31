@@ -26,9 +26,19 @@ loginRouter.post('/', async (request, response) => {
   const token = jwt.sign(userForToken, process.env.SECRET)
   response
     .status(200)
-  /* send token back to user*/
-		.send({ token, username: user.username,days:user.days, regIsSet:user.regIsSet, currentRegiment:user.currentRegiment
-		, isTrainer:user.isTrainer,clients:user.clients,routines:user.routines}) //TODO clean up
+	/* send token back to user*/ 
+	
+	//? Can't see a better way to avoid sending extranuous data
+		.send({ 
+			token, 
+			name:user.name,
+			username: user.username,
+			days:user.days, 
+			regIsSet:user.regIsSet, 
+			currentRegiment:user.currentRegiment,
+			isTrainer:user.isTrainer,
+			clients:user.clients,
+			routines:user.routines}) 
 
 })
 

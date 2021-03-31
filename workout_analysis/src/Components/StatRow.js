@@ -4,6 +4,10 @@ const StatRow=({exercise,setExercise})=>{
 	const weightColor = exercise.weight ? "#FF8933" : "gray"
 	const cellStyle={width:"80px",marginLeft:"25px"}
 
+	const checkInput=(val)=> (/^[0-9]*$/.test(val))   // If contains only digits ( or empty ) 
+	/*inputs get regex instead of "type="number"", because this is not a self-contained form -  
+	it would complain at invalid input, but would allow the characters to be typed  in*/ 
+
 	return(
 		<div style={{paddingBottom:"10px",marginTop:"10px",display:"flex"}}> 
 			<button style={{marginRight:"10px", marginBottom:"auto",border:"none",borderRadius:"5px",color:weightColor}} 
@@ -11,22 +15,21 @@ const StatRow=({exercise,setExercise})=>{
 							exercise.weight ? null : 1}) }}>KG</button> {/*Toggle weighted*/}
 			<div style={cellStyle} > 
 				<h5>Repetitions</h5> 
-				<input className="statRow__input"type="number" onChange={(event)=>{
-					(/^[0-9]+$/.test(event.target.value)) &&  // If contains only digits
-					setExercise({...exercise, ["reps"]:event.target.value})}}value = {exercise["reps"]}/> 
+				<input className="statRow__input" value = {exercise["reps"]} onChange={(event)=>{ 
+					checkInput(event.target.value) && setExercise({...exercise, ["reps"]:event.target.value.replace(/^0+/,"")})}}/>  {/*Remove leading 0's (e.g. 09 -> 9) */}
 			</div>
 			<div style={cellStyle}> 
 				<h5>Sets</h5> 
-				<input className="statRow__input"type="number" onChange={(event)=>{
-					(/^[0-9]+$/.test(event.target.value)) &&
-					setExercise({...exercise, ["sets"]:event.target.value})}}value = {exercise["sets"]}/>
+				<input className="statRow__input" value = {exercise["sets"]} onChange={(event)=>{
+					checkInput(event.target.value) && setExercise({...exercise, ["sets"]:event.target.value.replace(/^0+/,"")})}}/>
 			</div>
+
 			{exercise.weight!=null &&( 
 				<div style={cellStyle}> 
 					<h5>Weight</h5> 
-					<input className="statRow__input"type="number" onChange={(event)=>{
-						(/^[0-9]+$/.test(event.target.value)) &&
-						setExercise({...exercise, ["weight"]:event.target.value})}}value = {exercise["weight"]}/> {/* if weighted, allow changing weight*/}
+					<input className="statRow__input" value = {exercise["weight"]} onChange={(event)=>{
+						checkInput(event.target.value)&&
+						setExercise({...exercise, ["weight"]:event.target.value.replace(/^0+/,"")})}}/> {/* if weighted, allow changing weight*/}
 				</div>
 
 			)}

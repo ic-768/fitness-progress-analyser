@@ -34,6 +34,7 @@ clientRouter.post('/', async(request, response) => {
 
   const client = new User({
     username: body.username,
+		name:body.name, //TODO make frontend send name
     passwordHash,
 		currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null},
 		regIsSet:false,

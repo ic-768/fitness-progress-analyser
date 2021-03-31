@@ -9,7 +9,7 @@ const Banner=({user,logout})=>{
 	return user
 		? (
 			<div style={{position:"fixed",display:"flex", alignItems:"center",height:"80px",width:"100%"}}> 
-				<h3 style={{marginLeft:"80px",marginRight:"22px",color:"white"}}>{user.username}</h3>
+				<h3 style={{marginLeft:"80px",marginRight:"22px",color:"white"}}>{user.name}</h3>
 				<h3 style={{paddingLeft:"22px",color:"white",borderLeft:"1px solid white",cursor:"pointer"}}
 					onClick={()=>{logout();history.push("/")}}><a>Sign out</a></h3> 
 			</div>

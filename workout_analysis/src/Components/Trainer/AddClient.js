@@ -11,12 +11,12 @@ const AddClient=({setClients})=>{
 			&& (currentClient.password===currentClient.validatePassword)){ //password typed correctly twice
 			const updatedTrainer=await clientService.addClient(currentClient)
 			setClients(updatedTrainer.clients)
-			setCurrentClient({username:"", password:"",validatePassword:""})
+			setCurrentClient({name:"",username:"", password:"",validatePassword:""})
 		}
 	} 
 
 	const [currentClient,setCurrentClient]=
-	useState({username:"", password:"",validatePassword:""})
+	useState({name:"",username:"", password:"",validatePassword:""})
 
 	return(
 		<form className="resultPage" style={{display:"flex", flexDirection:"column",alignItems:"center"}}
