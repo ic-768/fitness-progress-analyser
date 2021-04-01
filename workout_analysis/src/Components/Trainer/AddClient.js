@@ -1,8 +1,8 @@
 import React,{useState} from "react"
 import clientService from "../../Services/clients" 
 
-const AddClient=({setClients})=>{ 
-	/*form for trainer to add a new client */
+const AddClient=({setNotification,setClients})=>{  //TODO setNotification
+	/*form for trainer to add a new client after on Boarding*/
 
 	const submitClient=async ()=>{
 		if (currentClient.name  //all fields filled in
@@ -10,8 +10,15 @@ const AddClient=({setClients})=>{
 			&& currentClient.password 
 			&& (currentClient.password===currentClient.validatePassword)){ //password typed correctly twice
 			const updatedTrainer=await clientService.addClient(currentClient)
-			setClients(updatedTrainer.clients)
-			setCurrentClient({name:"",username:"", password:"",validatePassword:""})
+			if (updatedTrainer){ 
+				setClients(updatedTrainer.clients)
+				setCurrentClient({name:"",username:"", password:"",validatePassword:""})
+				setNotification({color:"green",message:"Client added successfully!"}) 
+			}
+			else{
+				setNotification({color:"red",message:"Something went wrong. Try a different username"}) 
+			}
+
 		}
 	} 
 

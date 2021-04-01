@@ -5,7 +5,7 @@ import FormControl from "react-bootstrap/FormControl"
 import HistoryWorkout from "../HistoryWorkout" 
 import CalendarPicker from "../CalendarPicker"
 import MenuCard from "../MenuCard" 
-import Dropdown from "react-bootstrap/Dropdown"
+import DropdownClient from "./DropdownClient" 
 
 const TrainerHistory=({clients})=>{ 
 	/* view workout history of any client */
@@ -44,17 +44,7 @@ const TrainerHistory=({clients})=>{
 
 	const body=()=>(
 		<>
-			<Dropdown style={{marginBottom:"20px"}}>
-				<Dropdown.Toggle>
-					{selectedClient && selectedClient.name || "Select a client"}
-				</Dropdown.Toggle>
-				<Dropdown.Menu>
-					{clients && clients.map((client)=>( 
-						<Dropdown.Item key={client.name} onClick={()=>{setSelectedClient(client)
-						}}> {client.name}</Dropdown.Item>
-					))}
-				</Dropdown.Menu>
-			</Dropdown> 
+			<DropdownClient clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient}/>
 			<p>Search by name</p>
 			<Form style={{marginBottom:"40px"}} onSubmit={(event)=>{event.preventDefault()}}>
 				<FormControl type="text" placeholder="e.g. pushups"  onChange={(event)=>{setFilterQuery(event.target.value)}}/>

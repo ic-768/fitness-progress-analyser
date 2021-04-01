@@ -173,7 +173,12 @@ border: 1px solid black;
 	margin-top:4px;
 	display:flex;
 	align-items:center; 
+	border-radius:5px;
 } 
+.HQ__item:hover{
+	background-color: rgba(177, 177, 177, 0.3);
+
+}
 .HQ__item *{
 	display:inline;
 	color:white;
@@ -336,4 +341,13 @@ text-align:left;
 .a-exerciseEntry.fade-exit {
 	animation: none;
 	animation-fill-mode: none;
+}
+
+/*MISC & DETAILS*/
+.grayLine
+{
+			width:100%;
+			border-bottom:0.5px solid #CECECE;
+			padding:40px;
+			display:flex; 
 }

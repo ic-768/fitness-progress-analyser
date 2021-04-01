@@ -7,6 +7,7 @@ import History_T from "./History_T.js"
 import ExerciseSubmission_T from "./ExerciseSubmission_T"
 import ClientsPage from "./ClientsPage"
 import RoutinePage from "./RoutinePage.js"
+import AccountPage from "../AccountPage.js"
 
 const TrainerHeadquarters=({user,setUser,setNotification })=>{ 
 	const history=useHistory()
@@ -41,34 +42,42 @@ const TrainerHeadquarters=({user,setUser,setNotification })=>{
 			<Route path="/routines"> 
 				<RoutinePage user={user}setUser={setUser} routines={routines} setRoutines={setRoutines}/> 
 			</Route>
+			<Route path="/account"> 
+				<AccountPage setNotification={setNotification} user={user}setUser={setUser} routines={routines} setRoutines={setRoutines}/> 
+			</Route>
 			<Route path="/">
 				<div className="pageContainer">
 					<div className="HQ__menu">
 						<div className="HQ__item" onClick={()=>{history.push("/clients")}}>
 							<h2>  {/*Everything within HQ__items gets styled in CSS*/}
-								<a> <GoPlusSmall/> My Clients </a>
+								<a> <GoPlusSmall/>My Clients</a>
 							</h2> 
 						</div>
 						<div className="HQ__item" onClick={()=>{history.push("/dailySubmission")}}>
 							<h2>  {/*Everything within HQ__items gets styled in CSS*/}
-								<a> <GoPlusSmall/> Workout Submission </a>
+								<a> <GoPlusSmall/>Workout Submission</a>
 							</h2> 
 						</div>
 						<div className="HQ__item" onClick={()=>{history.push("/analysis")}}>
 							<h2>  
-								<a> <GoPlusSmall/> Analysis </a>
+								<a> <GoPlusSmall/>Analysis</a>
 							</h2> 
 						</div>
 						<div className="HQ__item" onClick={()=>{history.push("/history")}}>
 							<h2>  
-								<a> <GoPlusSmall/> History </a>
+								<a> <GoPlusSmall/>History</a>
 							</h2> 
 						</div>
 						<div className="HQ__item" onClick={()=>{history.push("/routines")}} > 
 							<h2>
-								<a> <GoPlusSmall/> My Routines </a>
+								<a> <GoPlusSmall/>My Routines </a>
 							</h2>
 						</div> 
+						<div className="HQ__item" onClick={()=>{history.push("/account")}} >
+							<h2> 
+								<a> <GoPlusSmall/>My Account</a>
+							</h2> 
+						</div>
 					</div>
 				</div>
 			</Route>

@@ -23,7 +23,7 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 					<OnBoard_A setNotification={setNotification} user={user} setUser={setUser}/>
 				</Route>
 				<Route path="/trainer">
-					<OnBoard_T user={user}setUser={setUser}/>  {/*TODO set notifications, and fix bad css */}
+					<OnBoard_T setNotification={setNotification} setUser={setUser}/>  
 				</Route>
 				<Route path="/"> 
 					<Banner/>
@@ -37,15 +37,20 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 							<div className="dayForm__dayContainer">
 								<button onClick={(event)=>{
 									event.preventDefault()
-									nameService.changeName({name:name})
-									history.push("/trainer")
+									if(name) {
+										nameService.changeName({name:name})
+										history.push("/trainer")
+									}
 								}}
 								className="themed"style ={{marginRight:"20px",height:"50px",width:"150px"}}>
 									<h3 style={{color:"white"}}>A trainer</h3></button>
 								<button onClick={(event)=>{
 									event.preventDefault()
-									nameService.changeName({name:name})
-									history.push("/athlete")
+									console.log(name)
+									if (name){ 
+										nameService.changeName({name:name})
+										history.push("/athlete")
+									}
 								}}
 								className="themed"style ={{marginRight:"20px",height:"50px",width:"150px"}}>
 									<h3 style={{color:"white"}}>An athlete</h3></button>

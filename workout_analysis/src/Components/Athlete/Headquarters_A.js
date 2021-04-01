@@ -47,17 +47,17 @@ const AthleteHeadquarters=({ user, setUser,setNotification,})=>{
 					<div className="HQ__menu">
 						<div className="HQ__item" onClick={()=>{history.push("/dailySubmission")}}>
 							<h2>  {/*Everything within HQ__items gets styled in CSS*/}
-								<a> <GoPlusSmall/> Submit a Workout </a>
+								<a> <GoPlusSmall/>Submit a Workout</a>
 							</h2> 
 						</div>
 						<div className="HQ__item" onClick={()=>{history.push("/history")}} > 
 							<h2>
-								<a> <GoPlusSmall/> My Workout History </a>
+								<a> <GoPlusSmall/>My Workout History</a>
 							</h2>
 						</div> 
 						<div className="HQ__item" onClick={()=>{history.push("/analysis")}} >
 							<h2> 
-								<a> <GoPlusSmall/> Performance Analysis </a>
+								<a> <GoPlusSmall/>Performance Analysis</a>
 							</h2> 
 						</div>
 						<div className="HQ__item" onClick={()=>{history.push("/account")}} >

@@ -5,7 +5,7 @@ import {BsFillTrashFill} from "react-icons/bs"
 import exerciseService from "../../Services/exercises" 
 import ExerciseBox from "../ExerciseBox" 
 import MenuCard from "../MenuCard"
-import Dropdown from "react-bootstrap/Dropdown"
+import DropdownClient from "./DropdownClient"
 import {getTodaysExercises,getInvalidExercises } from "../../Functions/workoutFunctions"
 
 const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{ 
@@ -13,12 +13,11 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 	const history=useHistory()
 	
 	const [uniqueNames,setUniqueNames]=useState([]) 
-	const [selectedClient, setSelectedClient] = useState(null)
 	const [newWorkout, setNewWorkout]=useState([]) 
 	const [removedExercises, setRemovedExercises]=useState([]) // Keep track of removed exercises
 	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
-
-	const [invalidArray, setInvalidArray]=useState([])
+	const [selectedClient, setSelectedClient] = useState(null)
+	const [invalidArray, setInvalidArray]=useState([]) 
 	//On submission, if an exercise is invalid, its name will be stored, to set backgroundcolor of menuItem to red 
 
 	useEffect(()=>{
@@ -63,22 +62,10 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 			} 
 		} 
 	}
-	const body=()=>(
-		<>
-			<Dropdown style={{marginBottom:"20px"}}>
-				<Dropdown.Toggle>
-					{selectedClient && selectedClient.username || "Select a client"} 
-				</Dropdown.Toggle>
-				<Dropdown.Menu>
-					{clients && clients.map((client)=>( 
-						<Dropdown.Item key={client.username} onClick={()=>{setSelectedClient(client)
-						}}> {client.username}</Dropdown.Item>
-					))}
-				</Dropdown.Menu>
-			</Dropdown> 
-
-			{uniqueNames &&
-
+	const body=()=>( //body for menuCard
+		<> 
+			<DropdownClient clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient}/>
+			{uniqueNames &&  //if exercises
 <>
 	{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise
 		<div className="menuItem__removable" style={{

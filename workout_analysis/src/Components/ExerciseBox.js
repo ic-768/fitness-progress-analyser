@@ -4,7 +4,7 @@ import {AiOutlineClose} from "react-icons/ai"
 
 const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{ 
 	/*Responsible for holding all instances of a specific exercise, e.g. [1 set of 12 reps, 3 sets of 20 reps and 5 weight], etc.
-	Each  instance of array will be passed to a StatRow to be interactable*/
+	Each exercise of array will be passed to a StatRow to be interactable*/
 
 	const exerciseName=exerciseArray[0].name
 
@@ -20,7 +20,7 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 				Add set
 				</button>
 			</div>
-			<div style={{paddingBottom:"25px",borderBottom:"0.5px solid #C4C4C4"}}>
+			<div className="grayLine">
 				{exerciseArray.map((exercise,i)=>( 
 					<div style={{display:"flex"}}key={`${exercise}${i}`}> {/* if multiple sets of exercise, allow removal*/}
 						<StatRow exercise={exercise} setExercise={(exercise)=>{ 

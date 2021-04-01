@@ -4,33 +4,45 @@ import MenuCard from "./MenuCard"
 import RegimentForm from "./Athlete/RegimentForm"
 import exerciseService from "../Services/exercises"
 import passwordService from "../Services/password"
+import nameService from "../Services/name"
 
 const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,setUser}) => {
 	/*Edit Account details */
 
-	const [view,setView] = useState("")//"Reset"/"Edit"/Password 
+	const [view,setView] = useState("")//"Reset"/"Edit"/"Password" /"Name"
 	const [currentPassword,setCurrentPassword] = useState("")
 
 	const [newPassword,setNewPassword] = useState("") // Let user change password
+	const [newName,setNewName] = useState("") // Let user change password
 	const [validatePassword,setValidatePassword] = useState("") // If these two passwords match
 	const history = useHistory()
+
 	return( 
-		<div className="pageContainer"> 
-			<MenuCard  callback={()=>{setCurrentRegiment(JSON.parse(window.localStorage.getItem("currentRegiment")) 
+		<div className="pageContainer">  {/*!if athlete, will setCurrentRegiment on going back. Should refactor somewhere better */}
+			<MenuCard  callback={()=>{!user.isTrainer && setCurrentRegiment(JSON.parse(window.localStorage.getItem("currentRegiment")) 
 			//If unsaved changes, revert currentRegiment
 			)} } header={"My Account"}body={()=> (
 				<>
+					{ !user.isTrainer && // only if athlete
+				<>   
 					<a className="menuCard__account"onClick={()=>{setView("Reset")}}>
 							Reset weekly regiment
 					</a>
-
+ 
 					<a  className="menuCard__account"onClick={()=>{setView("Edit")}}> 
 						Edit weekly regiment 
 					</a>
-
-					<a className="menuCard__account" onClick={()=>{setView("Password")}}> 
-						Change password //TODO allow changing name!
+				</>
+					}
+					
+					<a className="menuCard__account" onClick={()=>{setView("Name")}}>  {/*for both athlete and trainer */}
+						Change name 
 					</a>
+
+					<a className="menuCard__account" onClick={()=>{setView("Password")}}>  {/*for both athlete and trainer */}
+						Change password 
+					</a>
+
 				</> 
 			)}/>
 
@@ -87,13 +99,32 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 									setNewPassword(event.target.value)}}placeholder="new password"/>
 							</div>
 							<button style={{marginTop:"15px",borderRadius:"5px",border:"none"}} type="submit">Change my password</button>
-							<div style={{marginTop:"auto",marginBottom:"20px",width:"100%",borderBottom:"0.5px solid #C4C4C4"}}>
-							</div> 
+							<div className="grayLine" /> 
 						</form>  
 					)}
-			
+
+					{view==="Name" && ( //reset regiment entirely
+						<form 
+							onSubmit={async(event)=>{
+								event.preventDefault()
+								const updatedUser = await nameService.changeName({name:newName})
+								if (updatedUser){
+									setUser(updatedUser)
+									setNotification({color:"green",message:`Name changed successfully to ${updatedUser.name}!`}) 
+									setNewName("")
+								}
+								else{
+									setNotification({color:"red",message:"Oops! Something went wrong :("}) 
+								} 
+							}}
+
+							style={{marginTop:"20px"}}>
+							<h2>Change your name</h2> 
+							<input value={newName} onChange={(event)=>{setNewName(event.target.value)}}/>
+							<button type="submit" style={{border:"none", borderRadius:"5px"}} >Confirm</button> 
+						</form> )} 
 				</div> 
-			}
+			} 
 		</div> 
 	)
 }

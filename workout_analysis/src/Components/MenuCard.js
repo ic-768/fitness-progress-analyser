@@ -9,7 +9,7 @@ const MenuCard = ({callback, header, body}) => {
 			<h1 style={{marginBottom:"57px"}}> 
 				<a onClick={()=>{
 					history.push("/") 
-					callback && callback() //optional callback
+					callback && callback() //optional callback when going back --used to set currentRegiment after editing
 				}}>
 					<IoIosArrowBack style={{cursor:"pointer"}} /> 
 					{header}

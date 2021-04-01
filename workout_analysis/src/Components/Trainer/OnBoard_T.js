@@ -4,8 +4,10 @@ import Container from "react-bootstrap/Container"
 import clientService from "../../Services/clients" 
 import {useHistory} from "react-router-dom"
 
-const OnBoardTrainer = ({setUser}) => {
+const OnBoardTrainer = ({setNotification,setUser}) => {
+	//TODO show added Clients to user?
 	const [trainer, setTrainer]=useState(null)  //To hold newly created "user" data, until the "next" button is pressed
+
 	const [clients, setClients]=useState([]) 
 	const [currentClient, setCurrentClient]=useState({name:"",username:"",password:"", validatePassword:""})
 	const history = useHistory()
@@ -24,14 +26,22 @@ const OnBoardTrainer = ({setUser}) => {
 	} 
 
 	const addClient = async(client,index) => { //register client, ID is appended to trainer.
-		const updatedTrainer = await clientService.addClient(client) 
-		setTrainer(updatedTrainer)
-		setClients(clients.filter((client,i)=>index!=i)) //remove client from list after successful creation 
-	} 
+		const updatedTrainer = await clientService.addClient(client)
+		if (!updatedTrainer){
+			setNotification({color:"red",message:"Client couldn't be added. Try a different username!" })
+			setClients(clients.filter((client,i)=>index!=i)) //remove client from list after successful creation 
+		}
+		
+		else{ 
+			window.localStorage.removeItem("currentRegiment")
+			window.localStorage.removeItem("userWorkouts")
+			setTrainer(updatedTrainer) 
+			setClients(clients.filter((client,i)=>index!=i)) //remove client from list after successful creation 
+			setNotification({color:"green",message:"Client added successfully!" })
+		}
+	}
 
 	const finaliseBoarding=()=> { 
-		window.localStorage.removeItem("currentRegiment")
-		window.localStorage.removeItem("userWorkouts")
 		setUser(trainer)
 		history.push("/")
 	} 
@@ -44,8 +54,11 @@ const OnBoardTrainer = ({setUser}) => {
 					timeout={{ enter: 500, exit: 200 }}> 
 					<Container className="regimentForm" >
 						<form className="regimentForm__fadeContainer HomeRoute a-routeFadeIn" 
-							onSubmit={(event)=>{event.preventDefault();clearClient()}} > 
-							<h1>Add some of your clients </h1>
+							onSubmit={(event)=>{
+								event.preventDefault()
+								clearClient()}} > 
+							<h1>Add some clients ?</h1> {/*TODO hoverable info tooltip explaining what each field is*/}
+							<h4>Write down their info so they can access their accounts :)</h4>
 							<div style={{marginTop:"40px",display:"flex", flexDirection:"column",alignItems:"center",}}>
 
 								<div>
@@ -72,17 +85,17 @@ const OnBoardTrainer = ({setUser}) => {
 								</button>
 							</div>
 
-							<h1 style={{marginTop:"140px"}}>Clients added:</h1>
-							{clients.map((client,i)=>(
-								<div key={i}>
-									{client.name}
-									<button onClick={()=>{addClient(client,i)} } style={{marginTop:"140px"}}>Register</button>
-								</div>
-							))} 
+							<div style={{display:"flex",flexDirection:"column",alignItems:"center",marginTop:"140px"}}>
+								<h1 >Clients pending:</h1> 
+								{clients.map((client,i)=>(
+									<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}key={i}>
+										{client.name}
+										<button onClick={()=>{addClient(client,i)} } >Register</button>
+									</div>
+								))} 
+							</div>
 						</form>
 
-						{/*TODO  if refresh and click next when no clients in state-> setUser(trainer) sets to null -> redirects to home. 
-						If log in again, should work.*/} 
 						<button onClick={()=>{ finaliseBoarding() }}>next</button> 
 					</Container>
 				</CSSTransition>

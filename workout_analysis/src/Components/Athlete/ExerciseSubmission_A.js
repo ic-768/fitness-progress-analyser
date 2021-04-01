@@ -68,7 +68,7 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 			} 
 		}
 	} 
-	const body=()=>(
+	const body=()=>( //body for menuCard
 		<>
 			{uniqueNames.map((uniqueName,i) => (  //selectable box for each unique exercise 
 				<div className="menuItem__removable" style={{

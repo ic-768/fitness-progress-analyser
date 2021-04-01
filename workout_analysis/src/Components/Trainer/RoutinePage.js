@@ -126,6 +126,7 @@ const RoutinePage = ({routines,setRoutines }) => {
 									} 
 								</>
 							}
+							<div  style={{width:"100%",borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex"}}></div>
 						</div>
 					</div>
 			} 

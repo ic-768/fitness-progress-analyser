@@ -9,11 +9,10 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 	
 	console.log(routines)
 	return (	
-		<div style={{ marginTop:"20px",borderBottom:"0.5px solid #CECECE"}}>
+		<div className="grayLine" style={{display:"block",padding:"2px"}}>
 			<div 
 				style={{cursor:"pointer",marginTop:"20px",display:"flex",margin:"0px"}} >
-				<div 
-					onClick={()=>setIsExpanded(!isExpanded)}
+				<a onClick={()=>setIsExpanded(!isExpanded)}
 					style={{ display:"flex",width:"100%"}}>
 					<h5 >	
 						{day[0]} 
@@ -21,8 +20,7 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 					{isExpanded
 						? <BsChevronDown style={{marginLeft:"auto"}}/> 
 						: <BsChevronUp style={{marginLeft:"auto"}}/>}
-				</div>
-
+				</a>
 				{isEditable && isExpanded &&  
 				<> {/*User pressed "edit" and has expanded the day list */}
 					<button onClick={()=>{addExercise(day)}}

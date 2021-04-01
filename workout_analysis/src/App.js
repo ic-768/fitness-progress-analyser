@@ -75,7 +75,6 @@ function App(){
 									<Headquarters_A  user={user} setUser={setUser} setNotification={setNotification}  />
 								</>
 								:  //if user hasn't set a regiment, do that. 
-								//TODO fix CSS on trainer side
 								<LandingPage  user={user} setUser={setUser} setNotification={setNotification}/>
 							}
 						</> 

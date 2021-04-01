@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from "react" 
 import {datedAnalysis,allTimeAnalysis,exerciseNamesFromWorkouts} from "../../Functions/workoutFunctions"
 import Dropdown from "react-bootstrap/Dropdown"
+import DropdownClient from "./DropdownClient"
 
 import AnalysisPlot from "../AnalysisPlot"
 import MenuCard from "../MenuCard"
@@ -8,6 +9,7 @@ import MenuCard from "../MenuCard"
 const TrainerAnalysis=({clients})=>{
 	/*For trainer to select any client, and view their workout progress */
 
+	const [exerciseNameCache,setExerciseNameCache] = useState(null) 
 	const [selectedClient,setSelectedClient]=useState() //workouts will depend on selectedClient
 
 	const [searchQuery,setSearchQuery]=useState("") 
@@ -18,7 +20,6 @@ const TrainerAnalysis=({clients})=>{
 
 	const [repsAnalysis,setRepsAnalysis]=useState(null)  //Data from analysis
 	const [weightAnalysis,setWeightAnalysis]=useState(null)  //Data from analysis
-	const [exerciseNameCache,setExerciseNameCache] = useState(null) 
 
 	/*indexOf returns index of first matching element
 			if repetition of element in array, it will not equal the index of the first
@@ -57,19 +58,7 @@ const TrainerAnalysis=({clients})=>{
 	
 	const body=()=>(
 		<>
-			<Dropdown style={{marginBottom:"20px"}}>
-				<Dropdown.Toggle>
-					{selectedClient && selectedClient.name || "Select a client"} 
-				</Dropdown.Toggle>
-				<Dropdown.Menu>
-					{clients && clients.map((client)=>( 
-						<Dropdown.Item key={client.name} onClick={()=>{setSelectedClient(client)
-						}}> {client.name}</Dropdown.Item>
-					))}
-				</Dropdown.Menu>
-			</Dropdown> 
-
-
+			<DropdownClient clients={clients} selectedClient={selectedClient}  setSelectedClient={setSelectedClient}/> 
 			<input placeholder="exercise" 
 				value={searchQuery}
 				onChange={(event)=>{ //filter suggestions
