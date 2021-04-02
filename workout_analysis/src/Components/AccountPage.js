@@ -99,7 +99,6 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 									setNewPassword(event.target.value)}}placeholder="new password"/>
 							</div>
 							<button style={{marginTop:"15px",borderRadius:"5px",border:"none"}} type="submit">Change my password</button>
-							<div className="grayLine" /> 
 						</form>  
 					)}
 

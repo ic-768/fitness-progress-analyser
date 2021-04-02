@@ -3,12 +3,25 @@ import tokenService from "./token"
 
 const baseUrl = "/api/clients"
 
-const addClient=async(clients)=> {
+const addClient=async(client)=> { 
 	const config = {
 		headers:{Authorization:tokenService.getToken()}
 	}
 	try{
-		const response = await axios.post(baseUrl, clients, config)
+		const response = await axios.post(baseUrl, client, config)
+		return response.data  //returns whole trainer
+	}
+	catch{
+		return false 
+	}
+}
+
+const updateClient=async(client)=> {
+	const config = {
+		headers:{Authorization:tokenService.getToken()}
+	}
+	try{
+		const response = await axios.patch(baseUrl, client, config)
 		return response.data 
 	}
 	catch{
@@ -16,12 +29,12 @@ const addClient=async(clients)=> {
 	}
 }
 
-const updateClient=async(clients)=> {
+const removeClient=async(id)=> {
 	const config = {
 		headers:{Authorization:tokenService.getToken()}
 	}
 	try{
-		const response = await axios.patch(baseUrl, clients, config)
+		const response = await axios.patch(`${baseUrl}/removeClient`, id, config)
 		return response.data 
 	}
 	catch{
@@ -29,4 +42,4 @@ const updateClient=async(clients)=> {
 	}
 }
 
-export default {addClient,updateClient}
+export default {addClient,updateClient,removeClient}

@@ -88,4 +88,22 @@ clientRouter.patch('/', async(request, response) => { //set/update target regime
 	response.status(200).send(updatedClient)
 })
 
+clientRouter.patch('/removeClient', async(request, response) => { //remove client from trainer
+	const clientId = request.body.id 
+	console.log("clientId",clientId)
+
+	const token = getTokenFrom(request) 
+	const [succeeded, decodedToken]=verifyToken(token)
+
+	if(!succeeded){ // Verification failure
+		return response.status(401).json({error:"token missing or invalid"})
+	}
+
+	const trainer=await User.findById(decodedToken.id) 
+	trainer.clients=trainer.clients.filter((client)=>client._id!=clientId) 
+
+	const updatedTrainer=await trainer.save()
+	response.status(200).send(updatedTrainer) //?not using returned item at all on client-side
+})
+
 module.exports = clientRouter

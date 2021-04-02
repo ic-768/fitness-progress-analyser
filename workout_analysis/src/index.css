@@ -328,12 +328,10 @@ text-align:left;
 
 @keyframes a-exerciseEntry {
 	0% {
-		transform: rotate(-90deg) ;
 		opacity:0
 	} 
 
 	100% {
-		transform: rotate(0deg) ;
 		opacity:1
 	}
 } 

@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from "react"
 import CollapsableList from "./CollapsableList"
 import clientService from "../../Services/clients"
+import {BsFillTrashFill} from "react-icons/bs"
 
-const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelectedClient, routines,
-	selectedClient}) => {
+const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelectedClient, routines, selectedClient}) => {
 /* Card summarising client info for trainer  */
 
 	const [isEditable,setIsEditable]=useState(false) // if client info can be edited
@@ -49,6 +49,24 @@ const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelecte
 			else{ //set day to filtered array
 				setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment, [day[0]]:updatedDay}})}} 
 	} 
+
+	const storedClients=JSON.parse(window.localStorage.getItem("clients")) 
+	console.log("stored",storedClients)
+
+	const removeClient = async() =>{
+		const updatedTrainer=await clientService.removeClient({id:selectedClient._id})
+		if(updatedTrainer){ //if operation successful
+			setClients(clients.filter((client)=>client._id !=selectedClient._id))
+			const storedClients=JSON.parse(window.localStorage.getItem("clients")) 
+			const updatedClients=storedClients.filter((client)=>client._id!=selectedClient._id)
+			window.localStorage.setItem("clients",JSON.stringify(updatedClients))
+			setNotification({color:"green",message:"Client was removed from your account successfully"})
+		}
+		else{
+			setNotification({color:"red",message:"Oops! Something went wrong :("})
+		}
+
+	}
 	
 	const submitClient=async()=>{ 
 		let containsDuplicate=false
@@ -108,7 +126,9 @@ const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelecte
 					<h5 style={{display:"inline"}}> Email </h5>
 					<p style={{display:"inline"}}> example@example.com</p>
 				</div>
-				<button style ={{marginLeft:"40px"}}onClick={()=>{setIsEditable(!isEditable)}}>
+
+				{isEditable && <button style={{marginLeft:"40px"}} onClick={()=>{ removeClient() }} ><BsFillTrashFill/></button>}
+				<button style ={{marginLeft:"40px"}}onClick={()=>{setIsEditable(!isEditable)}}> 
 					{isEditable
 						? "Cancel" 
 						: "Edit"}</button>  

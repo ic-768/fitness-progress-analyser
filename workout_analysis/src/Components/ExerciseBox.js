@@ -11,7 +11,7 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 	return(
 		<div className="a-exerciseEntry itemCard" >
 			<h5>Title</h5>
-			<div style={{marginBottom:"15px",display:"flex"}}>
+			<div style={{marginBottom:"0px",display:"flex"}}>
 				<h3 style={{display:"inline",color:"black"}}>{exerciseName} </h3>
 				<button className="themed" style={{marginLeft:"auto"}} onClick={()=>{setNewWorkout(
 					newWorkout.map((Array)=>{return exerciseName===Array[0].name 
@@ -20,7 +20,7 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 				Add set
 				</button>
 			</div>
-			<div className="grayLine">
+			<div >
 				{exerciseArray.map((exercise,i)=>( 
 					<div style={{display:"flex"}}key={`${exercise}${i}`}> {/* if multiple sets of exercise, allow removal*/}
 						<StatRow exercise={exercise} setExercise={(exercise)=>{ 
@@ -48,6 +48,7 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 						} 
 					</div>
 				))}</div> 
+			<div style={{padding:"5px"}} className="grayLine"/>
 		</div>
 	)} 
 export default ExerciseBox

@@ -36,16 +36,20 @@ const RoutinePage = ({routines,setRoutines }) => {
 		setSelectedRoutine({...selectedRoutine, exercises:selectedRoutine.exercises.filter((name)=>name!=exercise)})
 	} 
 
+	console.log(selectedRoutine)
+
 	const saveRoutines= async() =>{
-		//TODO filter routines for duplicates, null exercises and names
 		setIsEditable(false)
-		const updatedRoutines=localRoutines.map((routine,i)=>i===routineIndex ? selectedRoutine : routine)
+		const updatedRoutines=localRoutines.map((routine,i)=>
+			i===routineIndex  // find currently edited routine
+				? {...selectedRoutine,
+					exercises:selectedRoutine.exercises.filter((exercise)=>exercise && exercise)} //filter empty exercises
+				: routine)
 		const validatedRoutines=await exerciseService.setRoutines(updatedRoutines) //
 		setRoutines(validatedRoutines)
 		setLocalRoutines(validatedRoutines)
 		window.localStorage.setItem("routines",JSON.stringify(validatedRoutines))
 		setSelectedRoutine(validatedRoutines[routineIndex])
-		console.log(validatedRoutines) 
 	} 
 
 	useEffect(()=>{
