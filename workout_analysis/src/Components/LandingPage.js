@@ -31,28 +31,30 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 						<form className="dayForm"> 
 							<h1 style={{fontWeight:"bold"}}>
 					My name is ...</h1>
-							<input style={{marginBottom:"20px"}} onChange={(event)=>{setName(event.target.value)}}/> 
+							<input style={{fontSize:"20px",textAlign:"center",marginBottom:"20px"}} onChange={(event)=>{setName(event.target.value)}}/> 
 							<h1 style={{fontWeight:"bold"}}>
 					and I am ...</h1>
 							<div className="dayForm__dayContainer">
-								<button onClick={(event)=>{
-									event.preventDefault()
-									if(name) {
-										nameService.changeName({name:name})
-										history.push("/trainer")
-									}
-								}}
-								className="themed"style ={{marginRight:"20px",height:"50px",width:"150px"}}>
+								<button className="themed--1" style ={{marginRight:"20px",height:"50px",width:"150px"}}
+									onClick={(event)=>{
+										event.preventDefault()
+										if(name) {
+											nameService.changeName({name:name})
+											history.push("/trainer")
+										}
+									}}
+								>
 									<h3 style={{color:"white"}}>A trainer</h3></button>
-								<button onClick={(event)=>{
-									event.preventDefault()
-									console.log(name)
-									if (name){ 
-										nameService.changeName({name:name})
-										history.push("/athlete")
-									}
-								}}
-								className="themed"style ={{marginRight:"20px",height:"50px",width:"150px"}}>
+								<button className="themed--1" style ={{marginRight:"20px",height:"50px",width:"150px"}}
+									onClick={(event)=>{ 
+										event.preventDefault()
+										console.log(name)
+										if (name){ 
+											nameService.changeName({name:name})
+											history.push("/athlete")
+										}
+									}}
+								>
 									<h3 style={{color:"white"}}>An athlete</h3></button>
 							</div>
 						</form>

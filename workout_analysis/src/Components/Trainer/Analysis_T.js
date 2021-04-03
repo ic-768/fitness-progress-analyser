@@ -88,14 +88,14 @@ const TrainerAnalysis=({clients})=>{
 			<MenuCard header={"Analysis"} body={body}/>  {/*TODO change from menucard to resultpage*/}
 			{ repsAnalysis && selection &&  //Right-side card
 					<div className="resultPage analysis"> 
-						<h2 >{analysisType}</h2>
-						<h2>Total repetitions</h2>
-						<AnalysisPlot analysis={repsAnalysis} dataKey="total"/>
+						<h1 style={{marginBottom:"20px"}}>{analysisType}</h1>
 						{ weightAnalysis && ( 
 							<>
 								<h2>Total weight lifted</h2>
 								<AnalysisPlot analysis={weightAnalysis} dataKey="total" />
 							</> )}
+						<h2>Total repetitions</h2>
+						<AnalysisPlot analysis={repsAnalysis} dataKey="total"/>
 					</div>
 			}
 		</div>

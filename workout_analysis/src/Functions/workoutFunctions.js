@@ -2,7 +2,7 @@ export const getInvalidExercises = (exerciseArray) =>{ //look for mangled fields
 	const invalidExercises=[]
 	exerciseArray.forEach((exercise)=>{ //if exercise not filled out properly, populate array
 		if( !exercise.reps||!exercise.sets || exercise.sets==0 || exercise.reps==0){
-			invalidExercises.push(exercise.name)
+			invalidExercises.push(exercise.name) //returns name of exercise
 		}
 	}) 
 	return invalidExercises
@@ -27,8 +27,10 @@ export const exercisesFromWorkouts=(workouts)=>{
 }
 
 //same as above, but one step further
-export const exerciseNamesFromWorkouts=(workouts)=>{ //TODO is this called and then filtered? If so, filter right here
-	return exercisesFromWorkouts(workouts).map((exercise)=>exercise.name) 
+export const exerciseNamesFromWorkouts=(workouts)=>{ //gets unique names of exercises
+	const uniqueNames=[...new Set //set gets unique names, and spread to turn into array
+	(exercisesFromWorkouts(workouts).map((exercise)=>exercise.name))] // for every exercise, return just the name
+	return  uniqueNames
 }
 
 export const filterExercisesByName = (exercises, name) => ( 
@@ -39,7 +41,7 @@ export const filterExercisesByName = (exercises, name) => (
 ) 
 export const filterWorkoutsByDate = (workouts, dates) => {  
 	//Date property is in workout object, not in every individual exercises
-	return workouts.filter((workout)=>(new Date(workout.date)>= dates[0] && new Date(workout.date)<=dates[1])) 
+	return workouts.filter((workout)=>(new Date(workout.date)>= dates[0] && new Date(workout.date)<=dates[1]))  //date[0] and [1] are min and max bounds to filter by
 }
 
 export const getTotalReps = (exercises, name) => { 
@@ -49,40 +51,44 @@ export const getTotalReps = (exercises, name) => {
 				.reduce((sum,currentValue)=>(sum+currentValue)) //sum all
 			) }
 	catch{
-		console.log("Provided exercise does not seem to be in the array") } 
+		console.log("Provided exercise does not seem to be in the array") 
+	} 
 }
 
 export const datedAnalysis=(workouts,exerciseName,interval,parameter)=>{
-	/* Get array of daily or monthly total reps or total weight lifted.
-	interval = "daily" / "monthly" 
-	* parameter="reps"/weight"*/
+	/* Get array of daily or monthly total reps or total weight lifted. 
+	interval = "daily" / "monthly"  
+	parameter="reps"/weight"*/
 
 	if(interval!=="daily" && interval !== "monthly"){
 		console.log("Interval is invalid")
 		return }
 
-	const getTime = interval === "daily" //To compare time of workouts //TODO  when more analysis types, use case statement
-		? (exercise) => (new Date (exercise.date).toDateString()) // Full date
-		: (exercise) => (new Date (exercise.date).toLocaleDateString("default",{month:"long",year:"numeric"}))  // Month and year
-
-	const accumulate = parameter === "reps" // will either be "reps" or "weight"
-		? (workoutObject)=>(workoutObject.exercise.sets*workoutObject.exercise.reps) // accumulate reps
-		: (workoutObject)=>(workoutObject.exercise.weight*workoutObject.exercise.sets*workoutObject.exercise.reps)  //accumulate total weight lifted
+	const getTime = interval === "daily" //To compare time of workouts 
+		? (exercise) => (new Date (exercise.date).toDateString()) // Full date 
+		: (exercise) => (new Date (exercise.date).toLocaleDateString("default",{month:"long",year:"numeric"}))  // Month and year 
 
 	const filteredWorkouts=[] //Array of workouts containing date and analysed exercise
+	let accumulate //function to accumulate data (reps / weight) and populate filteredWorkouts
 
-	if(parameter==="reps"){
+	switch(parameter){
+	case("reps"):
+		accumulate=(workoutObject)=>(workoutObject.exercise.sets*workoutObject.exercise.reps) // accumulate reps 
 		workouts.forEach((workout)=>{ 
 			const	results=workout.exercises.filter((exercise)=>exercise.name==exerciseName)  // get requested exercise by name
-			results.forEach((item)=>{filteredWorkouts.push({date:workout.date,exercise:item})})
-		})}
-
-	else {
+			results.forEach((item)=>{filteredWorkouts.push({date:workout.date,exercise:item})}) //keep only data we care about
+		})
+		break
+	case("weight"):
+		accumulate=(workoutObject)=>(workoutObject.exercise.weight*workoutObject.exercise.sets*workoutObject.exercise.reps)  //accumulate total weight lifted 
 		workouts.forEach((workout)=>{ 
 			const	results=workout.exercises.filter((exercise)=>exercise.weight && exercise.name==exerciseName) // must also contain weight field
 			results.forEach((item)=>{filteredWorkouts.push({date:workout.date,exercise:item})})
-		})}
-
+		})
+		break
+	default:
+		console.log("when more options, will make this useful :)") 
+	} 
 	if(filteredWorkouts.length==0){return null} //if no suitable exercise found, abort
 
 	let timeProperty // for storing formatted dates
@@ -123,7 +129,8 @@ export const allTimeAnalysis=(workouts,exerciseName,parameter)=>{
 	const filteredWorkouts=[]	
 	let total=0
 
-	if(parameter==="reps") { //total reps
+	switch(parameter){
+	case "reps":
 		workouts.forEach((workout)=>{   
 			const	results=workout.exercises.filter((exercise)=>exercise.name==exerciseName)   // filter exercises
 			results.forEach((exercise)=>{filteredWorkouts.push({date:workout.date,exercise}) // push data
@@ -132,8 +139,9 @@ export const allTimeAnalysis=(workouts,exerciseName,parameter)=>{
 		filteredWorkouts.forEach((workout)=>{  
 			total+=workout.exercise.reps*workout.exercise.sets 
 		})
-	}
-	else {
+		break
+
+	case "weight":
 		workouts.forEach((workout)=>{
 			const	results=workout.exercises.filter((exercise)=>(exercise.weight && exercise.name==exerciseName))
 			results.forEach((exercise)=>{filteredWorkouts.push({date:workout.date,exercise})
@@ -141,8 +149,12 @@ export const allTimeAnalysis=(workouts,exerciseName,parameter)=>{
 		})
 		filteredWorkouts.forEach((workout)=>{
 			total+=workout.exercise.weight*workout.exercise.reps*workout.exercise.sets 
-		})
-	} 
+		}) 
+		break
+	default:
+		console.log("For when more options included")
+	}
+
 	if (total===0) return null
 	return [{timeProperty:"total", total:total||null}]
-} 
+}

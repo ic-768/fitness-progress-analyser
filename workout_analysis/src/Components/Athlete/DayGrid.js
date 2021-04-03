@@ -29,7 +29,7 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 					if(event.target.value!==" "){
 						setExercise(event.target.value)
 					}}}/>
-				<button className="themed" style={{margin:"5px",padding:"0px",width:"57px"}} type="submit">
+				<button className="themed--1" style={{margin:"5px",padding:"0px",width:"57px"}} type="submit">
 					add
 				</button>
 			</div> 

@@ -30,7 +30,7 @@ const DayForm=({setNotification,currentRegiment,setCurrentRegiment})=>{
 							</div>
 						))}
 					</div>
-					<button className="themed" style={{marginTop:"20px"}}
+					<button className="themed--1" style={{width:"50px",marginTop:"20px"}}
 						onClick={(event)=>{
 							event.preventDefault()
 							let hasAtLeastOne=false

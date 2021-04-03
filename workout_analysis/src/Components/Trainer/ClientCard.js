@@ -2,8 +2,9 @@ import React,{useState,useEffect} from "react"
 import CollapsableList from "./CollapsableList"
 import clientService from "../../Services/clients"
 import {BsFillTrashFill} from "react-icons/bs"
+import NotificationChoice from "../NotificationChoice"
 
-const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelectedClient, routines, selectedClient}) => {
+const ClientCard = ({ choice,setChoice,clientIndex,clients, setClients,setNotification,setSelectedClient, routines, selectedClient}) => {
 /* Card summarising client info for trainer  */
 
 	const [isEditable,setIsEditable]=useState(false) // if client info can be edited
@@ -61,11 +62,11 @@ const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelecte
 			const updatedClients=storedClients.filter((client)=>client._id!=selectedClient._id)
 			window.localStorage.setItem("clients",JSON.stringify(updatedClients))
 			setNotification({color:"green",message:"Client was removed from your account successfully"})
+			setSelectedClient(null)
 		}
 		else{
 			setNotification({color:"red",message:"Oops! Something went wrong :("})
-		}
-
+		} 
 	}
 	
 	const submitClient=async()=>{ 
@@ -108,8 +109,10 @@ const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelecte
 	}
 
 	return (
-		<div style={{display:"flex",flexDirection:"column",}} className="resultPage clientView" >
-
+		<div style={{display:"flex",flexDirection:"column",}} className="resultPage clientView" > 
+			{choice && <NotificationChoice message={`Are you sure you want to remove ${selectedClient.name} from your supervision?`} 
+				yesCallback={()=>{removeClient();setChoice(false)}} 
+				noCallback={()=>{console.log("u picked no");setChoice(false)}}/>}
 			<div className="client__header" 
 				style={{ width:"100%",borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex",}} > 
 
@@ -127,12 +130,21 @@ const ClientCard = ({ clientIndex,clients, setClients,setNotification,setSelecte
 					<p style={{display:"inline"}}> example@example.com</p>
 				</div>
 
-				{isEditable && <button style={{marginLeft:"40px"}} onClick={()=>{ removeClient() }} ><BsFillTrashFill/></button>}
-				<button style ={{marginLeft:"40px"}}onClick={()=>{setIsEditable(!isEditable)}}> 
+				{isEditable && 
+				<button className="themed--2" style={{width:"60px",marginLeft:"40px"}} onClick={()=>{ setChoice(true) }} >
+					<BsFillTrashFill/>
+				</button>}
+
+				<button className={isEditable
+					?"themed--2"  
+					: "themed--1"}
+				style ={{width:"60px",marginLeft:"40px",marginRight:"10px"}}onClick={()=>{setIsEditable(!isEditable)}}> 
 					{isEditable
 						? "Cancel" 
-						: "Edit"}</button>  
-				{isEditable && <button onClick={()=>{ submitClient() }} className="themed">Save</button>}
+						: "Edit"}
+				</button>  
+				{isEditable && 
+				<button style={{width:"60px"}}className="themed--1" onClick={()=>{ submitClient() }} >Save</button>}
 			</div>
 			<div className="grayLine"> 
 

@@ -48,23 +48,44 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 
 			{view && 
 				<div className="resultPage account" style={{display:"flex"}}>
-					{view==="Edit" && ( //Edit current regiment
-						<RegimentForm  user={user} setUser={setUser} 
-							currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)}
-
 					{view==="Reset" && ( //reset regiment entirely
-						<div style={{marginTop:"20px"}}>
+						<div style={{display:"flex", flexDirection:"column",alignItems:"center",marginTop:"20px"}}>
 							<h2>Are you sure you want to reset your weekly regiment?</h2> 
 							<h5 style={{marginTop:"20px"}}>You&apos;ll be redirected to fill out all your weekly exercises from scratch. 
 								<br/>
 							Alternatively, you can simply edit your existing regiment
 						from the other option in the menu.</h5> 
-							<button style={{border:"none", borderRadius:"5px"}}onClick ={async()=>{
+							<button className="themed--2" style={{width:"80px",marginTop:"50px"}}onClick ={async()=>{
 								const updatedUser = await exerciseService.resetRegiment()
 								localStorage.setItem("currentRegiment", JSON.stringify(updatedUser.currentRegiment))
 								setUser(updatedUser)
 								history.push("/") }}>Yes</button> 
 						</div> )}
+
+					{view==="Edit" && ( //Edit current regiment
+						<RegimentForm  user={user} setUser={setUser} 
+							currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)}
+
+					{view==="Name" && ( //reset regiment entirely
+						<form 
+							onSubmit={async(event)=>{
+								event.preventDefault()
+								const updatedUser = await nameService.changeName({name:newName})
+								if (updatedUser){
+									setUser(updatedUser)
+									setNotification({color:"green",message:`Name changed successfully to ${updatedUser.name}!`}) 
+									setNewName("")
+								}
+								else{
+									setNotification({color:"red",message:"Oops! Something went wrong :("}) 
+								} 
+							}}
+
+							style={{marginTop:"20px"}}>
+							<h2>Change your name</h2> 
+							<input value={newName} onChange={(event)=>{setNewName(event.target.value)}}/>
+							<button className="themed--1" type="submit" style={{marginLeft:"5px"}} >Confirm</button> 
+						</form> )} 
 
 					{view==="Password" && ( //change password
 						<form 
@@ -96,32 +117,12 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 							<div>
 								<h5 >Repeat new password</h5>
 								<input style={{marginBottom:"20px"}}type="password" value={newPassword} onChange={(event)=>{
-									setNewPassword(event.target.value)}}placeholder="new password"/>
+									setNewPassword(event.target.value)}}placeholder="repeat password"/>
 							</div>
-							<button style={{marginTop:"15px",borderRadius:"5px",border:"none"}} type="submit">Change my password</button>
+							<button className="themed--1"style={{marginTop:"15px"}} type="submit">Change my password</button>
 						</form>  
 					)}
 
-					{view==="Name" && ( //reset regiment entirely
-						<form 
-							onSubmit={async(event)=>{
-								event.preventDefault()
-								const updatedUser = await nameService.changeName({name:newName})
-								if (updatedUser){
-									setUser(updatedUser)
-									setNotification({color:"green",message:`Name changed successfully to ${updatedUser.name}!`}) 
-									setNewName("")
-								}
-								else{
-									setNotification({color:"red",message:"Oops! Something went wrong :("}) 
-								} 
-							}}
-
-							style={{marginTop:"20px"}}>
-							<h2>Change your name</h2> 
-							<input value={newName} onChange={(event)=>{setNewName(event.target.value)}}/>
-							<button type="submit" style={{border:"none", borderRadius:"5px"}} >Confirm</button> 
-						</form> )} 
 				</div> 
 			} 
 		</div> 

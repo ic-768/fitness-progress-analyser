@@ -8,12 +8,7 @@ import MenuCard from "../MenuCard"
 const AthleteAnalysis=({workouts})=>{
 	/*Allow athlete to view progress analysis based on time-interval, repetitions, and weight */
 
-	const exerciseNameCache=exerciseNamesFromWorkouts(workouts)
-		.filter((name,index)=>( //keep only 1 instance of each name
-			exerciseNamesFromWorkouts(workouts).indexOf(name)===index))
-	/*indexOf returns index of first matching element
-			if repetition of element in array, it will not equal the index of the first
-			element, thus being discarded */
+	const exerciseNameCache=workouts && exerciseNamesFromWorkouts(workouts) //array of unique exerciseNames
 		
 	const [suggestions,setSuggestions]=useState([]) 
 	const [selection,setSelection]=useState(null)  //Selection to be analysed
@@ -23,23 +18,25 @@ const AthleteAnalysis=({workouts})=>{
 	const [weightAnalysis,setWeightAnalysis]=useState(null)  //Data from analysis
 
 	useEffect(()=>{
-		switch(analysisType){
-		case "Daily": 
-			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","weight"))
-			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","reps"))
-			break
-		case "Monthly": 
-			setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","weight"))
-			setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","reps"))
-			break
-		default: 
-			setWeightAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"weight"))
-			setRepsAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"reps"))
-			break
+		if(workouts){
+			switch(analysisType){
+			case "Daily": 
+				setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","weight"))
+				setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"daily","reps"))
+				break
+			case "Monthly": 
+				setWeightAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","weight"))
+				setRepsAnalysis(datedAnalysis(workouts,selection||suggestions[0],"monthly","reps"))
+				break
+			default: 
+				setWeightAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"weight"))
+				setRepsAnalysis(allTimeAnalysis(workouts,selection||suggestions[0],"reps"))
+				break
+			}
 		}
 	},[selection, analysisType])
 	
-	if (workouts.length===0) return (
+	if (workouts && workouts.length===0) return (
 		<div className="pageContainer">
 			<MenuCard header={"Performance Analysis"} body={()=>(null)}/> 
 			<div className="resultPage analysis">
@@ -79,7 +76,7 @@ const AthleteAnalysis=({workouts})=>{
 			<MenuCard header={"Analyse"} body={body}/>  {/*TODO Change from MenuCard to resultPage*/}
 			{ repsAnalysis && selection &&  //Right-side card
 					<div className="resultPage analysis"> 
-						<h2 >{analysisType}</h2>
+						<h2 style={{marginBottom:"20px"}}>{analysisType}</h2>
 						<h2>Total repetitions</h2>
 						<AnalysisPlot analysis={repsAnalysis} dataKey="total"/>
 						{ weightAnalysis && ( 

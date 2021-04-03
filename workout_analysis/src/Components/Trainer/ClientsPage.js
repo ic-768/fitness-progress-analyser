@@ -1,14 +1,19 @@
-import React,{useState} from "react"
+import React,{useEffect,useState} from "react"
 import MenuCard from "../MenuCard"
 import AddClient from "./AddClient"
 import ClientCard from "./ClientCard"
 import {GrAddCircle} from "react-icons/gr"
 
 const ClientsPage=({clients,setClients,routines,setNotification })=>{ 
-	/*For trainer to view and edit his clients workout details */
+	/*For trainer to view and edit his clients workout details */ 
 
 	const [selectedClient,setSelectedClient]=useState(null) //current client, including any edits
 	const [clientIndex,setClientIndex]=useState(null)  //Keep track of selectedClient index in clients state 
+	const [choice,setChoice]=useState(false) // confirmation to delete client -passed to clientCard
+
+	useEffect(()=>{
+		setChoice && setChoice(false)  // if notification is active when client switched - disable
+	},[selectedClient])
 	
 	{if(!clients){return (<div>No clients</div>)}}
 	return(
@@ -30,7 +35,9 @@ const ClientsPage=({clients,setClients,routines,setNotification })=>{
 						{clients.map((client,i)=>( 
 							<a onClick={()=>{
 								setSelectedClient(client)
-								setClientIndex(i)}}
+								setClientIndex(i) 
+							}
+							}
 							key={i} >
 
 								<div style={{
@@ -50,6 +57,8 @@ const ClientsPage=({clients,setClients,routines,setNotification })=>{
 			{selectedClient && selectedClient.username
 				? //edit existing client
 				<ClientCard  
+					choice={choice}
+					setChoice={setChoice}
 					clientIndex={clientIndex}
 					selectedClient={selectedClient} setSelectedClient={setSelectedClient} 
 					clients={clients} setClients={setClients} 

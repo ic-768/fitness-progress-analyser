@@ -13,7 +13,7 @@ const DaySubmissions=({currentRegiment,setCurrentRegiment, day})=>{
 								{exercise}
 							</p> 
 							{/*remove exercise*/}
-							<button style={{borderRadius:"5px",marginLeft:"auto"}} type="button" onClick={()=>
+							<button className="themed--2" style={{marginLeft:"auto"}} type="button" onClick={()=>
 								setCurrentRegiment( 
 									{...currentRegiment, 
 										[day]:currentRegiment[day].filter((name)=>(

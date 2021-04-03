@@ -1,11 +1,9 @@
 import React,{useState,useEffect} from "react"
-import {CSSTransition, TransitionGroup} from "react-transition-group"
 import Container from "react-bootstrap/Container" 
 import clientService from "../../Services/clients" 
 import {useHistory} from "react-router-dom"
 
 const OnBoardTrainer = ({setNotification,setUser}) => {
-	//TODO show added Clients to user?
 	const [trainer, setTrainer]=useState(null)  //To hold newly created "user" data, until the "next" button is pressed
 
 	const [clients, setClients]=useState([]) 
@@ -48,58 +46,60 @@ const OnBoardTrainer = ({setNotification,setUser}) => {
 
 	return (
 		<div className="pageContainer" style={{flexDirection:"column"}}>
-			<TransitionGroup style={{height:"100%"}}>
-				<CSSTransition 
-					key={location}
-					timeout={{ enter: 500, exit: 200 }}> 
-					<Container className="regimentForm" >
-						<form className="regimentForm__fadeContainer HomeRoute a-routeFadeIn" 
-							onSubmit={(event)=>{
-								event.preventDefault()
-								clearClient()}} > 
-							<h1>Add some clients ?</h1> {/*TODO hoverable info tooltip explaining what each field is*/}
-							<h4>Write down their info so they can access their accounts :)</h4>
-							<div style={{marginTop:"40px",display:"flex", flexDirection:"column",alignItems:"center",}}>
+			<Container className="regimentForm" >
+				<form className="regimentForm__fadeContainer HomeRoute a-routeFadeIn" 
+					style={{display:"flex",}}
+					onSubmit={(event)=>{
+						event.preventDefault()
+						clearClient()}} > 
+					<h1>Add some clients ?</h1> {/*TODO hoverable info tooltip explaining what each field is*/}
+					<h4>Write down their info so they can access their accounts :)</h4>
+					<div style={{
+						marginTop:"40px",display:"flex", 
+							
+						justifyContent:"center",
+					}}>
 
-								<div>
-									<input onChange={(event)=>{ setCurrentClient({...currentClient,name:event.target.value}) }} 
-										placeholder={currentClient.name || "client name"}
-										value={currentClient.name} /> 
-									<input onChange={(event)=>{setCurrentClient({...currentClient,password:event.target.value}) }} 
-										placeholder={currentClient.password || "client password"}
-										value={currentClient.password}/> 
+						<div style={{display:"flex", flexDirection:"column"}}>
+							<h2>Name</h2>
+							<input  style={{marginBottom:"5px"}}
+								onChange={(event)=>{ setCurrentClient({...currentClient,name:event.target.value}) }} 
+								placeholder={currentClient.name || "client name"}
+								value={currentClient.name} /> 
+							<h2>Username</h2>
+							<input style={{marginBottom:"30px"}}onChange={(event)=>{ setCurrentClient({...currentClient,username:event.target.value}) }} 
+								placeholder={currentClient.username || "client username"}
+								value={currentClient.username} /> 
+							<h2>Password</h2>
+							<input style={{marginBottom:"5px"}}
+								onChange={(event)=>{setCurrentClient({...currentClient,password:event.target.value}) }} 
+								placeholder={currentClient.password || "client password"}
+								value={currentClient.password}/> 
 
-								</div>
-								<div>
-									<input onChange={(event)=>{ setCurrentClient({...currentClient,username:event.target.value}) }} 
-										placeholder={currentClient.username || "client username"}
-										value={currentClient.username} /> 
-
-									<input onChange={(event)=>{ setCurrentClient({...currentClient,validatePassword:event.target.value}) }}
-										placeholder={currentClient.validatePassword || "repeat client password"} 
-										value={currentClient.validatePassword} /> 
-								</div>		
-								<button type="submit" 
-									className="themed" style={{margin:"20px",width:"50px", height:"50px"}}>
+							<h2>Repeat password</h2>
+							<input onChange={(event)=>{ setCurrentClient({...currentClient,validatePassword:event.target.value}) }}
+								placeholder={currentClient.validatePassword || "repeat client password"} 
+								value={currentClient.validatePassword} /> 
+							<button type="submit" 
+								className="themed--1" style={{alignSelf:"center",display:"block",margin:"20px",width:"50px", height:"50px"}}>
 										add
-								</button>
-							</div>
+							</button>
+						</div>		
+						<div style={{display:"flex",flexDirection:"column",marginLeft:"100px"}}>
+							<h1 >Clients pending:</h1> 
+							{clients.map((client,i)=>(
+								<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}key={i}>
+									<h4 style={{marginTop:"20px"}}>{client.name}</h4>
+									<button className="themed--2" onClick={()=>{addClient(client,i)} } >Register</button>
+								</div>
+							))} 
+						</div>
+					</div>
 
-							<div style={{display:"flex",flexDirection:"column",alignItems:"center",marginTop:"140px"}}>
-								<h1 >Clients pending:</h1> 
-								{clients.map((client,i)=>(
-									<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}key={i}>
-										{client.name}
-										<button onClick={()=>{addClient(client,i)} } >Register</button>
-									</div>
-								))} 
-							</div>
-						</form>
+				</form>
 
-						<button onClick={()=>{ finaliseBoarding() }}>next</button> 
-					</Container>
-				</CSSTransition>
-			</TransitionGroup>
+				<button className="themed--1" style={{marginBottom:"40px",height:"50px",width:"50px"}}onClick={()=>{ finaliseBoarding() }}>next</button> 
+			</Container>
 		</div>
 	) 
 }

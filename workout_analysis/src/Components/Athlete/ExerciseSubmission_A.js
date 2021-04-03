@@ -105,7 +105,7 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 					</div>
 				)})
 			}
-			<button style={{borderRadius:"5px",marginTop:"auto",}}onClick={()=>
+			<button className="themed--2"style={{marginTop:"auto",}}onClick={()=>
 				submitWorkout(newWorkout)}>Submit</button> 
 		</> 
 	)

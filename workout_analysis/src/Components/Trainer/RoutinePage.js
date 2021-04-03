@@ -4,7 +4,7 @@ import exerciseService from "../../Services/exercises"
 import {BsFillTrashFill} from "react-icons/bs"
 
 const RoutinePage = ({routines,setRoutines }) => {
-	/*Trainer can create-edit-remove routines; Workouts frequently assigned to clients , e.g. "Backday-basic" */
+	/*Trainer can create/edit/remove routines - Workouts frequently assigned to clients , e.g. "Backday-basic" */
 	const [localRoutines,setLocalRoutines]=useState(routines || JSON.parse(window.localStorage.getItem("routines"))) // To modify temporarily without changes to outside state until save
 	const [selectedRoutine,setSelectedRoutine]=useState(null)
 	const [routineIndex,setRoutineIndex]=useState(null) //index of selectedRoutine in routines array
@@ -25,11 +25,11 @@ const RoutinePage = ({routines,setRoutines }) => {
 
 	const removeRoutine = async(index)=>{  
 		const updatedRoutines=localRoutines.filter((_,i)=>index!=i)
-		const validatedRoutines=await exerciseService.setRoutines(updatedRoutines) //
+		const validatedRoutines=await exerciseService.setRoutines(updatedRoutines)
 		setLocalRoutines(validatedRoutines)
 		setRoutines(validatedRoutines)
 		window.localStorage.setItem("routines",JSON.stringify(validatedRoutines))
-		index===routineIndex && setSelectedRoutine(null) //if removing currently viewed routine
+		index===routineIndex && setSelectedRoutine(null) //if removing currently viewed routine, set view to null
 	} 
 
 	const removeFromRoutine = (exercise)=>{ //remove exerise from routine
@@ -61,7 +61,7 @@ const RoutinePage = ({routines,setRoutines }) => {
 		<div className="pageContainer">
 			<MenuCard header="My Routines" body ={()=>
 				<>
-					<button onClick={()=>{addRoutine()}}>Add routine </button>
+					<button style={{marginBottom:"30px",}}className="themed--2" onClick={()=>{addRoutine()}}>Add routine </button>
 					{localRoutines && localRoutines.map((routine,index)=>
 						<div key={`${routine.name}${index}`} className="menuItem__removable">
 							<a  onClick={()=>{setSelectedRoutine(routine); setRoutineIndex(index);setIsEditable( false )}}
@@ -82,7 +82,7 @@ const RoutinePage = ({routines,setRoutines }) => {
 
 			{selectedRoutine &&  
 					<div style={{ marginTop:"80px"}}>  
-						<div className="a-exerciseEntry itemCard">  
+						<div className="a-fade itemCard">  
 							{isEditable 
 								? 
 								<>
@@ -94,13 +94,14 @@ const RoutinePage = ({routines,setRoutines }) => {
 												onChange={(event)=>{setSelectedRoutine({...selectedRoutine,name:event.target.value})}}value={selectedRoutine.name || ""} /> 
 										</div>
 										<div style={{marginLeft:"auto"}}>
-											<button style={{marginRight:"2px",display:"inline"}}className="themed" onClick={()=>{saveRoutines() }}>Save</button> 
-											<button   style={{display:"inline"}} onClick={()=>{setIsEditable(!isEditable)}}>{isEditable ? "Cancel" : "Edit"}</button>
+											<button style={{marginRight:"2px",display:"inline"}}className="themed--1" onClick={()=>{saveRoutines() }}>Save</button> 
+											<button  className="themed--2"
+												onClick={()=>{setIsEditable(!isEditable)}}>Cancel</button>
 										</div>
 									</div>
 									<h2 style={{marginBottom:"0px"}}>Routine exercises</h2>
 									<div style={{display:"flex"}}>
-										<button className="themed"style={{marginLeft:"auto"}}
+										<button className="themed--1"style={{marginLeft:"auto"}}
 											onClick={()=>{setSelectedRoutine({...selectedRoutine,exercises:selectedRoutine.exercises.concat("")})}}>Add</button> 
 									</div>
 									{
@@ -110,7 +111,7 @@ const RoutinePage = ({routines,setRoutines }) => {
 													autoFocus={true}
 													onBlur={(event)=>{editRoutine(index,event.target.value.trim())}} //Trim white space when input loses focus
 													onChange={(event)=>{editRoutine(index,event.target.value)}}value={exercise} /> 
-												<button style={{marginLeft:"10px"}}onClick={()=>{removeFromRoutine(exercise)}}>Remove</button>
+												<button className="themed--2"style={{marginLeft:"10px"}}onClick={()=>{removeFromRoutine(exercise)}}>Remove</button>
 											</div> 
 										)
 									}
@@ -119,7 +120,8 @@ const RoutinePage = ({routines,setRoutines }) => {
 								<>
 									<div style={{marginBottom:"10px",display:"flex"}}>
 										<h2 style={{marginBottom:"0px",}} >{selectedRoutine.name}</h2>
-										<button  style={{marginLeft:"auto",display:"inline"}} onClick={()=>{setIsEditable(!isEditable)}}>{isEditable ? "Cancel" : "Edit"}</button>
+										<button  className="themed--1" style={{marginLeft:"auto",display:"inline"}} onClick={()=>{setIsEditable(!isEditable)}}>
+											Edit</button>
 									</div>
 									{
 										selectedRoutine && selectedRoutine.exercises.map((exercise,i)=> 
@@ -134,10 +136,8 @@ const RoutinePage = ({routines,setRoutines }) => {
 						</div>
 					</div>
 			} 
-		</div>
-
-	)
-
+		</div> 
+	) 
 }
 
 export default RoutinePage

@@ -29,7 +29,7 @@ const LoginForm=({setNotification,submitCredentials, setUser})=>{
 						onChange={(event)=>{setPassword(event.target.value) }}/> 
 				</div>
 				<div className="credentialBox__submission" >
-					<button className="themed" style={{width:"400px",height:"40px"}}>Log in</button>
+					<button className="themed--1" style={{width:"400px",height:"40px"}}>Log in</button>
 					<p> Don&apos;t have an account? <Link style={{color:"#ff8933"}} to="/register"> Sign up </Link></p>
 				</div>
 			</div>

@@ -10,7 +10,7 @@ const StatRow=({exercise,setExercise})=>{
 
 	return(
 		<div style={{paddingBottom:"10px",marginTop:"10px",display:"flex"}}> 
-			<button style={{marginRight:"10px", marginBottom:"auto",border:"none",borderRadius:"5px",color:weightColor}} 
+			<button className="themed--2" style={{marginRight:"0px", marginBottom:"auto",color:weightColor}} 
 				onClick={()=>{setExercise({...exercise, weight:
 							exercise.weight ? null : 1}) }}>KG</button> {/*Toggle weighted*/}
 			<div style={cellStyle} > 

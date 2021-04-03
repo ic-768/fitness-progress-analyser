@@ -53,7 +53,7 @@ const AddClient=({setNotification,setClients})=>{  //TODO setNotification
 						value={currentClient.validatePassword} /> 
 				</div>		
 				<button type="submit"  
-					className="themed" style={{margin:"20px",width:"50px", height:"50px"}}>
+					className="themed--1" style={{marginTop:"60px",width:"60px", height:"40px"}}>
 										add
 				</button>
 			</div> 

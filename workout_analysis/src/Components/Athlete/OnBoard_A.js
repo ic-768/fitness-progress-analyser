@@ -4,7 +4,6 @@ import {
 	Route,
 	useLocation
 } from "react-router-dom"
-import {CSSTransition, TransitionGroup} from "react-transition-group"
 
 import RegimentForm from "./RegimentForm"
 import DayForm from "./DayForm"
@@ -20,20 +19,14 @@ const OnBoardAthlete=({setNotification, user,setUser})=>{
 	},[]) 
 	
 	return (  
-		<TransitionGroup style={{height:"100%",flexGrow:"1",display:"flex", flexDirection:"column"}}>
-			<CSSTransition 
-				key={location}
-				timeout={{ enter: 500, exit: 200 }}>
-				<Switch location={location}>
-					<Route path="/athlete/setTargetWorkout"> {/*second page*/}
-						<RegimentForm backButton={true} user={user} setUser={setUser} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)
-					</Route> 
-					<Route path="/"> {/*initial page*/}
-						<DayForm setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/> 
-					</Route>
-				</Switch>
-			</CSSTransition>
-		</TransitionGroup>
+		<Switch location={location}>
+			<Route path="/athlete/setTargetWorkout"> {/*second page*/}
+				<RegimentForm backButton={true} user={user} setUser={setUser} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/>)
+			</Route> 
+			<Route path="/"> {/*initial page*/}
+				<DayForm setNotification={setNotification} currentRegiment={currentRegiment} setCurrentRegiment={setCurrentRegiment}/> 
+			</Route>
+		</Switch>
 	)
 } 
 

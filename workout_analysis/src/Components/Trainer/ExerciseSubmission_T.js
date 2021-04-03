@@ -12,7 +12,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 /*Trainer can submit workouts on behalf of a client */
 	const history=useHistory()
 	
-	const [uniqueNames,setUniqueNames]=useState([]) 
+	const [uniqueNames,setUniqueNames]=useState([])  //to store name of each exercise
 	const [newWorkout, setNewWorkout]=useState([]) 
 	const [removedExercises, setRemovedExercises]=useState([]) // Keep track of removed exercises
 	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
@@ -105,7 +105,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 					</div>
 				)})
 			}
-			<button style={{borderRadius:"5px",marginTop:"auto",}}onClick={()=>
+			<button className="themed--2" style={{marginTop:"auto",}}onClick={()=>
 				submitWorkout(newWorkout)}>Submit</button> 
 		</> 
 	)

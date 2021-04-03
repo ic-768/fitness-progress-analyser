@@ -9,11 +9,11 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 	const exerciseName=exerciseArray[0].name
 
 	return(
-		<div className="a-exerciseEntry itemCard" >
+		<div className="a-fade itemCard" >
 			<h5>Title</h5>
 			<div style={{marginBottom:"0px",display:"flex"}}>
 				<h3 style={{display:"inline",color:"black"}}>{exerciseName} </h3>
-				<button className="themed" style={{marginLeft:"auto"}} onClick={()=>{setNewWorkout(
+				<button className="themed--1" style={{marginLeft:"auto"}} onClick={()=>{setNewWorkout(
 					newWorkout.map((Array)=>{return exerciseName===Array[0].name 
 						? Array.concat({name:exerciseName,reps:1,sets:1,weight:null})  //Append new exercise instance to array
 						: Array}))}}>

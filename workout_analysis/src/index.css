@@ -22,8 +22,15 @@ button{
 	border:none;
 }
 
-button.themed{
+button.themed--1{
 	background-color:var(--themeOrange) ;
+	padding:5px;
+	border:none;
+	border-radius:5px;
+}
+
+button.themed--2{
+	background-color:black;
 	padding:5px;
 	border:none;
 	border-radius:5px;
@@ -321,12 +328,12 @@ text-align:left;
 	opacity: 0;
 }
 
-.a-exerciseEntry {
-	animation: a-exerciseEntry 0.4s ease-in-out 0s;
+.a-fade {
+	animation: a-fade 0.4s ease-in-out 0s;
 	animation-fill-mode: both;
 }
 
-@keyframes a-exerciseEntry {
+@keyframes a-fade {
 	0% {
 		opacity:0
 	} 
@@ -336,7 +343,7 @@ text-align:left;
 	}
 } 
 
-.a-exerciseEntry.fade-exit {
+.a-fade.fade-exit {
 	animation: none;
 	animation-fill-mode: none;
 }

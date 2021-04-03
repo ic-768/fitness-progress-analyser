@@ -62,7 +62,7 @@ const RegimentForm=({backButton,user,setUser,currentRegiment, setCurrentRegiment
 					</div> 
 				</div>
 				<div style={{marginBottom:"5px",marginTop:"auto"}}>
-					<button className="themed" 
+					<button className="themed--1" 
 						style={{marginRight:"5px",width:"80px",height:"50px",border:"none", 
 							visibility:submissionVisibility}}
 						onClick={()=>{finaliseRegiment()}}>
@@ -70,7 +70,7 @@ const RegimentForm=({backButton,user,setUser,currentRegiment, setCurrentRegiment
 					</button>   
 
 					{backButton &&  //If editing existing regiment from AccountPage, backButton already in MenuCard =>
-				<button style={{border:"none", borderRadius:"5px",width:"80px",height:"50px"}}
+				<button className="themed--2" style={{width:"80px",height:"50px"}}
 					onClick={()=>{history.push("/")}}>
 					Back
 				</button>   
