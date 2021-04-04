@@ -28,7 +28,7 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 	//On submission, if an exercise is invalid, its name will be stored, to set backgroundcolor of menuItem to red 
 
 	useEffect(()=>{
-		setNewWorkout( daysExercises.map((exerciseName)=>( [{name:exerciseName,reps:1,sets:1}]))) 
+		setNewWorkout( daysExercises.map((exerciseName)=>( [{name:exerciseName,reps:null,sets:null}]))) 
 		setUniqueNames([... new Set(daysExercises)]) 
 	}
 	,[daysExercises])
@@ -97,7 +97,7 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 						<a key={exercise} className="menuItem__text"
 							onClick={()=>{
 								setRemovedExercises(removedExercises.filter((name)=>(name!=exercise)))
-								setNewWorkout(newWorkout.concat([[{name:exercise,reps:1,sets:1,weight:null}]]))
+								setNewWorkout(newWorkout.concat([[{name:exercise,reps:null,sets:null,weight:null}]]))
 								setUniqueNames(uniqueNames.concat((exercise)))}} 
 						>
 							{exercise}

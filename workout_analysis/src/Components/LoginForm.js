@@ -31,6 +31,7 @@ const LoginForm=({setNotification,submitCredentials, setUser})=>{
 				<div className="credentialBox__submission" >
 					<button className="themed--1" style={{width:"400px",height:"40px"}}>Log in</button>
 					<p> Don&apos;t have an account? <Link style={{color:"#ff8933"}} to="/register"> Sign up </Link></p>
+					<p> Want a quick <Link style={{color:"#ff8933"}} to="/tutorial">tutorial </Link>?</p>
 				</div>
 			</div>
 		</form>	

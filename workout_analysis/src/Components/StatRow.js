@@ -15,19 +15,19 @@ const StatRow=({exercise,setExercise})=>{
 							exercise.weight ? null : 1}) }}>KG</button> {/*Toggle weighted*/}
 			<div style={cellStyle} > 
 				<h5>Repetitions</h5> 
-				<input className="statRow__input" value = {exercise["reps"]} onChange={(event)=>{ 
+				<input className="statRow__input" value = {exercise["reps"]||""} onChange={(event)=>{ 
 					checkInput(event.target.value) && setExercise({...exercise, ["reps"]:event.target.value.replace(/^0+/,"")})}}/>  {/*Remove leading 0's (e.g. 09 -> 9) */}
 			</div>
 			<div style={cellStyle}> 
 				<h5>Sets</h5> 
-				<input className="statRow__input" value = {exercise["sets"]} onChange={(event)=>{
+				<input className="statRow__input" value = {exercise["sets"]||""} onChange={(event)=>{
 					checkInput(event.target.value) && setExercise({...exercise, ["sets"]:event.target.value.replace(/^0+/,"")})}}/>
 			</div>
 
 			{exercise.weight!=null &&( 
 				<div style={cellStyle}> 
 					<h5>Weight</h5> 
-					<input className="statRow__input" value = {exercise["weight"]} onChange={(event)=>{
+					<input className="statRow__input" value = {exercise["weight"]|""} onChange={(event)=>{
 						checkInput(event.target.value)&&
 						setExercise({...exercise, ["weight"]:event.target.value.replace(/^0+/,"")})}}/> {/* if weighted, allow changing weight*/}
 				</div>

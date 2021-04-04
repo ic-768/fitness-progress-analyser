@@ -38,17 +38,17 @@ const AthleteAnalysis=({workouts})=>{
 	
 	if (workouts && workouts.length===0) return (
 		<div className="pageContainer">
-			<MenuCard header={"Performance Analysis"} body={()=>(null)}/> 
-			<div className="resultPage analysis">
-				<h2>It looks like you&apos;s never submitted an exercise!</h2>
-				<h4 style={{marginTop:"40px"}}>After you submit one, you can start viewing your progress here, and get various performance stats.</h4>
-			</div>
+			<MenuCard header={"Analysis"} body={()=>( 
+				<div>
+						It looks like you&apos;s never submitted an exercise!
+				</div> 
+			)}/> 
 		</div> 
 	)
 
 	const body=()=>(
 		<>
-			<input placeholder="exercise" onChange={(event)=>{ //filter suggestions
+			<input placeholder="Exercise to analyse" onChange={(event)=>{ //filter suggestions
 				setSuggestions(exerciseNameCache.filter((name)=>(
 					name.toLowerCase().includes(event.target.value.toLowerCase()))))
 			}}/> 

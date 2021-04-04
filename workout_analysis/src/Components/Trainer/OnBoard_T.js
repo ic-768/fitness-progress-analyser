@@ -6,7 +6,7 @@ import {useHistory} from "react-router-dom"
 const OnBoardTrainer = ({setNotification,setUser}) => {
 	const [trainer, setTrainer]=useState(null)  //To hold newly created "user" data, until the "next" button is pressed
 
-	const [clients, setClients]=useState([]) 
+	const [clients, setClients]=useState([]) //clients added, but pending registration
 	const [currentClient, setCurrentClient]=useState({name:"",username:"",password:"", validatePassword:""})
 	const history = useHistory()
 
@@ -38,10 +38,14 @@ const OnBoardTrainer = ({setNotification,setUser}) => {
 			setNotification({color:"green",message:"Client added successfully!" })
 		}
 	}
+	console.log(trainer)
 
 	const finaliseBoarding=()=> { 
-		setUser(trainer)
-		history.push("/")
+		if (trainer){ //trainer will only be non-null after a client is submitted
+			setUser(trainer)
+			history.push("/")
+
+		}
 	} 
 
 	return (

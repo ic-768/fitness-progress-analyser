@@ -2,14 +2,13 @@ import React,{useState,useEffect} from "react"
 import {
 	Switch,
 	Route,
-	useLocation
 } from "react-router-dom"
-import {CSSTransition, TransitionGroup} from "react-transition-group"
 
 import LoginForm from "./Components/LoginForm"
 import RegisterForm from "./Components/RegisterForm"
 import Banner from "./Components/Banner"
 import LandingPage from "./Components/LandingPage"
+import TutorialPage from "./Components/TutorialPage"
 import Headquarters_A from "./Components/Athlete/Headquarters_A"
 import Headquarters_T from "./Components/Trainer/Headquarters_T"
 import Notification from "./Components/Notification"
@@ -19,7 +18,6 @@ import tokenService from "./Services/token"
 import {login,logout}from "./Functions/userFunctions" 
 
 function App(){ 
-	const location=useLocation()
 	const [backgroundImage,setBackgroundImage] = useState("Media/weightLiftingGirl.png")
 	const [notification,setNotification] = useState(null) //Action feedback + Error messages
 	//will be object e.g. {color:"red",message:"text"}
@@ -81,20 +79,33 @@ function App(){
 					}
 				</>
 				: //if no user, register or login
-				<TransitionGroup style={{height:"100%",display:"flex",  justifyItems:"flex-start"}}>
-					<CSSTransition
-						key={location}
-						timeout={{ enter: 500, exit: 200 }}>
-						<Switch>
-							<Route path="/register">
-								<RegisterForm setNotification={setNotification} submitCredentials={registerService.register}/>
-							</Route>
-							<Route path="/">
-								<LoginForm setNotification={setNotification} submitCredentials={login} setUser={setUser}/> 
-							</Route>
-						</Switch> 
-					</CSSTransition>
-				</TransitionGroup>
+				<div style={{height:"100%",display:"flex",  justifyItems:"flex-start"}}>
+					<Switch>
+						<Route path="/tutorial">
+							<TutorialPage/>
+						</Route>
+						<Route path="/register">
+							<RegisterForm setNotification={setNotification} submitCredentials={registerService.register}/>
+						</Route>
+						<Route path="/">
+							<LoginForm setNotification={setNotification} submitCredentials={login} setUser={setUser}/> 
+							<div style={{ padding:"40px",marginTop:"auto",marginLeft:"auto",marginBottom:"57px",
+
+								borderRadius:"20px 0px 0px 20px",
+								display:"flex",alignItems:"center",backgroundColor:"white"}}>
+								<div>
+									<h3 style={{marginBottom:"20px"}}>Demo Accounts:</h3>
+									<h4 style={{marginBottom:"10px"}}>Trainer:</h4>
+									<h5 style={{marginBottom:"10px"}}>username:ski</h5>
+									<h5 style={{marginBottom:"20px"}}>password:ski</h5>
+									<h4>Athlete:</h4>
+									<h5>username:ic768</h5>
+									<h5>password:a</h5>
+								</div>
+							</div>
+						</Route>
+					</Switch> 
+				</div>
 			}
 		</div>
 	) 

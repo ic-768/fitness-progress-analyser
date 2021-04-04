@@ -25,7 +25,7 @@ const RegisterForm=({setNotification, submitCredentials})=>{
 					<h1 style ={{marginBottom:"80px"}} className="HomeRoute a-routeFadeIn"> Register</h1>
 					<input className="credentialBox__input" value={username} placeholder="Username" 
 						onChange={(event)=>{setUsername(event.target.value) }}/>
-					<input className="credentialBox__input" value={password} placeholder="Password" 
+					<input type="password"className="credentialBox__input" value={password} placeholder="Password" 
 						onChange={(event)=>{setPassword(event.target.value) }}/> 
 				</div>
 				<div className="credentialBox__submission">

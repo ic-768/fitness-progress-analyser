@@ -26,7 +26,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 			const unique=getTodaysExercises(selectedClient.currentRegiment)  //todays exercises
 			if(unique){ //has exercises for today
 				setUniqueNames(unique)
-				setNewWorkout(unique.map((exerciseName)=>(   [{name:exerciseName,reps:1,sets:1}] ) ))
+				setNewWorkout(unique.map((exerciseName)=>(   [{name:exerciseName,reps:null,sets:null}] ) ))
 			}
 		}},[selectedClient])
 
@@ -97,7 +97,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 						<a key={exercise} className="menuItem__text"
 							onClick={()=>{
 								setRemovedExercises(removedExercises.filter((name)=>(name!=exercise)))
-								setNewWorkout(newWorkout.concat([[{name:exercise,reps:1,sets:1,weight:null}]]))
+								setNewWorkout(newWorkout.concat([[{name:exercise,reps:null,sets:null,weight:null}]]))
 								setUniqueNames(uniqueNames.concat((exercise)))}} 
 						>
 							{exercise}

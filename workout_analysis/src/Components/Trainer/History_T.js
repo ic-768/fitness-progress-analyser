@@ -43,18 +43,20 @@ const TrainerHistory=({clients})=>{
 	},[filterQuery,useDate,selectedClient])  //search box content or checkbox are changed
 
 	const body=()=>(
-		<>
+		<div style={{height:"100%",display:"flex",flexDirection:"column"}}>
 			<DropdownClient clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient}/>
 			<p>Search by name</p>
 			<Form style={{marginBottom:"40px"}} onSubmit={(event)=>{event.preventDefault()}}>
 				<FormControl type="text" placeholder="e.g. pushups"  onChange={(event)=>{setFilterQuery(event.target.value)}}/>
 			</Form>
-			<div>
-				<p style={{marginRight:"20px",display:"inline"}}>Filter by date</p>
-				<input type="checkbox" value={useDate} onClick={()=>{setUseDate(!useDate)}}/> 
+			<div style={{marginTop:"auto"}}>
+				<div style={{marginBottom:"20px"}}>
+					<p style={{marginRight:"20px",display:"inline"}}>Filter by date</p>
+					<input type="checkbox" value={useDate} onClick={()=>{setUseDate(!useDate)}}/> 
+				</div>
+				<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={selectedClient && selectedClient.days} callback={filterByDate} /> 
 			</div>
-			<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={selectedClient && selectedClient.days} callback={filterByDate} /> 
-		</> 
+		</div> 
 	)
 
 	return(
@@ -62,15 +64,18 @@ const TrainerHistory=({clients})=>{
 			<div className="pageContainer">
 				<MenuCard header={"History"} body={body}/> 
 				{ filteredWorkouts && filteredWorkouts.length>0 && 
-				<div className="resultPage history">
-					<ul className="history__list" 
-						style={{display:"flex",flexDirection:"column-reverse",listStyleType:"none"}}>
-						{filteredWorkouts.map((workout,index)=>( 
-							<li key={index} >
-								<HistoryWorkout workout={workout} /> 
-							</li>
-						))}
-					</ul>
+				<div style={{overflowY:"scroll"}}className="resultPage history"> 
+					<div style={{display:"block"}}>{/*Safari needs explicit block display for scroll*/}
+						<ul className="history__list" 
+							style={{display:"flex",flexDirection:"column-reverse",listStyleType:"none"}}>
+							{filteredWorkouts.map((workout,index)=>( 
+								<li key={index} >
+									<HistoryWorkout workout={workout} /> 
+								</li>
+							))}
+						</ul>
+
+					</div>
 				</div>}
 			</div>
 		</>

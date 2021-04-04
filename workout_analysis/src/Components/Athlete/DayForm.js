@@ -26,7 +26,7 @@ const DayForm=({setNotification,currentRegiment,setCurrentRegiment})=>{
 							<div className="dayForm__dayBox"key={i}>
 								<h2 >{item}</h2>
 								<input  type="checkbox"  checked={currentRegiment[item]||""}
-									onChange={()=>{console.log(currentRegiment);toggleRegimentDay(item)}}/>
+									onChange={()=>{toggleRegimentDay(item)}}/>
 							</div>
 						))}
 					</div>

@@ -29,6 +29,7 @@ const History=({workouts})=>{
 			filterByDate(workouts,dateRange)
 		} 
 		else{ // use search term only 
+			workouts && 
 			setFilteredWorkouts(
 				workouts.map((workout)=>{ 
 					const result=filterExercisesByName(workout.exercises,filterQuery)
@@ -38,16 +39,16 @@ const History=({workouts})=>{
 		} 
 	},[filterQuery,useDate])  //search box content or checkbox are changed
 
-	if (workouts.length ===0) return ( 
+	if (workouts && workouts.length ===0) return ( 
 		<div className="pageContainer">
-			<MenuCard header={"My History"} body={()=>(null)}/>
-
-			<div style={{marginTop:"80px",display:"flex",flexDirection:"column"}}> 
-				<div className="historyContainer">					
-					<h2>It looks like you&apos;s never submitted an exercise!</h2>
-					<h4 style={{marginTop:"40px"}}>After you submit one, you can start viewing your past workouts here.</h4>
+			<MenuCard header={"My History"} body={()=>(
+				
+				<div>
+						It looks like you&apos;s never submitted an exercise!
 				</div>
-			</div> 
+				
+			)}/>
+
 
 		</div> 
 	)
@@ -72,15 +73,18 @@ const History=({workouts})=>{
 				<MenuCard header={"My History"} body={body}/> 
 				{ filteredWorkouts && filteredWorkouts.length>0 && 
 				<div className="resultPage history">
-					<ul className="history__list" 
-						style={{display:"flex",flexDirection:"column-reverse",listStyleType:"none"}}>
-						{filteredWorkouts.map((workout,index)=>( 
-							<li key={index} >
-								<HistoryWorkout workout={workout} /> 
-							</li>
-						))}
-					</ul>
+					<div style={{display:"block"}}>{/*Safari needs explicit block display for scroll*/}
+						<ul className="history__list" 
+							style={{display:"flex",flexDirection:"column-reverse",listStyleType:"none"}}>
+							{filteredWorkouts.map((workout,index)=>( 
+								<li key={index} >
+									<HistoryWorkout workout={workout} /> 
+								</li>
+							))}
+						</ul>
+					</div>
 				</div>}
+
 			</div>
 		</>
 	)

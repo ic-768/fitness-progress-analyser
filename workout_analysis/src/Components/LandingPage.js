@@ -20,7 +20,7 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 		<div style={{overflow:"auto",height:"100%"}}>
 			<Switch>
 				<Route path="/athlete">
-					<OnBoard_A setNotification={setNotification} user={user} setUser={setUser}/>
+					<OnBoard_A setNotification={setNotification} user={{...user,name}} setUser={setUser}/>
 				</Route>
 				<Route path="/trainer">
 					<OnBoard_T setNotification={setNotification} setUser={setUser}/>  
@@ -31,7 +31,8 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 						<form className="dayForm"> 
 							<h1 style={{fontWeight:"bold"}}>
 					My name is ...</h1>
-							<input style={{fontSize:"20px",textAlign:"center",marginBottom:"20px"}} onChange={(event)=>{setName(event.target.value)}}/> 
+							<input style={{fontSize:"20px",textAlign:"center",marginBottom:"20px"}} 
+								onChange={(event)=>{setName(event.target.value)}}/> 
 							<h1 style={{fontWeight:"bold"}}>
 					and I am ...</h1>
 							<div className="dayForm__dayContainer">

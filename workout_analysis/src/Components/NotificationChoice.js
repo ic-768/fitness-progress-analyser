@@ -4,6 +4,7 @@ const NotificationChoice=({message, yesCallback,noCallback })=>{
 	//give user a choice 
 	return(
 		<div className="a-fade" style={{ 
+			zIndex:"1",
 			boxShadow:"1px 1px 2px rgba(0, 0, 0, 0.45)",
 			display:"flex",
 			flexDirection:"column",

@@ -59,7 +59,7 @@ const TrainerAnalysis=({clients})=>{
 	const body=()=>(
 		<>
 			<DropdownClient clients={clients} selectedClient={selectedClient}  setSelectedClient={setSelectedClient}/> 
-			<input placeholder="exercise" 
+			<input placeholder="Exercise to analyse" 
 				value={searchQuery}
 				onChange={(event)=>{ //filter suggestions
 					setSearchQuery(event.target.value)

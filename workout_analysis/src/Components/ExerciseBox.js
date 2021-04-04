@@ -15,7 +15,7 @@ const ExerciseBox=({exerciseArray, newWorkout, setNewWorkout})=>{
 				<h3 style={{display:"inline",color:"black"}}>{exerciseName} </h3>
 				<button className="themed--1" style={{marginLeft:"auto"}} onClick={()=>{setNewWorkout(
 					newWorkout.map((Array)=>{return exerciseName===Array[0].name 
-						? Array.concat({name:exerciseName,reps:1,sets:1,weight:null})  //Append new exercise instance to array
+						? Array.concat({name:exerciseName,reps:null,sets:null,weight:null})  //Append new exercise instance to array
 						: Array}))}}>
 				Add set
 				</button>
