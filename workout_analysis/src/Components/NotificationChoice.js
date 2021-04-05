@@ -26,7 +26,7 @@ const NotificationChoice=({message, yesCallback,noCallback })=>{
 
 			<h2 style={{textAlign:"center"}}>{message}</h2>
 			<div>
-				<button style={{width:"90px"}}onClick={()=>{yesCallback()}} className="themed--1">Yes</button> {/**TODO themed1 themed2 */}
+				<button style={{marginRight:"10px",width:"90px"}}onClick={()=>{yesCallback()}} className="themed--1">Yes</button> 
 				<button style={{width:"90px"}}onClick={()=>{noCallback()}} className="themed--2">No</button>
 			</div>
 		</div>

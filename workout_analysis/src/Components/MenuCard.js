@@ -3,6 +3,7 @@ import {IoIosArrowBack} from "react-icons/io"
 import {useHistory} from "react-router-dom"
 
 const MenuCard = ({callback, header, body}) => { 
+	console.log(header)
 	const history=useHistory()
 	return(
 		<div className="menuCard" >
@@ -12,8 +13,8 @@ const MenuCard = ({callback, header, body}) => {
 					callback && callback() //optional callback when going back --used to set currentRegiment after editing
 				}}>
 					<IoIosArrowBack style={{cursor:"pointer"}} /> 
-					{header}
 				</a>
+				{header()}
 			</h1> 
 			{body()}
 		</div>

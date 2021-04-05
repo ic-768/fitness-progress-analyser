@@ -7,9 +7,8 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 	/*collapsable list component used in trainer clientPage */
 	const [isExpanded, setIsExpanded]=useState(false)
 	
-	console.log(routines)
 	return (	
-		<div className="grayLine" style={{display:"block",padding:"2px"}}>
+		<div className="grayLine" style={{marginTop:"10px",marginBottom:"10px",display:"block",padding:"2px"}}>
 			<div  className="a-fade"
 				style={{cursor:"pointer",marginBottom:"10px",marginTop:"10px",display:"flex",margin:"0px"}} >
 				<a onClick={()=>setIsExpanded(!isExpanded)}
@@ -32,13 +31,11 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 							Assign routine
 						</Dropdown.Toggle>
 						<Dropdown.Menu>
-							{routines.map((routine)=>( 
-								<>
-									<Dropdown.Item onClick={()=>{ 
-										setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,
-											[day[0]]:routine.exercises
-										}})}}> {routine.name}</Dropdown.Item>
-								</>
+							{routines.map((routine,i)=>( 
+								<Dropdown.Item key={`${routine}${i}`}onClick={()=>{ 
+									setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment,
+										[day[0]]:routine.exercises
+									}})}}> {routine.name}</Dropdown.Item>
 							))}
 						</Dropdown.Menu>
 					</Dropdown>
@@ -50,10 +47,10 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 				{day[1].map((exercise,i)=>
 					isEditable
 						? //if editable -> allow render entries as inputs
-						<div key={i} style={{margin:"5px", display:"flex"}}>
+						<div key={`${exercise}${i}`} style={{margin:"5px", display:"flex"}}>
 							{isExpanded && 
 							<>
-								<input className="a-fade" style={{display:"block"}} 
+								<input style={{display:"block"}} 
 									autoFocus={true}
 									onBlur={(event)=>{editExercise(day,i,event.target.value.trim())} } //on unfocus, remove trailing whitespace
 									onChange={(event)=>editExercise(day,i,event.target.value)}
@@ -63,7 +60,7 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 							}
 						</div>
 						:  //else render as plain text
-						<div key={i}>
+						<div key={`${exercise}${i}`}>
 							{isExpanded && <li className="a-fade">{exercise}</li> }
 						</div>
 				)} 

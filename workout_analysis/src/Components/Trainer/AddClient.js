@@ -11,6 +11,7 @@ const AddClient=({setNotification,setClients})=>{  //TODO setNotification
 			&& (currentClient.password===currentClient.validatePassword)){ //password typed correctly twice
 			const updatedTrainer=await clientService.addClient(currentClient)
 			if (updatedTrainer){ 
+				window.localStorage.setItem("clients",JSON.stringify(updatedTrainer.clients))
 				setClients(updatedTrainer.clients)
 				setCurrentClient({name:"",username:"", password:"",validatePassword:""})
 				setNotification({color:"green",message:"Client added successfully!"}) 

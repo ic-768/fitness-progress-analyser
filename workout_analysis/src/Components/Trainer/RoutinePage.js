@@ -2,6 +2,8 @@ import React,{useState,useEffect} from "react"
 import MenuCard from "../MenuCard"
 import exerciseService from "../../Services/exercises"
 import {BsFillTrashFill} from "react-icons/bs"
+import { RiPencilLine} from "react-icons/ri"
+import {GiCancel} from "react-icons/gi"
 
 const RoutinePage = ({routines,setRoutines }) => {
 	/*Trainer can create/edit/remove routines - Workouts frequently assigned to clients , e.g. "Backday-basic" */
@@ -59,7 +61,8 @@ const RoutinePage = ({routines,setRoutines }) => {
 
 	return ( 
 		<div className="pageContainer">
-			<MenuCard header="My Routines" body ={()=>
+			<MenuCard header={()=>"My Routines"} body ={()=>
+
 				<>
 					<button style={{marginBottom:"30px",}}className="themed--2" onClick={()=>{addRoutine()}}>Add routine </button>
 					{localRoutines && localRoutines.map((routine,index)=>
@@ -94,9 +97,10 @@ const RoutinePage = ({routines,setRoutines }) => {
 												onChange={(event)=>{setSelectedRoutine({...selectedRoutine,name:event.target.value})}}value={selectedRoutine.name || ""} /> 
 										</div>
 										<div style={{marginLeft:"auto"}}>
-											<button style={{marginRight:"2px",display:"inline"}}className="themed--1" onClick={()=>{saveRoutines() }}>Save</button> 
-											<button  className="themed--2"
-												onClick={()=>{setIsEditable(!isEditable)}}>Cancel</button>
+											<button  className="themed--2" style={{borderRadius:"50%"}}
+												onClick={()=>{setIsEditable(!isEditable)}}>
+												<GiCancel size="30px"/>
+											</button>
 										</div>
 									</div>
 									<h2 style={{marginBottom:"0px"}}>Routine exercises</h2>
@@ -120,8 +124,9 @@ const RoutinePage = ({routines,setRoutines }) => {
 								<>
 									<div style={{marginBottom:"10px",display:"flex"}}>
 										<h2 style={{marginBottom:"0px",}} >{selectedRoutine.name}</h2>
-										<button  className="themed--1" style={{marginLeft:"auto",display:"inline"}} onClick={()=>{setIsEditable(!isEditable)}}>
-											Edit</button>
+										<button  className="themed--1" style={{borderRadius:"50%",marginLeft:"auto",display:"inline"}} onClick={()=>{setIsEditable(!isEditable)}}>
+											<RiPencilLine size="30px"/>
+										</button>
 									</div>
 									{
 										selectedRoutine && selectedRoutine.exercises.map((exercise,i)=> 
@@ -132,7 +137,11 @@ const RoutinePage = ({routines,setRoutines }) => {
 									} 
 								</>
 							}
-							<div  style={{width:"100%",borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex"}}></div>
+							<div style={{width:"100%",display:"flex"}}>
+								{isEditable && <button style={{marginTop:"15px",marginLeft:"auto",marginRight:"2px",display:"inline"}}className="themed--1" 
+									onClick={()=>{saveRoutines() }}>Save</button> }
+							</div>
+							<div  style={{width:"100%",borderBottom:"0.5px solid #CECECE",padding:"30px",display:"flex"}}></div>
 						</div>
 					</div>
 			} 

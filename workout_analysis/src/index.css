@@ -24,6 +24,7 @@ button{
 
 button.themed--1{
 	background-color:var(--themeOrange) ;
+	color:white;
 	padding:5px;
 	border:none;
 	border-radius:5px;
@@ -39,12 +40,17 @@ button.themed--2{
 th * {
 	color:cornflowerblue;
 }
+.search{
+	border:none;
+	border-bottom: 1px solid black; 
+}
 
 /*COMPONENTS*/ 
 .pageContainer{height:100%;display:flex}
 
 .resultPage{
-	overflow: scroll;
+	flex:1;
+	overflow-y: scroll;
 	display:flex;
 	flex-direction: column;
 	align-items:center;

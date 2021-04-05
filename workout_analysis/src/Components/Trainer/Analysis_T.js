@@ -2,6 +2,7 @@ import React,{useState, useEffect} from "react"
 import {datedAnalysis,allTimeAnalysis,exerciseNamesFromWorkouts} from "../../Functions/workoutFunctions"
 import Dropdown from "react-bootstrap/Dropdown"
 import DropdownClient from "./DropdownClient"
+import { BsSearch } from "react-icons/bs"
 
 import AnalysisPlot from "../AnalysisPlot"
 import MenuCard from "../MenuCard"
@@ -59,11 +60,14 @@ const TrainerAnalysis=({clients})=>{
 	const body=()=>(
 		<>
 			<DropdownClient clients={clients} selectedClient={selectedClient}  setSelectedClient={setSelectedClient}/> 
-			<input placeholder="Exercise to analyse" 
-				value={searchQuery}
-				onChange={(event)=>{ //filter suggestions
-					setSearchQuery(event.target.value)
-				}}/> 
+			<div>
+				<BsSearch style={{marginRight:"5px"}} />
+				<input className="search" placeholder="Exercise to analyse" 
+					value={searchQuery}
+					onChange={(event)=>{ //filter suggestions
+						setSearchQuery(event.target.value)
+					}}/> 
+			</div>
 			{suggestions.length<5 //if suggestions narrowed down, allow setting the selection for analysis
 				? (<ul className="analysis__list">{suggestions.map((suggestion,index)=> 
 					(<div className="analysis__result" key={index}>
@@ -85,7 +89,7 @@ const TrainerAnalysis=({clients})=>{
 	) 
 	return(
 		<div className="pageContainer"> 
-			<MenuCard header={"Analysis"} body={body}/>  {/*TODO change from menucard to resultpage*/}
+			<MenuCard header={()=>"Analysis"} body={body}/>  {/*TODO change from menucard to resultpage*/}
 			{ repsAnalysis && selection &&  //Right-side card
 					<div className="resultPage analysis"> 
 						<h1 style={{marginBottom:"20px"}}>{analysisType}</h1>

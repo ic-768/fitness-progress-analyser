@@ -73,7 +73,7 @@ const TutorialPage=()=>{
 				Using routines, the next time you&apos;re setting up a new client,  you can assign a day&apos;s exercises with the click of a button.
 				<br/>
 				<br/>
-				Finally, you can view any client&apos; workout history, and analyse their progress on any exercise.
+				Finally, you can view any client&apos;s workout history, and analyse their progress on any exercise.
 			</h5>
 			<img style={imageStyle} src={"../Media/History.png"} /> 
 			<h1 style={{paddingBottom:"50px"}} ><strong>Happy Lifting!</strong></h1>

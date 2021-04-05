@@ -13,7 +13,7 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 	if (!daysExercises){
 		return(
 			<div className="pageContainer">
-				<MenuCard header={"My Exercises"} body={()=>(<p>No exercises for today :)</p>)} />
+				<MenuCard header={()=>"My Exercises"} body={()=>(<p>No exercises for today :)</p>)} />
 			</div> 
 		)}
 
@@ -112,7 +112,7 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 	
 	return ( 
 		<div className="pageContainer">
-			<MenuCard header={"My Exercises"} body={body}/> 
+			<MenuCard header={()=>"My Exercises"} body={body}/> 
 
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise

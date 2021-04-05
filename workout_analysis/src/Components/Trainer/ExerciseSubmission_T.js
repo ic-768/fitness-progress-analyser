@@ -112,7 +112,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 	
 	return ( 
 		<div className="pageContainer">
-			<MenuCard header={"Exercises"} body={body}/> 
+			<MenuCard header={()=>"Exercises"} body={body}/> 
 
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise

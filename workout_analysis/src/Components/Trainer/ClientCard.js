@@ -3,8 +3,12 @@ import CollapsableList from "./CollapsableList"
 import clientService from "../../Services/clients"
 import {BsFillTrashFill} from "react-icons/bs"
 import NotificationChoice from "../NotificationChoice"
+import ProfilePicture from "../ProfilePicture"
+import { RiPencilLine} from "react-icons/ri"
+import {GiCancel} from "react-icons/gi"
 
-const ClientCard = ({ choice,setChoice,clientIndex,clients, setClients,setNotification,setSelectedClient, routines, selectedClient}) => {
+
+const ClientCard = ({ color,initials,choice,setChoice,clientIndex,clients,setClients,setNotification,setSelectedClient,routines,selectedClient}) => {
 /* Card summarising client info for trainer  */
 
 	const [isEditable,setIsEditable]=useState(false) // if client info can be edited
@@ -51,9 +55,6 @@ const ClientCard = ({ choice,setChoice,clientIndex,clients, setClients,setNotifi
 				setSelectedClient({...selectedClient,currentRegiment:{...selectedClient.currentRegiment, [day[0]]:updatedDay}})}} 
 	} 
 
-	const storedClients=JSON.parse(window.localStorage.getItem("clients")) 
-	console.log("stored",storedClients)
-
 	const removeClient = async() =>{
 		const updatedTrainer=await clientService.removeClient({id:selectedClient._id})
 		if(updatedTrainer){ //if operation successful
@@ -92,8 +93,7 @@ const ClientCard = ({ choice,setChoice,clientIndex,clients, setClients,setNotifi
 			setNotification({color:"red",message:"Looks like you've assigned the same exercise twice in the same day :)"})
 		}
 		else{  //submit
-			try{
-
+			try{ 
 				setSelectedClient({...selectedClient,currentRegiment:Object.fromEntries(regiment)})
 				const updatedClient=await clientService.updateClient({...selectedClient,currentRegiment:Object.fromEntries(regiment)}) 
 				const updatedClients=clients.filter((client)=>client._id!==updatedClient._id).concat(updatedClient)
@@ -109,55 +109,70 @@ const ClientCard = ({ choice,setChoice,clientIndex,clients, setClients,setNotifi
 	}
 
 	return (
-		<div style={{display:"flex",flexDirection:"column",}} className="resultPage clientView" > 
-			{choice && <NotificationChoice message={`Are you sure you want to remove ${selectedClient.name} from your supervision?`} 
+		<div style={{ 
+			display:"flex",flexDirection:"column",}} className="resultPage clientView" > 
+			{choice && 
+			<NotificationChoice 
+				message={`Are you sure you want to remove ${selectedClient.name} from your supervision?`} 
 				yesCallback={()=>{removeClient();setChoice(false)}} 
-				noCallback={()=>{console.log("u picked no");setChoice(false)}}/>}
-			<div className="client__header" 
-				style={{ width:"100%",borderBottom:"0.5px solid #CECECE",padding:"40px",display:"flex",}} > 
+				noCallback={()=>{setChoice(false)}}
+			/>
+			}
+
+			<div className="client__header"
+				style={{ 
+					minHeight:"230px", 
+					margin:"20px",alignItems:"center",width:"100%",
+					borderBottom:"0.5px solid #CECECE",
+					marginBottom:"0px",
+					padding:"40px",paddingLeft:"0px",display:"flex",}} > 
+				<ProfilePicture color={color} font={"30px Arial"} radius={70} size={150} initials={initials}/>
+				<div className="client__details" style={{marginLeft:"30px",flexGrow:"1",marginRight:"25px",display:"flex",flexDirection:"column"}}>
+					<p style={{display:"inline"}}> Name </p>
+					<h5 style={{display:"inline"}}> {selectedClient.name}</h5>
+				</div>
+
 
 				<div className="client__details" style={{flexGrow:"1",marginRight:"25px",display:"flex",flexDirection:"column"}}>
-					<h5 style={{display:"inline"}}> Name </h5>
-					<p style={{display:"inline"}}> {selectedClient.name}</p>
+					<p style={{display:"inline"}}> Username </p>
+					<h5 style={{display:"inline"}}> {selectedClient.username}</h5>
 				</div>
 
-				<div className="client__details" style={{flexGrow:"1",marginRight:"25px",display:"flex",flexDirection:"column"}}>
-					<h5 style={{display:"inline"}}> Username </h5>
-					<p style={{display:"inline"}}> {selectedClient.username}</p>
-				</div>
-				<div className="client__details" style={{display:"flex",flexDirection:"column"}}>
-					<h5 style={{display:"inline"}}> Email </h5>
-					<p style={{display:"inline"}}> example@example.com</p>
-				</div>
+				<div style={{display:"flex", flexDirection:"column",}}>
 
-				{isEditable && 
-				<button className="themed--2" style={{width:"60px",marginLeft:"40px"}} onClick={()=>{ setChoice(true) }} >
-					<BsFillTrashFill/>
-				</button>}
+					<button className={isEditable
+						? "themed--2"  
+						: "themed--1"}
+					style ={{marginBottom:"40px",alignSelf:"start",borderRadius:"50%",width:"40px",height:"40px",marginLeft:"40px",marginRight:"10px"}} 
+					onClick={()=>{setIsEditable(!isEditable)}}> 
+						{isEditable 
+							? <GiCancel size="30px"/>
+							: <RiPencilLine size="30px"/>
+						}
+					</button>  
+					<button className="themed--2" style={{backgroundColor:"white",color:"#ff8933",
+						boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.25)",
+						width:"40px",height:"40px",borderRadius:"50%",marginLeft:"40px"}} onClick={()=>{ setChoice(true) }} >
+						<BsFillTrashFill size="20px"/>
+					</button>
 
-				<button className={isEditable
-					?"themed--2"  
-					: "themed--1"}
-				style ={{width:"60px",marginLeft:"40px",marginRight:"10px"}}onClick={()=>{setIsEditable(!isEditable)}}> 
-					{isEditable
-						? "Cancel" 
-						: "Edit"}
-				</button>  
-				{isEditable && 
-				<button style={{width:"60px"}}className="themed--1" onClick={()=>{ submitClient() }} >Save</button>}
+				</div>
 			</div>
-			<div className="grayLine"> 
-
-				{ Object.entries(selectedClient.currentRegiment)
-					.map((day)=>
-					{
-						const value=day[1]||""
-						return (
-							<div key={day[0]} style={{flexGrow:"1",display:"flex",flexDirection:"column",alignItems:"center",margin:"5px"}}>
-								<h5> {day[0]} </h5> 
-								<input value={value} type="checkbox" onChange={()=>{toggleDay(day)}}readOnly={false} checked={value} />
-							</div>)}) 
-				}
+			<div style={{width:"100%"}}>{/*two divs because safari makes life unbearable*/}
+				<div className="grayLine" > 
+					{ Object.entries(selectedClient.currentRegiment)
+						.map((day)=>
+						{
+							const value=day[1]||""
+							return (
+								<div key={day[0]} style={{display:"flex",flexDirection:"column",width:"100%"}} > {/*safari...*/}
+									<div style={{display:"flex",flexDirection:"column",alignItems:"center",margin:"0px"}}>
+										<h5> {day[0]} </h5> 
+										<input value={value} type="checkbox" onChange={()=>{toggleDay(day)}}readOnly={false} checked={value} />
+									</div>
+								</div>)}) 
+					}
+				</div>
 			</div>
 			<div style ={{width:"100%"}}>
 				{ Object.entries(selectedClient.currentRegiment)
@@ -172,11 +187,14 @@ const ClientCard = ({ choice,setChoice,clientIndex,clients, setClients,setNotifi
 									removeExercise={removeExercise} routines={routines}/>
 					)} 
 			</div> 
+			{isEditable && 
+			<div style={{width:"100%",display:"flex"}}>
+				<button style={{margin:"20px",marginLeft:"auto",width:"60px"}}className="themed--1" 
+					onClick={()=>{ submitClient() }} >Save</button>
+			</div>
+			}
 		</div> 
-
-
-	)
-
+	) 
 }
 
 export default ClientCard

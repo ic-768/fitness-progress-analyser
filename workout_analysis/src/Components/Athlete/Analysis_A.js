@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from "react" 
 import {datedAnalysis,allTimeAnalysis,exerciseNamesFromWorkouts} from "../../Functions/workoutFunctions"
 import Dropdown from "react-bootstrap/Dropdown"
+import { BsSearch } from "react-icons/bs"
 
 import AnalysisPlot from "../AnalysisPlot"
 import MenuCard from "../MenuCard"
@@ -38,7 +39,7 @@ const AthleteAnalysis=({workouts})=>{
 	
 	if (workouts && workouts.length===0) return (
 		<div className="pageContainer">
-			<MenuCard header={"Analysis"} body={()=>( 
+			<MenuCard header={()=>"Analysis"} body={()=>( 
 				<div>
 						It looks like you&apos;s never submitted an exercise!
 				</div> 
@@ -48,10 +49,13 @@ const AthleteAnalysis=({workouts})=>{
 
 	const body=()=>(
 		<>
-			<input placeholder="Exercise to analyse" onChange={(event)=>{ //filter suggestions
-				setSuggestions(exerciseNameCache.filter((name)=>(
-					name.toLowerCase().includes(event.target.value.toLowerCase()))))
-			}}/> 
+			<div>
+				<BsSearch style={{marginRight:"5px"}} />
+				<input className="search" placeholder="Exercise to analyse" onChange={(event)=>{ //filter suggestions
+					setSuggestions(exerciseNameCache.filter((name)=>(
+						name.toLowerCase().includes(event.target.value.toLowerCase()))))
+				}}/> 
+			</div>
 			{suggestions.length<5 //if suggestions narrowed down, allow setting the selection for analysis
 				? (<ul className="analysis__list">{suggestions.map((suggestion,index)=> 
 					(<div className="analysis__result" key={index}>
@@ -73,7 +77,7 @@ const AthleteAnalysis=({workouts})=>{
 	) 
 	return(
 		<div className="pageContainer"> 
-			<MenuCard header={"Analyse"} body={body}/>  {/*TODO Change from MenuCard to resultPage*/}
+			<MenuCard header={()=>"Analyse"} body={body}/>  {/*TODO Change from MenuCard to resultPage*/}
 			{ repsAnalysis && selection &&  //Right-side card
 					<div className="resultPage analysis"> 
 						<h2 style={{marginBottom:"20px"}}>{analysisType}</h2>

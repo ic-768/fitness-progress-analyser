@@ -21,7 +21,7 @@ const AccountPage = ({ setNotification,currentRegiment,setCurrentRegiment, user,
 		<div className="pageContainer">  {/*!if athlete, will setCurrentRegiment on going back. Should refactor somewhere better */}
 			<MenuCard  callback={()=>{!user.isTrainer && setCurrentRegiment(JSON.parse(window.localStorage.getItem("currentRegiment")) 
 			//If unsaved changes, revert currentRegiment
-			)} } header={"My Account"}body={()=> (
+			)} } header={()=>"My Account"}body={()=> (
 				<>
 					{ !user.isTrainer && // only if athlete
 				<>   

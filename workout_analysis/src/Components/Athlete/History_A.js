@@ -1,7 +1,6 @@
 import React, {useEffect,useState} from "react"
 import {filterExercisesByName,filterWorkoutsByDate} from "../../Functions/workoutFunctions"
-import Form from "react-bootstrap/Form"
-import FormControl from "react-bootstrap/FormControl"
+import { BsSearch } from "react-icons/bs"
 import HistoryWorkout from "../HistoryWorkout" 
 import CalendarPicker from "../CalendarPicker"
 import MenuCard from "../MenuCard"
@@ -41,12 +40,10 @@ const History=({workouts})=>{
 
 	if (workouts && workouts.length ===0) return ( 
 		<div className="pageContainer">
-			<MenuCard header={"My History"} body={()=>(
-				
+			<MenuCard header={()=>"My History"} body={()=>( 
 				<div>
 						It looks like you&apos;s never submitted an exercise!
-				</div>
-				
+				</div> 
 			)}/>
 
 
@@ -54,23 +51,26 @@ const History=({workouts})=>{
 	)
 
 	const body=()=>(
-		<>
-			<p>Search by name</p>
-			<Form style={{marginBottom:"40px"}} onSubmit={(event)=>{event.preventDefault()}}>
-				<FormControl type="text" placeholder="e.g. pushups"  onChange={(event)=>{setFilterQuery(event.target.value)}}/>
-			</Form>
-			<div>
+		<div style={{height:"100%",display:"flex",flexDirection:"column"}}>
+			<p>Search by exercise name:</p>
+			<div style={{display:"flex"}}>
+				<BsSearch style={{marginRight:"5px"}} />
+				<input className="search" placeholder="Exercise to analyse" onChange={(event)=>{ //filter suggestions
+					setFilterQuery(event.target.value)}}
+				/> 
+			</div>
+			<div style={{marginTop:"auto",marginBottom:"20px"}}>
 				<p style={{marginRight:"20px",display:"inline"}}>Filter by date</p>
 				<input type="checkbox" value={useDate} onClick={()=>{setUseDate(!useDate)}}/> 
 			</div>
 			<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={workouts} callback={filterByDate} /> 
-		</> 
+		</div> 
 	)
 
 	return(
 		<>
 			<div className="pageContainer">
-				<MenuCard header={"My History"} body={body}/> 
+				<MenuCard header={()=>"My History"} body={body}/> 
 				{ filteredWorkouts && filteredWorkouts.length>0 && 
 				<div className="resultPage history">
 					<div style={{display:"block"}}>{/*Safari needs explicit block display for scroll*/}

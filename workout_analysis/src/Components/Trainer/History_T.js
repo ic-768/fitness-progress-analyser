@@ -1,11 +1,10 @@
 import React, {useEffect,useState} from "react"
 import {filterExercisesByName,filterWorkoutsByDate} from "../../Functions/workoutFunctions"
-import Form from "react-bootstrap/Form"
-import FormControl from "react-bootstrap/FormControl"
 import HistoryWorkout from "../HistoryWorkout" 
 import CalendarPicker from "../CalendarPicker"
 import MenuCard from "../MenuCard" 
 import DropdownClient from "./DropdownClient" 
+import { BsSearch } from "react-icons/bs"
 
 const TrainerHistory=({clients})=>{ 
 	/* view workout history of any client */
@@ -45,10 +44,13 @@ const TrainerHistory=({clients})=>{
 	const body=()=>(
 		<div style={{height:"100%",display:"flex",flexDirection:"column"}}>
 			<DropdownClient clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient}/>
-			<p>Search by name</p>
-			<Form style={{marginBottom:"40px"}} onSubmit={(event)=>{event.preventDefault()}}>
-				<FormControl type="text" placeholder="e.g. pushups"  onChange={(event)=>{setFilterQuery(event.target.value)}}/>
-			</Form>
+			<p>Search by exercise name:</p>
+			<div style={{display:"flex"}}>
+				<BsSearch style={{marginRight:"5px"}} />
+				<input className="search" placeholder="Exercise to analyse" 
+					onChange={(event) =>{setFilterQuery(event.target.value)}}//filter suggestions
+				/> 
+			</div>
 			<div style={{marginTop:"auto"}}>
 				<div style={{marginBottom:"20px"}}>
 					<p style={{marginRight:"20px",display:"inline"}}>Filter by date</p>
@@ -62,7 +64,7 @@ const TrainerHistory=({clients})=>{
 	return(
 		<>
 			<div className="pageContainer">
-				<MenuCard header={"History"} body={body}/> 
+				<MenuCard header={()=>"History"} body={body}/> 
 				{ filteredWorkouts && filteredWorkouts.length>0 && 
 				<div style={{overflowY:"scroll"}}className="resultPage history"> 
 					<div style={{display:"block"}}>{/*Safari needs explicit block display for scroll*/}
