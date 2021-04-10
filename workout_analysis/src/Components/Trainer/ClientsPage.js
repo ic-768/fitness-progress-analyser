@@ -53,10 +53,14 @@ const ClientsPage=({clients,setClients,routines,setNotification })=>{
 				<div style={{display:"inline-flex",flexDirection:"column",justifyItems:"center"}}>
 					<div>
 						<p style={{display:"inline",padding:"0px",margin:"0px"}}>My Clients</p> 
-						< IoIosAddCircle	style={{cursor:"pointer",marginLeft:"70px",color:"orange",width:"60px",height:"60px"}}
+						<a style={{marginLeft:"70px"}}
 							onClick={()=>{  
-								setSelectedClient({username:"",currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null}})
-							}} /> 
+								setSelectedClient({username:"",currentRegiment:{Mon:null,Tue:null,Wed:null,Thu:null,Fri:null,Sat:null,Sun:null}})}}
+						>
+							< IoIosAddCircle	style={{ 
+								cursor:"pointer",color:"orange",width:"60px",height:"60px"}}
+							/> 
+						</a>
 					</div>
 				</div>
 			} 

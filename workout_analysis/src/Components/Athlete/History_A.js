@@ -4,6 +4,7 @@ import { BsSearch } from "react-icons/bs"
 import HistoryWorkout from "../HistoryWorkout" 
 import CalendarPicker from "../CalendarPicker"
 import MenuCard from "../MenuCard"
+import CheckBox from "../CheckBox"
 
 
 const History=({workouts})=>{ 
@@ -56,12 +57,13 @@ const History=({workouts})=>{
 			<div style={{display:"flex"}}>
 				<BsSearch style={{marginRight:"5px"}} />
 				<input className="search" placeholder="Exercise to analyse" onChange={(event)=>{ //filter suggestions
-					setFilterQuery(event.target.value)}}
-				/> 
+					setFilterQuery(event.target.value)}} /> 
 			</div>
-			<div style={{marginTop:"auto",marginBottom:"20px"}}>
-				<p style={{marginRight:"20px",display:"inline"}}>Filter by date</p>
-				<input type="checkbox" value={useDate} onClick={()=>{setUseDate(!useDate)}}/> 
+			<div style={{alignSelf:"flex-start",marginTop:"auto",marginBottom:"40px", }}>
+				<div style={{display:"flex", flexDirection:"column",alignItems:"center",margin:"0px"}}>
+					<p style={{margin:"0px",display:"block"}}>Filter by date</p>
+					<CheckBox callback={()=>{setUseDate(!useDate)}} value={useDate}/> 
+				</div>
 			</div>
 			<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={workouts} callback={filterByDate} /> 
 		</div> 

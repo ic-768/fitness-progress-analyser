@@ -10,7 +10,7 @@ import { getTodaysExercises } from "../../Functions/workoutFunctions"
 const AthleteHeadquarters=({ user, setUser,setNotification,})=>{ 
 	const [daysExercises, setDaysExercises] = useState([]) // today's target exercises
 	const [currentRegiment, setCurrentRegiment] = useState({}) // whole week target exercises
-	const [workouts, setWorkouts] = useState(null) // whole week target exercises !!TODO pass to Athlete Headquarters?
+	const [workouts, setWorkouts] = useState(null) // whole week target exercises 
 	const history=useHistory()
 
 	useEffect(()=>{ //set athlete's workouts and regiment

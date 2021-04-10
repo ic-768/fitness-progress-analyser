@@ -4,6 +4,7 @@ import HistoryWorkout from "../HistoryWorkout"
 import CalendarPicker from "../CalendarPicker"
 import MenuCard from "../MenuCard" 
 import DropdownClient from "./DropdownClient" 
+import CheckBox from "../CheckBox"
 import { BsSearch } from "react-icons/bs"
 
 const TrainerHistory=({clients})=>{ 
@@ -44,20 +45,22 @@ const TrainerHistory=({clients})=>{
 	const body=()=>(
 		<div style={{height:"100%",display:"flex",flexDirection:"column"}}>
 			<DropdownClient clients={clients} selectedClient={selectedClient} setSelectedClient={setSelectedClient}/>
-			<p>Search by exercise name:</p>
-			<div style={{display:"flex"}}>
-				<BsSearch style={{marginRight:"5px"}} />
-				<input className="search" placeholder="Exercise to analyse" 
-					onChange={(event) =>{setFilterQuery(event.target.value)}}//filter suggestions
-				/> 
-			</div>
-			<div style={{marginTop:"auto"}}>
-				<div style={{marginBottom:"20px"}}>
-					<p style={{marginRight:"20px",display:"inline"}}>Filter by date</p>
-					<input type="checkbox" value={useDate} onClick={()=>{setUseDate(!useDate)}}/> 
+			<div>
+				<p>Search by exercise name:</p>
+				<div style={{display:"flex"}}>
+					<BsSearch style={{marginRight:"5px"}} />
+					<input style={{marginBottom:"40px"}}className="search" placeholder="Exercise to analyse" 
+						onChange={(event) =>{setFilterQuery(event.target.value)}}//filter suggestions
+					/> 
 				</div>
-				<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={selectedClient && selectedClient.days} callback={filterByDate} /> 
 			</div>
+			<div style={{alignSelf:"flex-start",marginTop:"auto",marginBottom:"40px", }}>
+				<div style={{display:"flex", flexDirection:"column",alignItems:"center",padding:"0px",margin:"0px"}}>
+					<p style={{margin:"0px",display:"block"}}>Filter by date</p>
+					<CheckBox callback={()=>{setUseDate(!useDate)}} value={useDate}/> 
+				</div>
+			</div>
+			<CalendarPicker dateRange={dateRange} setDateRange={setDateRange} workouts={selectedClient && selectedClient.days} callback={filterByDate} /> 
 		</div> 
 	)
 

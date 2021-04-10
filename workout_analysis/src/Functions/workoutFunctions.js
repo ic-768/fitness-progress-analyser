@@ -41,7 +41,7 @@ export const filterExercisesByName = (exercises, name) => (
 ) 
 export const filterWorkoutsByDate = (workouts, dates) => {  
 	//Date property is in workout object, not in every individual exercises
-	return workouts.filter((workout)=>(new Date(workout.date)>= dates[0] && new Date(workout.date)<=dates[1]))  //date[0] and [1] are min and max bounds to filter by
+	return workouts && workouts.filter((workout)=>(new Date(workout.date)>= dates[0] && new Date(workout.date)<=dates[1]))  //date[0] and [1] are min and max bounds to filter by
 }
 
 export const getTotalReps = (exercises, name) => { 

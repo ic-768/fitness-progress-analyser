@@ -38,8 +38,6 @@ const RoutinePage = ({routines,setRoutines }) => {
 		setSelectedRoutine({...selectedRoutine, exercises:selectedRoutine.exercises.filter((name)=>name!=exercise)})
 	} 
 
-	console.log(selectedRoutine)
-
 	const saveRoutines= async() =>{
 		setIsEditable(false)
 		const updatedRoutines=localRoutines.map((routine,i)=>

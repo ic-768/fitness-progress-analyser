@@ -117,7 +117,7 @@ const AthleteExerciseSubmission=({setNotification,setWorkouts, daysExercises})=>
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise
 				return( 
-					<div key={i} style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}>   {/*TODO shared with routinePage */}
+					<div className="exerciseContainer" key={i} > 
 						<ExerciseBox  exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
 					</div>
 				)

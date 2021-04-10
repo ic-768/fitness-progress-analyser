@@ -21,7 +21,7 @@ const TutorialPage=()=>{
 			<h5 style={textStyle}>
 				Our goal is to assist personal trainers and athletes alike, 
 				to <strong>monitor athletic progress</strong>, and keep a record of their fitness journey. 
-				This app provides tools for both types of users in order to accomodate that goal, whilst also making fitness organisation easier.
+				This app provides tools for both types of users in order to accomodate that goal, whilst also making your fitness life more manageable and organised.
 			</h5>
 			<h2 style={{margin:"20px", textAlign:"center"}}><strong>For Athletes:</strong></h2> 
 			<h5 style={textStyle}> 

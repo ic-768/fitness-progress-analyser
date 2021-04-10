@@ -77,7 +77,7 @@ const AthleteAnalysis=({workouts})=>{
 	) 
 	return(
 		<div className="pageContainer"> 
-			<MenuCard header={()=>"Analyse"} body={body}/>  {/*TODO Change from MenuCard to resultPage*/}
+			<MenuCard header={()=>"Analyse"} body={body}/>  
 			{ repsAnalysis && selection &&  //Right-side card
 					<div className="resultPage analysis"> 
 						<h2 style={{marginBottom:"20px"}}>{analysisType}</h2>

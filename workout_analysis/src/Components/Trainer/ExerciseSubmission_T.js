@@ -117,7 +117,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 			{newWorkout.map((exerciseArray,i)=>{ 
 				if (exerciseArray[0].name!==selectedExercise){return} //render only for selected exercise
 				return( 
-					<div key={i} style={{ zIndex:"0",marginTop:"80px",display:"flex",flexDirection:"column"}}>   {/*TODO make css class - shared with routinePage */}
+					<div key={i} className="exerciseContainer" > 
 						<ExerciseBox  exerciseArray={exerciseArray} newWorkout={newWorkout} setNewWorkout={setNewWorkout} indexInArray={i}/> 
 					</div>
 				)

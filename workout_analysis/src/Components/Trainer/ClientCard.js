@@ -6,6 +6,7 @@ import NotificationChoice from "../NotificationChoice"
 import ProfilePicture from "../ProfilePicture"
 import { RiPencilLine} from "react-icons/ri"
 import {GiCancel} from "react-icons/gi"
+import CheckBox from "../CheckBox"
 
 
 const ClientCard = ({ color,initials,choice,setChoice,clientIndex,clients,setClients,setNotification,setSelectedClient,routines,selectedClient}) => {
@@ -168,7 +169,7 @@ const ClientCard = ({ color,initials,choice,setChoice,clientIndex,clients,setCli
 								<div key={day[0]} style={{display:"flex",flexDirection:"column",width:"100%"}} > {/*safari...*/}
 									<div style={{display:"flex",flexDirection:"column",alignItems:"center",margin:"0px"}}>
 										<h5> {day[0]} </h5> 
-										<input value={value} type="checkbox" onChange={()=>{toggleDay(day)}}readOnly={false} checked={value} />
+										<CheckBox callback={()=>{toggleDay(day)}} value={value}/>
 									</div>
 								</div>)}) 
 					}

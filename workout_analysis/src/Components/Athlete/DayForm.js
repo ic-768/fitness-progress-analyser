@@ -2,6 +2,7 @@ import React from "react"
 import {useHistory} from "react-router-dom"
 import Banner from "../../Components/Banner"
 import Container from "react-bootstrap/Container"
+import CheckBox from "../CheckBox"
 
 const DayForm=({setNotification,currentRegiment,setCurrentRegiment})=>{
 	/* used by athlete to set Active/Rest days */
@@ -25,8 +26,7 @@ const DayForm=({setNotification,currentRegiment,setCurrentRegiment})=>{
 						{Object.keys(currentRegiment).map((item,i)=>( 
 							<div className="dayForm__dayBox"key={i}>
 								<h2 >{item}</h2>
-								<input  type="checkbox"  checked={currentRegiment[item]||""}
-									onChange={()=>{toggleRegimentDay(item)}}/>
+								<CheckBox callback={()=>{toggleRegimentDay(item)}} value={currentRegiment[item]||""}/>
 							</div>
 						))}
 					</div>

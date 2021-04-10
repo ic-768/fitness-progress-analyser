@@ -1,7 +1,7 @@
 import React,{useState} from "react"
 import clientService from "../../Services/clients" 
 
-const AddClient=({setNotification,setClients})=>{  //TODO setNotification
+const AddClient=({setNotification,setClients})=>{  
 	/*form for trainer to add a new client after on Boarding*/
 
 	const submitClient=async ()=>{
@@ -36,7 +36,7 @@ const AddClient=({setNotification,setClients})=>{  //TODO setNotification
 				<div style={{display:"flex",flexDirection:"column"}}>
 					<h1>Username</h1>
 					<input onChange={(event)=>{ setCurrentClient({...currentClient,name:event.target.value}) }} 
-						placeholder={currentClient.name || "client name"} //TODO set value to user name - changing from uncontrolled to controlled right now
+						placeholder={currentClient.name || "client name"} 
 						value={currentClient.name} /> 
 					<input onChange={(event)=>{ setCurrentClient({...currentClient,username:event.target.value}) }} 
 						placeholder={currentClient.username || "client username"}

@@ -3,7 +3,6 @@ import {IoIosArrowBack} from "react-icons/io"
 import {useHistory} from "react-router-dom"
 
 const MenuCard = ({callback, header, body}) => { 
-	console.log(header)
 	const history=useHistory()
 	return(
 		<div className="menuCard" >

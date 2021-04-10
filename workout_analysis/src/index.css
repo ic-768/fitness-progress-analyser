@@ -117,7 +117,7 @@ th * {
 	margin-top:20px;
 	display:flex;
 	justify-content:center;
-	justify-items:center
+	justify-items:center;
 	}
 
 .dayForm__dayBox{ 
@@ -129,6 +129,7 @@ margin:10px;
 padding:10px;
 border-radius:5px;
 border: 1px solid black; 
+	min-height:110px;
 }
 
 .regimentForm{ 
@@ -290,6 +291,13 @@ width:80px;
 text-align:left;
 }
 
+.exerciseContainer{ 
+ z-index:0;
+ margin-top:80px;
+ display:flex;
+ flex-direction:column;
+}
+
 /*Analysis*/
 .analysis__list{
 	margin-top:30px;
@@ -363,3 +371,47 @@ text-align:left;
 			padding:40px;
 			display:flex; 
 }
+
+	/*Custom checkbox*/
+	.checkContainer{
+		background-color:black;
+		width:0px;
+	}
+	
+	.checkbox {
+		grid-template-columns: min-content auto;
+		font-size: 1.5em;
+		color: white;
+		background-color:black;
+	}
+	
+	.checkbox__control {
+		display: inline-grid;
+		width: 1em;
+		height: 1em;
+		border-radius: 50%;
+		border: 0.1em solid #ff8933;
+	}
+	
+	.checkbox__svg {
+		transition: transform 0.1s ease-in 25ms;
+		transform: scale(0);
+		transform-origin: bottom left;
+		}
+	
+	.checkbox__input {
+		display: grid;
+		grid-template-areas: "checkbox";
+		height:0px;
+	}
+	
+	.checkbox__input input {
+		opacity: 0;
+		width:0px;
+	}
+	
+	.checkbox__input input:checked + .checkbox__control svg {
+		background-color:#ff8933;
+		transform: scale(1);
+		border-radius:50%;
+	}
