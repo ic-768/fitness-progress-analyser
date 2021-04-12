@@ -26,6 +26,7 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 						className="themed--1"style={{marginLeft:"15px",display:"inline"}}>
 									Add
 					</button>
+					{routines && routines.length>0 &&
 					<Dropdown style={{marginLeft:"15px"}}>{/* dropdown menu to overwrite exercises with a routine*/}
 						<Dropdown.Toggle>
 							Assign routine
@@ -39,6 +40,7 @@ const CollapsableList=({day,routines,isEditable,selectedClient,setSelectedClient
 							))}
 						</Dropdown.Menu>
 					</Dropdown>
+					}
 				</>
 				}
 			</div>

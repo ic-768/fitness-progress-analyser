@@ -7,7 +7,6 @@ const getUserWorkouts=async()=>{
 		headers:{Authorization:tokenService.getToken()}
 	}
 	const response = await axios.get(baseUrl, config)
-	console.log(response.data)
 	return response.data
 }
 

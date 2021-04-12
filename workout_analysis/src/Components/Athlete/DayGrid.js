@@ -4,7 +4,6 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 	/*Title and input portion of each day in regimentForm */
 
 	const [exercise,setExercise] = useState("") //individual exercise to control input
-	console.log(exercise)
 
 	return( 
 
@@ -14,7 +13,7 @@ const DayGrid=({day,currentRegiment,setCurrentRegiment})=>{
 				if(currentRegiment[day].includes( //no same exercise in day
 					(exercise.charAt(0).toUpperCase()+ // compare formatted entry
 					exercise.slice(1)).trim())){
-					console.log("you're already doing that today")} 
+					console.log("(TODO notification) you're already doing that today")} 
 
 				else{ //format and update state
 					setCurrentRegiment({...currentRegiment, [day]:currentRegiment[day].concat(

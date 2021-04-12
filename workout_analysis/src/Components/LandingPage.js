@@ -15,7 +15,6 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 	const [name,setName]=useState(null) 
 	const history = useHistory()
 
-	console.log(name)
 	return(
 		<div style={{overflow:"auto",height:"100%"}}>
 			<Switch>
@@ -49,7 +48,6 @@ const LandingPage = ({setNotification,  user, setUser}) =>{
 								<button className="themed--1" style ={{marginRight:"20px",height:"50px",width:"150px"}}
 									onClick={(event)=>{ 
 										event.preventDefault()
-										console.log(name)
 										if (name){ 
 											nameService.changeName({name:name})
 											history.push("/athlete")

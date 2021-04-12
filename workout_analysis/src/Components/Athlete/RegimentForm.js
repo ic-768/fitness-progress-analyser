@@ -19,7 +19,6 @@ const RegimentForm=({backButton,user,setUser,currentRegiment, setCurrentRegiment
 		return false
 	}
 	
-	console.log(user)
 
 	const finaliseRegiment=async()=>{ //when regiment form has been filled out
 		if (!regimentHasEmptyDay()){ // Don't allow submission unless all active days are filled 

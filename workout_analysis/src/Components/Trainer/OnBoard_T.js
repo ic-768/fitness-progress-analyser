@@ -38,7 +38,6 @@ const OnBoardTrainer = ({setNotification,setUser}) => {
 			setNotification({color:"green",message:"Client added successfully!" })
 		}
 	}
-	console.log(trainer)
 
 	const finaliseBoarding=()=> { 
 		if (trainer){ //trainer will only be non-null after a client is submitted

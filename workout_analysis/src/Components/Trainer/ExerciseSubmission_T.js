@@ -12,7 +12,7 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 /*Trainer can submit workouts on behalf of a client */
 	const history=useHistory()
 	
-	const [uniqueNames,setUniqueNames]=useState([])  //to store name of each exercise
+	const [uniqueNames,setUniqueNames]=useState([])  //to store name of each exercise TODO NEEDS A USEEFFECT?
 	const [newWorkout, setNewWorkout]=useState([]) 
 	const [removedExercises, setRemovedExercises]=useState([]) // Keep track of removed exercises
 	const [selectedExercise, setSelectedExercise]=useState(null) // to filter which exercises are shown for editing 
@@ -27,6 +27,10 @@ const TrainerExerciseSubmission=({clients, setClients, setNotification})=>{
 			if(unique){ //has exercises for today
 				setUniqueNames(unique)
 				setNewWorkout(unique.map((exerciseName)=>(   [{name:exerciseName,reps:null,sets:null}] ) ))
+			}
+			else{ //if client has no workouts for today, reset
+				setUniqueNames([])
+				setSelectedExercise(null) 
 			}
 		}},[selectedClient])
 
